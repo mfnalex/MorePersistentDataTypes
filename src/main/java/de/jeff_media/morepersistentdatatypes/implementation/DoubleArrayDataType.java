@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes;
+package de.jeff_media.morepersistentdatatypes.implementation;
 
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;

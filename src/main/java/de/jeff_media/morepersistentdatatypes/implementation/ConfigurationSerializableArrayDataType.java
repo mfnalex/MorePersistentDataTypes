@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes;
+package de.jeff_media.morepersistentdatatypes.implementation;
 
 import lombok.SneakyThrows;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -12,11 +12,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 
-class ConfigurationSerializableArrayDataType<T extends ConfigurationSerializable> implements PersistentDataType<byte[], T[]> {
+public class ConfigurationSerializableArrayDataType<T extends ConfigurationSerializable> implements PersistentDataType<byte[], T[]> {
     private final Class<T> type;
     private final Class<T[]> types;
 
-    ConfigurationSerializableArrayDataType(Class<T> type, Class<T[]> types) {
+    public ConfigurationSerializableArrayDataType(Class<T> type, Class<T[]> types) {
         this.type = type;
         this.types = types;
     }

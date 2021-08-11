@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes;
+package de.jeff_media.morepersistentdatatypes.implementation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.block.data.BlockData;
@@ -6,7 +6,7 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-class BlockDataDataType implements PersistentDataType<String, BlockData> {
+public class BlockDataDataType implements PersistentDataType<String, BlockData> {
     @NotNull
     @Override
     public Class<String> getPrimitiveType() {

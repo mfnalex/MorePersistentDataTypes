@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes;
+package de.jeff_media.morepersistentdatatypes.implementation;
 
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.nio.charset.Charset;
 
-public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
+public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
 
     private Charset charset;
 
@@ -18,20 +18,20 @@ public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
     }
 
     @Override
-    public @NotNull Class<short[]> getComplexType() {
-        return short[].class;
+    public @NotNull Class<float[]> getComplexType() {
+        return float[].class;
     }
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(short[] shorts, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(float[] floats, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try(
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 DataOutputStream dos = new DataOutputStream(bos)
         ) {
-            dos.writeInt(shorts.length);
-            for(short number : shorts) {
-                dos.writeShort(number);
+            dos.writeInt(floats.length);
+            for(float number : floats) {
+                dos.writeFloat(number);
             }
             dos.flush();
             return bos.toByteArray();
@@ -40,16 +40,16 @@ public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
 
     @Override
     @SneakyThrows
-    public short @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public float @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try (
                 ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
                 DataInputStream dis = new DataInputStream(bis)
         ) {
-            short[] shorts = new short[dis.readInt()];
-            for(int i = 0; i < shorts.length; i++) {
-                shorts[i] = dis.readShort();
+            float[] floats = new float[dis.readInt()];
+            for(int i = 0; i < floats.length; i++) {
+                floats[i] = dis.readFloat();
             }
-            return shorts;
+            return floats;
         }
     }
 }

@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes;
+package de.jeff_media.morepersistentdatatypes.implementation;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-class UuidDataType implements PersistentDataType<byte[], UUID> {
+public class UuidDataType implements PersistentDataType<byte[], UUID> {
 
     @Override
     public @NotNull Class<byte[]> getPrimitiveType() {

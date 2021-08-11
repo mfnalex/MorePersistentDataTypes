@@ -97,6 +97,36 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | VECTOR | org.bukkit.util.Vector | byte[]
 | VECTOR_ARRAY | org.bukkit.util.Vector[] | byte[]
 
+## Creating your own generic PersistentDataType
+You can easily create own PersistentDataTypes by creating a new `GenericDataType` instance. It expects 4 parameters:
+
+1. The primitive type that's used to store the object
+2. The complex type / the class of which you want to store an instance of
+3. A method that converts your object into the primitive type
+4. A method that converts the primitive type into your object again
+
+For example, this returns a PersistentDataType<Long,Date> that can save `java.util.Date` objects inside a PersistentDataContainer:
+
+```java
+PersistentDataType<Long,Date> dateType = new GenericDataType<>(Long.class, Date.class, Date::new, Date::getTime);
+```
+
+If you're not familiar with lambdas and/or method references, or if your Functions are more complicated, you can also provide a Function in the oldschool way:
+
+```java
+PersistentDataType<Long, Date> dateType = new GenericDataType<>(Long.class, Date.class, new Function<Long, Date>() {
+        @Override
+        public Date apply(Long aLong) {
+            return new Date(aLong);
+        }
+    }, new Function<Date, Long>() {
+        @Override
+        public Long apply(Date date) {
+            return date.getTime();
+        }
+    });
+```
+
 ## Other libraries by me
 
 ### [CustomBlockData](https://github.com/JEFF-Media-GbR/CustomBlockData)
