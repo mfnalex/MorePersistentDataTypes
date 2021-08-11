@@ -99,6 +99,7 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | VECTOR_ARRAY | org.bukkit.util.Vector[] | byte[]
 
 ## Creating your own generic PersistentDataType
+### Using GenericDataType
 You can easily create own PersistentDataTypes by creating a new `GenericDataType` instance. It expects 4 parameters:
 
 1. The primitive type that's used to store the object
@@ -126,6 +127,21 @@ PersistentDataType<Long, Date> dateType = new GenericDataType<>(Long.class, Date
             return date.getTime();
         }
     });
+```
+
+### Using ConfigurationSeriazable
+When your custom Object already implements ConfigurationSerializable, it's even easier. Just look at the SerializablePerson.java in the examples/ folder.
+
+To make it storable in a PersistentDataContainer, this is all you need:
+
+```java
+PersistentDataType<byte[], SerializablePerson> personType = new ConfigurationSerializableDataType<>(SerializablePerson.class);
+```
+
+You can also directly store arrays of your own ConfigurationSerializable objects:
+
+```java
+PersistentDataType<byte[], SerializablePerson[]> personArrayType = new ConfigurationSerializableArrayDataType<>(SerializablePerson.class, SerializablePerson[].class);
 ```
 
 ## Other libraries by me
