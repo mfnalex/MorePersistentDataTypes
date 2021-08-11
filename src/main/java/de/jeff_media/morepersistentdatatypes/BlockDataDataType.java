@@ -6,13 +6,11 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.nio.charset.StandardCharsets;
-
-class BlockDataDataType implements PersistentDataType<byte[], BlockData> {
+class BlockDataDataType implements PersistentDataType<String, BlockData> {
     @NotNull
     @Override
-    public Class<byte[]> getPrimitiveType() {
-        return byte[].class;
+    public Class<String> getPrimitiveType() {
+        return String.class;
     }
 
     @NotNull
@@ -23,13 +21,13 @@ class BlockDataDataType implements PersistentDataType<byte[], BlockData> {
 
     @NotNull
     @Override
-    public byte[] toPrimitive(@NotNull BlockData blockData, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        return blockData.getAsString().getBytes(StandardCharsets.UTF_8);
+    public String toPrimitive(@NotNull BlockData blockData, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+        return blockData.getAsString();
     }
 
     @NotNull
     @Override
-    public BlockData fromPrimitive(@NotNull byte[] bytes, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        return Bukkit.createBlockData(new String(bytes,StandardCharsets.UTF_8));
+    public BlockData fromPrimitive(@NotNull String string, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+        return Bukkit.createBlockData(string);
     }
 }

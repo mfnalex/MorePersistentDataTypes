@@ -2,6 +2,7 @@ package de.jeff_media.morepersistentdatatypes;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -10,24 +11,24 @@ import java.util.List;
 
 public class StringArrayDataType implements PersistentDataType<byte[], String[]> {
 
-    private Charset charset;
+    private final Charset charset;
 
     public StringArrayDataType(Charset charset) {
         this.charset = charset;
     }
 
     @Override
-    public Class<byte[]> getPrimitiveType() {
+    public @NotNull Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
     @Override
-    public Class<String[]> getComplexType() {
+    public @NotNull Class<String[]> getComplexType() {
         return String[].class;
     }
 
     @Override
-    public byte[] toPrimitive(String[] strings, PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(String[] strings, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         byte[][] allStringBytes = new byte[strings.length][];
         int total = 0;
         for (int i = 0; i < allStringBytes.length; i++) {
@@ -46,7 +47,7 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
     }
 
     @Override
-    public String[] fromPrimitive(byte[] bytes, PersistentDataAdapterContext itemTagAdapterContext) {
+    public String @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         ByteBuffer buffer = ByteBuffer.wrap(bytes);
         List<String> list = new ArrayList<>();
 
@@ -61,6 +62,6 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
             list.add(new String(stringBytes, charset));
         }
 
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 }

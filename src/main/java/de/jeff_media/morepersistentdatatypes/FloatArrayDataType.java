@@ -3,30 +3,28 @@ package de.jeff_media.morepersistentdatatypes;
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
 
     private Charset charset;
 
     @Override
-    public Class<byte[]> getPrimitiveType() {
+    public @NotNull Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
     @Override
-    public Class<float[]> getComplexType() {
+    public @NotNull Class<float[]> getComplexType() {
         return float[].class;
     }
 
     @Override
     @SneakyThrows
-    public byte[] toPrimitive(float[] floats, PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(float[] floats, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try(
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 DataOutputStream dos = new DataOutputStream(bos)
@@ -42,7 +40,7 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
 
     @Override
     @SneakyThrows
-    public float[] fromPrimitive(byte[] bytes, PersistentDataAdapterContext itemTagAdapterContext) {
+    public float @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try (
                 ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
                 DataInputStream dis = new DataInputStream(bis)

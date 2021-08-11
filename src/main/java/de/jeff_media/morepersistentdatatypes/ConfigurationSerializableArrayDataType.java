@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
-import java.util.List;
 
 class ConfigurationSerializableArrayDataType<T extends ConfigurationSerializable> implements PersistentDataType<byte[], T[]> {
     private final Class<T> type;
@@ -52,6 +51,7 @@ class ConfigurationSerializableArrayDataType<T extends ConfigurationSerializable
     @NotNull
     @Override
     @SneakyThrows
+    @SuppressWarnings("unchecked")
     public T @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         try (
                 ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
@@ -61,7 +61,7 @@ class ConfigurationSerializableArrayDataType<T extends ConfigurationSerializable
                 for(int i = 0; i < ts.length; i++) {
                     ts[i] = (T) bukkitObjectInputStream.readObject();
                 }
-            return (T[]) ts;
+            return ts;
         }
     }
 }

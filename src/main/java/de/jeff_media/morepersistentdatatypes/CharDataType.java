@@ -20,7 +20,7 @@ public class CharDataType implements PersistentDataType<Integer, Character> {
     @NotNull
     @Override
     public Integer toPrimitive(@NotNull Character character, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        return (int) character.charValue();
+        return (int) character;
     }
 
     @NotNull

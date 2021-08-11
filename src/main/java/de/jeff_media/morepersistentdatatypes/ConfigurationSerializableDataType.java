@@ -30,10 +30,9 @@ class ConfigurationSerializableDataType <T extends ConfigurationSerializable> im
         return type;
     }
 
-    @NotNull
     @Override
     @SneakyThrows
-    public byte[] toPrimitive(@NotNull T serializable, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public byte @NotNull [] toPrimitive(@NotNull T serializable, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         try (
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 BukkitObjectOutputStream bukkitObjectOutputStream = new BukkitObjectOutputStream(outputStream)
@@ -46,7 +45,8 @@ class ConfigurationSerializableDataType <T extends ConfigurationSerializable> im
     @NotNull
     @Override
     @SneakyThrows
-    public T fromPrimitive(@NotNull byte[] bytes, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    @SuppressWarnings("unchecked")
+    public T fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         try (
                 ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
                 BukkitObjectInputStream bukkitObjectInputStream = new BukkitObjectInputStream(inputStream)

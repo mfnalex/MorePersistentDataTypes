@@ -21,7 +21,7 @@ public class CharArrayDataType implements PersistentDataType<int[], char[]> {
     public int @NotNull [] toPrimitive(char[] chars, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         int[] ints = new int[chars.length];
         for(int i = 0; i < chars.length; i++) {
-            ints[i] = (int) chars[i];
+            ints[i] = chars[i];
         }
         return ints;
     }
