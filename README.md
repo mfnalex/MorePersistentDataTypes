@@ -16,8 +16,8 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 ### Repository
 ```xml
 <repository>
-    <id>spigot-snapshots</id>
-    <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    <id>jeff-media-gbr</id>
+    <url>https://repo.jeff-media.de/maven2/</url>
 </repository>
 ```
 ### Dependency
