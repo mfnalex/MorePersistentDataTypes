@@ -97,6 +97,14 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | VECTOR | org.bukkit.util.Vector | byte[]
 | VECTOR_ARRAY | org.bukkit.util.Vector[] | byte[]
 
+## Other libraries by me
+
+### [CustomBlockData](https://github.com/JEFF-Media-GbR/CustomBlockData)
+**MorePersistentDataTypes** goes perfectly well together with my **CustomBlockData** library, that provides a PersistentDataContainer for every block in your world - without any external storage needed!
+
+### [Spigot UpdateChecker](https://github.com/JEFF-Media-GbR/Spigot-UpdateChecker)
+Powerful **UpdateChecker** for your plugins, with only line of code.
+
 ## Discord
 
 If you need help, feel free to join my Discord server and head to #programming-help:
@@ -105,7 +113,7 @@ If you need help, feel free to join my Discord server and head to #programming-h
 
 ## Donate
 
-If you are using this project in your paid plugins, if you just want to buy me a coffee, I would be happy over a small donation :)
+If you are using this project in your paid plugins, or if you just want to buy me a coffee, I would be happy over a small donation :)
 
 <a href="https://paypal.me/mfnalex"><img src="https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal" /></a>
 
