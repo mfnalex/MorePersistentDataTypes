@@ -21,8 +21,6 @@ import org.bukkit.util.Vector;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.Locale;
-import java.util.function.Function;
 
 public interface DataType {
 
