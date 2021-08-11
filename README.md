@@ -77,6 +77,7 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | COLOR_ARRAY | org.bukkit.Color[] | byte[]
 | CONFIGURATION_SERIALIZABLE | org.bukkit.configuration.serialization.ConfigurationSerializable | byte[]
 | CONFIGURATION_SERIALIZABLE_ARRAY | org.bukkit.configuration.serialization.ConfigurationSerializable[] | byte[]
+| DATE | java.util.Date | long
 | FIREWORK_EFFECT | org.bukkit.FireworkEffect | byte[]
 | FIREWORK_EFFECT_ARRAY | org.bukkit.FireworkEffect[] | byte[]
 | ITEM_META | org.bukkit.inventory.meta.ItemMeta | byte[]
