@@ -1,7 +1,9 @@
 # MorePersistentDataTypes
 **MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction with Bukkit's *PersistentDataContainer*.
 
-It also has the builtin data types, so you can access everything from one class. See at the bottom for a list of all new data types.
+It is also possible to easily create your own PersistentDataTypes for your custom objects. When they already implement ConfigurationSerializable, it's only one line of code!
+
+It also has the default data types built in, so you can access everything from one class. See at the bottom for a list of all new data types.
 
 ## Example
 You want to save an ItemStack inside a PersistentDataContainer - normally you would have to serialize the ItemStack to a byte array first, or worse, to a base64 String. With **MorePersistentDataTypes**, you can simply do this:
