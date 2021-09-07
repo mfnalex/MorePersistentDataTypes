@@ -1,10 +1,7 @@
 package de.jeff_media.morepersistentdatatypes;
 
 import de.jeff_media.morepersistentdatatypes.implementation.*;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.data.BlockData;
@@ -21,6 +18,7 @@ import org.bukkit.util.Vector;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.function.Function;
 
 public interface DataType {
 
@@ -29,7 +27,7 @@ public interface DataType {
      */
     PersistentDataType<byte[], AttributeModifier> ATTRIBUTE_MODIFIER = new ConfigurationSerializableDataType<>(AttributeModifier.class);
     PersistentDataType<byte[], AttributeModifier[]> ATTRIBUTE_MODIFIER_ARRAY = new ConfigurationSerializableArrayDataType<>(AttributeModifier.class, AttributeModifier[].class);
-    PersistentDataType<String, BlockData> BLOCK_DATA = new BlockDataDataType();
+    PersistentDataType<String, BlockData> BLOCK_DATA = new GenericDataType<>(String.class, BlockData.class, Bukkit::createBlockData, BlockData::getAsString);
     PersistentDataType<byte[], BlockVector> BLOCK_VECTOR = new ConfigurationSerializableDataType<>(BlockVector.class);
     PersistentDataType<byte[], BlockVector[]> BLOCK_VECTOR_ARRAY = new ConfigurationSerializableArrayDataType<>(BlockVector.class, BlockVector[].class);
     PersistentDataType<byte[], BoundingBox> BOUNDING_BOX = new ConfigurationSerializableDataType<>(BoundingBox.class);
@@ -63,9 +61,9 @@ public interface DataType {
     /*
     Missing primitives and primitive arrays
     */
-    PersistentDataType<Byte, Boolean> BOOLEAN = new BooleanDataType();
+    PersistentDataType<Byte, Boolean> BOOLEAN = new GenericDataType<>(Byte.class, Boolean.class, aByte -> aByte == 1, aBoolean -> aBoolean ? (byte) 1: (byte) 0);
     PersistentDataType<byte[], boolean[]> BOOLEAN_ARRAY = new BooleanArrayDataType();
-    PersistentDataType<Integer, Character> CHARACTER = new CharDataType();
+    PersistentDataType<Integer, Character> CHARACTER = new GenericDataType<>(Integer.class, Character.class, integer -> (char) integer.intValue(), character -> (int) character);
     PersistentDataType<int[], char[]> CHARACTER_ARRAY = new CharArrayDataType();
     PersistentDataType<byte[], double[]> DOUBLE_ARRAY = new DoubleArrayDataType();
     PersistentDataType<byte[], float[]> FLOAT_ARRAY = new FloatArrayDataType();

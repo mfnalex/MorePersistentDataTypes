@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.EOFException;
 import java.lang.reflect.Array;
 
 public class ConfigurationSerializableArrayDataType<T extends ConfigurationSerializable> implements PersistentDataType<byte[], T[]> {
@@ -62,6 +63,8 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
                     ts[i] = (T) bukkitObjectInputStream.readObject();
                 }
             return ts;
+        } catch (EOFException e) {
+            return (T[]) Array.newInstance(getComplexType().getComponentType(),0);
         }
     }
 }
