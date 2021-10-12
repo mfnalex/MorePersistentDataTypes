@@ -18,8 +18,8 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 ### Repository
 ```xml
 <repository>
-    <id>jeff-media-gbr</id>
-    <url>https://repo.jeff-media.de/maven2/</url>
+    <id>jeff-media-public</id>
+    <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
 </repository>
 ```
 ### Dependency
@@ -27,7 +27,7 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 <dependency>
     <groupId>de.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
 ```
