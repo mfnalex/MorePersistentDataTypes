@@ -1,10 +1,11 @@
-package de.jeff_media.morepersistentdatatypes;
+package com.jeff_media.morepersistentdatatypes;
 
-import de.jeff_media.morepersistentdatatypes.implementation.*;
+import com.jeff_media.morepersistentdatatypes.implementation.*;
 import org.bukkit.*;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,6 @@ import org.bukkit.util.Vector;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.function.Function;
 
 public interface DataType {
 
@@ -57,6 +57,7 @@ public interface DataType {
     PersistentDataType<byte[], java.util.UUID> UUID = new UuidDataType();
     PersistentDataType<byte[], Vector> VECTOR = new ConfigurationSerializableDataType<>(Vector.class);
     PersistentDataType<byte[], Vector[]> VECTOR_ARRAY = new ConfigurationSerializableArrayDataType<>(Vector.class, Vector[].class);
+    PersistentDataType<String, FileConfiguration> FILE_CONFIGURATION = new FileConfigurationDataType();
 
     /*
     Missing primitives and primitive arrays

@@ -27,9 +27,9 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 ### Dependency
 ```xml
 <dependency>
-    <groupId>de.jeff_media</groupId>
+    <groupId>com.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -44,7 +44,7 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
             <configuration>
                 <relocations>
                     <relocation>
-                        <pattern>de.jeff_media.morepersistentdatatypes</pattern>
+                        <pattern>com.jeff_media.morepersistentdatatypes</pattern>
                         <shadedPattern>YOUR.PACKAGE.morepersistentdatatypes</shadedPattern>
                     </relocation>
                 </relocations>
@@ -82,6 +82,7 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | CONFIGURATION_SERIALIZABLE | org.bukkit.configuration.serialization.ConfigurationSerializable | byte[]
 | CONFIGURATION_SERIALIZABLE_ARRAY | org.bukkit.configuration.serialization.ConfigurationSerializable[] | byte[]
 | DATE | java.util.Date | long
+| FILE_CONFIGURATION | org.bukkit.configuration.file.FileConfiguration | String
 | FIREWORK_EFFECT | org.bukkit.FireworkEffect | byte[]
 | FIREWORK_EFFECT_ARRAY | org.bukkit.FireworkEffect[] | byte[]
 | ITEM_META | org.bukkit.inventory.meta.ItemMeta | byte[]

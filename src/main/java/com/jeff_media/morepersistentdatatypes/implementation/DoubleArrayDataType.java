@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.implementation;
 
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
@@ -6,7 +6,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
 public class DoubleArrayDataType implements PersistentDataType<byte[], double[]> {
 

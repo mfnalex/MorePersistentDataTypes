@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.implementation;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;

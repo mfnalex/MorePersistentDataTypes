@@ -1,4 +1,4 @@
-package de.jeff_media.morepersistentdatatypes;
+package com.jeff_media.morepersistentdatatypes;
 
 import lombok.SneakyThrows;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;

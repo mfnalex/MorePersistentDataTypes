@@ -1,12 +1,10 @@
-package de.jeff_media.morepersistentdatatypes;
+package com.jeff_media.morepersistentdatatypes;
 
-import lombok.RequiredArgsConstructor;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
