@@ -1,5 +1,6 @@
 package com.jeff_media.morepersistentdatatypes;
 
+import lombok.NonNull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -10,51 +11,54 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
-/**
- *
- * @param <C> Collection
- */
-public class DataCollection
+class DataCollection
         <C extends Collection<D>,D>
         implements PersistentDataType<PersistentDataContainer, C> {
 
-    private static final String MUST_NOT_BE_NULL = "Collections stored in a PersistentDataContainer must not contain any null values.";
+    private static final String E_MUST_NOT_BE_NULL = "Collections stored in a PersistentDataContainer must not contain any null values.";
+    private static final String E_MUST_HAVE_NO_ARGS_CONSTRUCTOR = "The given collection class (%s) doesn't have a no-args constructor.";
+    private static final String E_NOT_A_COLLECTION = "Not a collection.";
+    private static final NamespacedKey KEY_SIZE = getKey("s");
 
     private final Class<C> collectionClazz;
-    private final PersistentDataType<?, D> persistentDataType;
+    private final PersistentDataType<?, D> dataType;
 
-    public DataCollection(Class<C> collectionClazz, PersistentDataType<?, D> persistentDataType) {
+    DataCollection(@NonNull final Class<C> collectionClazz, @NonNull final PersistentDataType<?, D> dataType) {
         this.collectionClazz = collectionClazz;
-        this.persistentDataType = persistentDataType;
+        this.dataType = dataType;
     }
 
     @NotNull
     @Override
-    public PersistentDataContainer toPrimitive(@NotNull C collection, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        PersistentDataContainer pdc = persistentDataAdapterContext.newPersistentDataContainer();
+    public PersistentDataContainer toPrimitive(@NotNull final C collection, @NotNull final PersistentDataAdapterContext context) {
+        PersistentDataContainer pdc = context.newPersistentDataContainer();
+        pdc.set(KEY_SIZE,DataType.INTEGER,collection.size());
         int index = 0;
         for(D data : collection) {
             if(data == null) {
-                throw new IllegalArgumentException(MUST_NOT_BE_NULL);
+                throw new IllegalArgumentException(E_MUST_NOT_BE_NULL);
             }
-            pdc.set(getKey(index++), persistentDataType, data);
+            pdc.set(getKey(index++), dataType, data);
         }
         return pdc;
     }
 
     @NotNull
     @Override
-    public C fromPrimitive(@NotNull PersistentDataContainer pdc, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        C collection;
+    public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         try {
-           collection = collectionClazz.getConstructor().newInstance();
+            final C collection = collectionClazz.getConstructor().newInstance();
+            Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+            if(size == null) {
+                throw new IllegalArgumentException(E_NOT_A_COLLECTION);
+            }
+            for(int i = 0; i < size; i++) {
+                collection.add(pdc.get(getKey(i), dataType));
+            }
+            return collection;
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new IllegalArgumentException("The given collection doesn't have a no-args constructor");
+            throw new IllegalArgumentException(String.format(E_MUST_HAVE_NO_ARGS_CONSTRUCTOR,collectionClazz.getName()));
         }
-        for(NamespacedKey key : pdc.getKeys()) {
-            collection.add(pdc.get(key, persistentDataType));
-        }
-        return collection;
     }
 
     @NotNull
@@ -74,6 +78,6 @@ public class DataCollection
     }
 
     private static NamespacedKey getKey(final String name) {
-        return NamespacedKey.fromString("_:" + name);
+        return NamespacedKey.fromString("v:" + name);
     }
 }

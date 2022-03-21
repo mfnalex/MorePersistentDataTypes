@@ -89,6 +89,10 @@ public interface DataType {
     /*
     Collections
      */
+    static <C extends Collection<D>,D> PersistentDataType<PersistentDataContainer, C> asCollection(Class<? extends C> collectionClazz, PersistentDataType<?,D> type) {
+        return new DataCollection(collectionClazz, type);
+    }
+
     static <D> PersistentDataType<PersistentDataContainer,ArrayList<D>> asArrayList(PersistentDataType<?,D> type) {
         return new DataCollection(ArrayList.class, type);
     }
@@ -104,5 +108,15 @@ public interface DataType {
     static <D> PersistentDataType<PersistentDataContainer, Set<D>> asSet(PersistentDataType<?,D> type) {
         return new DataCollection(HashSet.class, type);
     }
+
+    /*
+    Maps
+     */
+    static <M extends Map<K,V>,K,V> PersistentDataType<PersistentDataContainer, Map<K,V>> asMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+        // I AM DYING
+    }
+
+
+
 
 }
