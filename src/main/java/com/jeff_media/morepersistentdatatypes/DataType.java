@@ -18,8 +18,7 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 public interface DataType {
 
@@ -90,8 +89,20 @@ public interface DataType {
     /*
     Collections
      */
-    static <C extends ArrayList<D>,D> PersistentDataType<PersistentDataContainer, ArrayList<PersistentDataType<PersistentDataContainer,C>>> asList(PersistentDataType<?,D> dataType) {
-        DataCollection<ArrayList, D, ?> col = new DataCollection<ArrayList,D, Object>(ArrayList.class,dataType);
+    static <D> PersistentDataType<PersistentDataContainer,ArrayList<D>> asArrayList(PersistentDataType<?,D> type) {
+        return new DataCollection(ArrayList.class, type);
+    }
+
+    static <D> PersistentDataType<PersistentDataContainer, List<D>> asList(PersistentDataType<?,D> type) {
+        return new DataCollection(ArrayList.class, type);
+    }
+
+    static <D> PersistentDataType<PersistentDataContainer, HashSet<D>> asHashSet(PersistentDataType<?,D> type) {
+        return new DataCollection(HashSet.class, type);
+    }
+
+    static <D> PersistentDataType<PersistentDataContainer, Set<D>> asSet(PersistentDataType<?,D> type) {
+        return new DataCollection(HashSet.class, type);
     }
 
 }

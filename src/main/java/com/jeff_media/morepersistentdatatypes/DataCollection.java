@@ -13,18 +13,17 @@ import java.util.Collection;
 /**
  *
  * @param <C> Collection
- * @param <D> Actual data class
  */
 public class DataCollection
-        <C extends Collection<D>, D, E>
-        implements PersistentDataType<PersistentDataContainer,C> {
+        <C extends Collection<D>,D>
+        implements PersistentDataType<PersistentDataContainer, C> {
 
     private static final String MUST_NOT_BE_NULL = "Collections stored in a PersistentDataContainer must not contain any null values.";
 
     private final Class<C> collectionClazz;
-    private final PersistentDataType<E,D> persistentDataType;
+    private final PersistentDataType<?, D> persistentDataType;
 
-    public DataCollection(Class<C> collectionClazz, PersistentDataType<E,D> persistentDataType) {
+    public DataCollection(Class<C> collectionClazz, PersistentDataType<?, D> persistentDataType) {
         this.collectionClazz = collectionClazz;
         this.persistentDataType = persistentDataType;
     }
@@ -34,6 +33,7 @@ public class DataCollection
     public PersistentDataContainer toPrimitive(@NotNull C collection, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         PersistentDataContainer pdc = persistentDataAdapterContext.newPersistentDataContainer();
         int index = 0;
+        System.out.println(collection);
         for(D data : collection) {
             if(data == null) {
                 throw new IllegalArgumentException(MUST_NOT_BE_NULL);
