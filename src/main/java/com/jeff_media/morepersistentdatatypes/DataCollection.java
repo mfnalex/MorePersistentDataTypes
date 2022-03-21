@@ -33,7 +33,6 @@ public class DataCollection
     public PersistentDataContainer toPrimitive(@NotNull C collection, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         PersistentDataContainer pdc = persistentDataAdapterContext.newPersistentDataContainer();
         int index = 0;
-        System.out.println(collection);
         for(D data : collection) {
             if(data == null) {
                 throw new IllegalArgumentException(MUST_NOT_BE_NULL);
