@@ -18,6 +18,7 @@ import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface DataType {
@@ -85,5 +86,12 @@ public interface DataType {
     PersistentDataType<String, String> STRING = PersistentDataType.STRING;
     PersistentDataType<PersistentDataContainer, PersistentDataContainer> TAG_CONTAINER = PersistentDataType.TAG_CONTAINER;
     PersistentDataType<PersistentDataContainer[], PersistentDataContainer[]> TAG_CONTAINER_ARRAY = PersistentDataType.TAG_CONTAINER_ARRAY;
+
+    /*
+    Collections
+     */
+    static <C extends ArrayList<D>,D> PersistentDataType<PersistentDataContainer, ArrayList<PersistentDataType<PersistentDataContainer,C>>> asList(PersistentDataType<?,D> dataType) {
+        DataCollection<ArrayList, D, ?> col = new DataCollection<ArrayList,D, Object>(ArrayList.class,dataType);
+    }
 
 }
