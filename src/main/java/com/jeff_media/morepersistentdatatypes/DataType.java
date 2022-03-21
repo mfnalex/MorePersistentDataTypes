@@ -112,8 +112,16 @@ public interface DataType {
     /*
     Maps
      */
-    static <M extends Map<K,V>,K,V> PersistentDataType<PersistentDataContainer, Map<K,V>> asMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
-        // I AM DYING
+    static <M extends Map<K,V>,K,V> PersistentDataType<PersistentDataContainer, Map<K,V>> asGenericMap(Class<? extends M> mapClazz, PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+        return new DataMap(mapClazz, keyType, valueType);
+    }
+
+    static <K,V> PersistentDataType<PersistentDataContainer,HashMap<K,V>> asHashMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+        return new DataMap(HashMap.class, keyType, valueType);
+    }
+
+    static <K,V> PersistentDataType<PersistentDataContainer,LinkedHashMap<K,V>> asLinkedHashMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+        return new DataMap(LinkedHashMap.class, keyType, valueType);
     }
 
 
