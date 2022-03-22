@@ -8,35 +8,31 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
 
 class DataArray
         <D>
-        implements PersistentDataType<PersistentDataContainer, C> {
+        implements PersistentDataType<PersistentDataContainer, D[]> {
 
-    private static final String E_MUST_NOT_BE_NULL = "Arrays stored in a PersistentDataContainer must not contain any null values.";
-    private static final String E_NOT_A_COLLECTION = "Not an array.";
+    private static final String E_NOT_AN_ARRAY = "Not an array.";
     private static final NamespacedKey KEY_SIZE = getKey("s");
 
-    private final Class<C> collectionClazz;
     private final PersistentDataType<?, D> dataType;
+    private final Class<D> componentType;
 
-    DataArray(@NonNull final Class<C> collectionClazz, @NonNull final PersistentDataType<?, D> dataType) {
-        this.collectionClazz = collectionClazz;
+    DataArray(@NonNull final PersistentDataType<?, D> dataType) {
         this.dataType = dataType;
+        this.componentType = dataType.getComplexType();
     }
 
     @NotNull
     @Override
-    public PersistentDataContainer toPrimitive(@NotNull final C collection, @NotNull final PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(@NotNull final D[] array, @NotNull final PersistentDataAdapterContext context) {
         PersistentDataContainer pdc = context.newPersistentDataContainer();
-        pdc.set(KEY_SIZE,DataType.INTEGER,collection.size());
+        pdc.set(KEY_SIZE,DataType.INTEGER,array.length);
         int index = 0;
-        for(D data : collection) {
-            if(data == null) {
-                throw new IllegalArgumentException(E_MUST_NOT_BE_NULL);
-            }
+        for(D data : array) {
             pdc.set(getKey(index++), dataType, data);
         }
         return pdc;
@@ -44,32 +40,28 @@ class DataArray
 
     @NotNull
     @Override
-    public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
-        try {
-            final C collection = collectionClazz.getConstructor().newInstance();
-            Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
-            if(size == null) {
-                throw new IllegalArgumentException(E_NOT_A_COLLECTION);
-            }
-            for(int i = 0; i < size; i++) {
-                collection.add(pdc.get(getKey(i), dataType));
-            }
-            return collection;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new IllegalArgumentException(String.format(E_MUST_HAVE_NO_ARGS_CONSTRUCTOR,collectionClazz.getName()));
+    public Class<D[]> getComplexType() {
+        return D[].class; // why doesn't this work :'(((
+    }
+
+    @NotNull
+    @Override
+    public D[] fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
+        Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+        if(size == null) {
+            throw new IllegalArgumentException(E_NOT_AN_ARRAY);
         }
+        final D[] array = (D[]) Array.newInstance(componentType,size);
+        for(int i = 0; i < size; i++) {
+            array[i] = pdc.get(getKey(i),dataType);
+        }
+        return array;
     }
 
     @NotNull
     @Override
     public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
-    }
-
-    @NotNull
-    @Override
-    public Class<C> getComplexType() {
-        return collectionClazz;
     }
 
     private static NamespacedKey getKey(final int name) {

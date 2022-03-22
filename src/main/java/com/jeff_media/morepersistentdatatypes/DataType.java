@@ -20,48 +20,37 @@ import org.bukkit.util.Vector;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public interface DataType {
 
     /*
     Custom types
      */
     PersistentDataType<byte[], AttributeModifier> ATTRIBUTE_MODIFIER = new ConfigurationSerializableDataType<>(AttributeModifier.class);
-    @Deprecated
     PersistentDataType<byte[], AttributeModifier[]> ATTRIBUTE_MODIFIER_ARRAY = new ConfigurationSerializableArrayDataType<>(AttributeModifier.class, AttributeModifier[].class);
     PersistentDataType<String, BlockData> BLOCK_DATA = new GenericDataType<>(String.class, BlockData.class, Bukkit::createBlockData, BlockData::getAsString);
     PersistentDataType<byte[], BlockVector> BLOCK_VECTOR = new ConfigurationSerializableDataType<>(BlockVector.class);
-    @Deprecated
     PersistentDataType<byte[], BlockVector[]> BLOCK_VECTOR_ARRAY = new ConfigurationSerializableArrayDataType<>(BlockVector.class, BlockVector[].class);
     PersistentDataType<byte[], BoundingBox> BOUNDING_BOX = new ConfigurationSerializableDataType<>(BoundingBox.class);
-    @Deprecated
     PersistentDataType<byte[], BoundingBox[]> BOUNDING_BOX_ARRAY = new ConfigurationSerializableArrayDataType<>(BoundingBox.class, BoundingBox[].class);
     PersistentDataType<byte[], Color> COLOR = new ConfigurationSerializableDataType<>(Color.class);
-    @Deprecated
     PersistentDataType<byte[], Color[]> COLOR_ARRAY = new ConfigurationSerializableArrayDataType<>(Color.class, Color[].class);
     PersistentDataType<byte[], ConfigurationSerializable> CONFIGURATION_SERIALIZABLE = new ConfigurationSerializableDataType<>(ConfigurationSerializable.class);
-    @Deprecated
     PersistentDataType<byte[], ConfigurationSerializable[]> CONFIGURATION_SERIALIZABLE_ARRAY = new ConfigurationSerializableArrayDataType<>(ConfigurationSerializable.class, ConfigurationSerializable[].class);
     PersistentDataType<Long, Date> DATE = new GenericDataType<>(Long.class, Date.class, Date::new, Date::getTime);
     PersistentDataType<byte[], FireworkEffect> FIREWORK_EFFECT = new ConfigurationSerializableDataType<>(FireworkEffect.class);
-    @Deprecated
     PersistentDataType<byte[], FireworkEffect[]> FIREWORK_EFFECT_ARRAY = new ConfigurationSerializableArrayDataType<>(FireworkEffect.class, FireworkEffect[].class);
     PersistentDataType<byte[], ItemMeta> ITEM_META = new ConfigurationSerializableDataType<>(ItemMeta.class);
-    @Deprecated
     PersistentDataType<byte[], ItemMeta[]> ITEM_META_ARRAY = new ConfigurationSerializableArrayDataType<>(ItemMeta.class, ItemMeta[].class);
     PersistentDataType<byte[], ItemStack> ITEM_STACK = new ConfigurationSerializableDataType<>(ItemStack.class);
-    @Deprecated
     PersistentDataType<byte[], ItemStack[]> ITEM_STACK_ARRAY = new ConfigurationSerializableArrayDataType<>(ItemStack.class, ItemStack[].class);
     PersistentDataType<byte[], Location> LOCATION = new ConfigurationSerializableDataType<>(Location.class);
-    @Deprecated
     PersistentDataType<byte[], Location[]> LOCATION_ARRAY = new ConfigurationSerializableArrayDataType<>(Location.class, Location[].class);
     PersistentDataType<byte[], OfflinePlayer> OFFLINE_PLAYER = new ConfigurationSerializableDataType<>(OfflinePlayer.class);
-    @Deprecated
     PersistentDataType<byte[], OfflinePlayer[]> OFFLINE_PLAYER_ARRAY = new ConfigurationSerializableArrayDataType<>(OfflinePlayer.class, OfflinePlayer[].class);
     PersistentDataType<byte[], Pattern> PATTERN = new ConfigurationSerializableDataType<>(Pattern.class);
-    @Deprecated
     PersistentDataType<byte[], Pattern[]> PATTERN_ARRAY = new ConfigurationSerializableArrayDataType<>(Pattern.class, Pattern[].class);
     PersistentDataType<byte[], Player> PLAYER = new ConfigurationSerializableDataType<>(Player.class);
-    @Deprecated
     PersistentDataType<byte[], Player[]> PLAYER_ARRAY = new ConfigurationSerializableArrayDataType<>(Player.class, Player[].class);
     PersistentDataType<byte[], PotionEffect> POTION_EFFECT = new ConfigurationSerializableDataType<>(PotionEffect.class);
     PersistentDataType<byte[], PotionEffect[]> POTION_EFFECT_ARRAY = new ConfigurationSerializableArrayDataType<>(PotionEffect.class, PotionEffect[].class);
@@ -109,16 +98,16 @@ public interface DataType {
         return new DataArray(ArrayList.class, type);
     }
 
-    static <D> PersistentDataType<PersistentDataContainer, List<D>> asList(PersistentDataType<?,D> type) {
-        return new DataArray(ArrayList.class, type);
+    static <D> PersistentDataType<PersistentDataContainer, ? extends List<D>> asList(PersistentDataType<?,D> type) {
+        return asArrayList(type);
     }
 
     static <D> PersistentDataType<PersistentDataContainer, HashSet<D>> asHashSet(PersistentDataType<?,D> type) {
         return new DataArray(HashSet.class, type);
     }
 
-    static <D> PersistentDataType<PersistentDataContainer, Set<D>> asSet(PersistentDataType<?,D> type) {
-        return new DataArray(HashSet.class, type);
+    static <D> PersistentDataType<PersistentDataContainer, ? extends Set<D>> asSet(PersistentDataType<?,D> type) {
+        return asHashSet(type);
     }
 
     /*
