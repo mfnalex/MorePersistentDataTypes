@@ -91,11 +91,11 @@ public interface DataType {
     Collections
      */
     static <C extends Collection<D>,D> PersistentDataType<PersistentDataContainer, C> asGenericCollection(Class<C> collectionClazz, PersistentDataType<?,D> type) {
-        return new DataArray(collectionClazz, type);
+        return new DataCollection<>(collectionClazz, type);
     }
 
     static <D> PersistentDataType<PersistentDataContainer,ArrayList<D>> asArrayList(PersistentDataType<?,D> type) {
-        return new DataArray(ArrayList.class, type);
+        return new DataCollection(ArrayList.class, type);
     }
 
     static <D> PersistentDataType<PersistentDataContainer, ? extends List<D>> asList(PersistentDataType<?,D> type) {
@@ -103,7 +103,7 @@ public interface DataType {
     }
 
     static <D> PersistentDataType<PersistentDataContainer, HashSet<D>> asHashSet(PersistentDataType<?,D> type) {
-        return new DataArray(HashSet.class, type);
+        return new DataCollection(HashSet.class, type);
     }
 
     static <D> PersistentDataType<PersistentDataContainer, ? extends Set<D>> asSet(PersistentDataType<?,D> type) {
