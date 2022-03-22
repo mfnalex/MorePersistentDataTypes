@@ -30,7 +30,7 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 <dependency>
     <groupId>com.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
     <scope>compile</scope>
 </dependency>
 ```
