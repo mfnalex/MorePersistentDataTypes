@@ -19,8 +19,9 @@ import org.bukkit.util.Vector;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes","unused"})
 public interface DataType {
 
     /*
@@ -86,6 +87,13 @@ public interface DataType {
     PersistentDataType<String, String> STRING = PersistentDataType.STRING;
     PersistentDataType<PersistentDataContainer, PersistentDataContainer> TAG_CONTAINER = PersistentDataType.TAG_CONTAINER;
     PersistentDataType<PersistentDataContainer[], PersistentDataContainer[]> TAG_CONTAINER_ARRAY = PersistentDataType.TAG_CONTAINER_ARRAY;
+
+    /*
+    Enums
+     */
+    static <E extends Enum<E>> PersistentDataType<String,E> asEnum(final Class<E> enumClazz) {
+        return new GenericDataType<>(String.class, enumClazz, s -> Enum.valueOf(enumClazz, s), Enum::name);
+    }
 
     /*
     Collections
