@@ -42,9 +42,9 @@ public class GenericDataType <T, Z> implements PersistentDataType<T, Z> {
      * @param toComplex Function to convert the primitive to the complex type
      * @param toPrimitive Function to convert the complex to the primitive type
      */
-    public GenericDataType(Class<T> primitiveType, Class<Z> complexType, Function<T, Z> toComplex, Function<Z,T> toPrimitive) {
+    public GenericDataType(final Class<T> primitiveType, final Class<Z> complexType, final Function<T, Z> toComplex, final Function<Z,T> toPrimitive) {
         boolean typeOk = false;
-        for(Class<?> clazz : ALLOWED_TYPES) {
+        for(final Class<?> clazz : ALLOWED_TYPES) {
             if(clazz.equals(primitiveType)) {
                 typeOk = true;
                 break;
@@ -73,13 +73,13 @@ public class GenericDataType <T, Z> implements PersistentDataType<T, Z> {
 
     @NotNull
     @Override
-    public T toPrimitive(@NotNull Z z, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public T toPrimitive(@NotNull final Z z, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         return toPrimitive.apply(z);
     }
 
     @NotNull
     @Override
-    public Z fromPrimitive(@NotNull T t, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public Z fromPrimitive(@NotNull final T t, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         return toComplex.apply(t);
     }
 }

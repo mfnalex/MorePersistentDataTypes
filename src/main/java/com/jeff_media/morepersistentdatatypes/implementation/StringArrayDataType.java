@@ -13,7 +13,7 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
 
     private final Charset charset;
 
-    public StringArrayDataType(Charset charset) {
+    public StringArrayDataType(final Charset charset) {
         this.charset = charset;
     }
 
@@ -28,17 +28,17 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
     }
 
     @Override
-    public byte @NotNull [] toPrimitive(String[] strings, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
-        byte[][] allStringBytes = new byte[strings.length][];
+    public byte @NotNull [] toPrimitive(final String[] strings, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+        final byte[][] allStringBytes = new byte[strings.length][];
         int total = 0;
         for (int i = 0; i < allStringBytes.length; i++) {
-            byte[] bytes = strings[i].getBytes(charset);
+            final byte[] bytes = strings[i].getBytes(charset);
             allStringBytes[i] = bytes;
             total += bytes.length;
         }
 
-        ByteBuffer buffer = ByteBuffer.allocate(total + allStringBytes.length * 4); //stores integers
-        for (byte[] bytes : allStringBytes) {
+        final ByteBuffer buffer = ByteBuffer.allocate(total + allStringBytes.length * 4); //stores integers
+        for (final byte[] bytes : allStringBytes) {
             buffer.putInt(bytes.length);
             buffer.put(bytes);
         }
@@ -47,16 +47,16 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
     }
 
     @Override
-    public String @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
-        ByteBuffer buffer = ByteBuffer.wrap(bytes);
-        List<String> list = new ArrayList<>();
+    public String @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+        final ByteBuffer buffer = ByteBuffer.wrap(bytes);
+        final List<String> list = new ArrayList<>();
 
         while (buffer.remaining() > 0) {
             if (buffer.remaining() < 4) break;
-            int stringLength = buffer.getInt();
+            final int stringLength = buffer.getInt();
             if (buffer.remaining() < stringLength) break;
 
-            byte[] stringBytes = new byte[stringLength];
+            final byte[] stringBytes = new byte[stringLength];
             buffer.get(stringBytes);
 
             list.add(new String(stringBytes, charset));

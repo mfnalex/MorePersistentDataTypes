@@ -22,18 +22,18 @@ public class FileConfigurationDataType implements PersistentDataType<String, Fil
 
     @NotNull
     @Override
-    public String toPrimitive(@NotNull FileConfiguration fileConfiguration, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public String toPrimitive(@NotNull final FileConfiguration fileConfiguration, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         return fileConfiguration.saveToString();
     }
 
     @NotNull
     @Override
-    public FileConfiguration fromPrimitive(@NotNull String s, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public FileConfiguration fromPrimitive(@NotNull final String s, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try {
-            YamlConfiguration yaml = new YamlConfiguration();
+            final YamlConfiguration yaml = new YamlConfiguration();
             yaml.loadFromString(s);
             return yaml;
-        } catch (InvalidConfigurationException e) {
+        } catch (final InvalidConfigurationException e) {
             e.printStackTrace();
             return new YamlConfiguration();
         }

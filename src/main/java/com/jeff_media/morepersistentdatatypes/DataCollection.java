@@ -31,10 +31,10 @@ class DataCollection
     @NotNull
     @Override
     public PersistentDataContainer toPrimitive(@NotNull final C collection, @NotNull final PersistentDataAdapterContext context) {
-        PersistentDataContainer pdc = context.newPersistentDataContainer();
+        final PersistentDataContainer pdc = context.newPersistentDataContainer();
         pdc.set(KEY_SIZE,DataType.INTEGER,collection.size());
         int index = 0;
-        for(D data : collection) {
+        for(final D data : collection) {
             if(data == null) {
                 throw new IllegalArgumentException(E_MUST_NOT_BE_NULL);
             }
@@ -48,7 +48,7 @@ class DataCollection
     public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         try {
             final C collection = collectionClazz.getConstructor().newInstance();
-            Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+            final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
             if(size == null) {
                 throw new IllegalArgumentException(E_NOT_A_COLLECTION);
             }
@@ -56,7 +56,7 @@ class DataCollection
                 collection.add(pdc.get(getKey(i), dataType));
             }
             return collection;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new IllegalArgumentException(String.format(E_MUST_HAVE_NO_ARGS_CONSTRUCTOR,collectionClazz.getName()));
         }
     }

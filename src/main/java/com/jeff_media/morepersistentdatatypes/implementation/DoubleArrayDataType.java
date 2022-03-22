@@ -21,13 +21,13 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(double[] doubles, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(final double[] doubles, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try(
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            DataOutputStream dos = new DataOutputStream(bos)
+                final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                final DataOutputStream dos = new DataOutputStream(bos)
         ) {
             dos.writeInt(doubles.length);
-            for(double number : doubles) {
+            for(final double number : doubles) {
                 dos.writeDouble(number);
             }
             dos.flush();
@@ -37,12 +37,12 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
 
     @Override
     @SneakyThrows
-    public double @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public double @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-            DataInputStream dis = new DataInputStream(bis)
+                final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                final DataInputStream dis = new DataInputStream(bis)
         ) {
-            double[] doubles = new double[dis.readInt()];
+            final double[] doubles = new double[dis.readInt()];
             for(int i = 0; i < doubles.length; i++) {
                 doubles[i] = dis.readDouble();
             }

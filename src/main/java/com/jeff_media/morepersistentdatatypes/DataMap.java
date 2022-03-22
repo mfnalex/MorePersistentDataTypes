@@ -33,16 +33,16 @@ class DataMap
 
     @NotNull
     @Override
-    public PersistentDataContainer toPrimitive(@NotNull M map, @NotNull PersistentDataAdapterContext context) {
-        PersistentDataContainer pdc = context.newPersistentDataContainer();
+    public PersistentDataContainer toPrimitive(@NotNull final M map, @NotNull final PersistentDataAdapterContext context) {
+        final PersistentDataContainer pdc = context.newPersistentDataContainer();
         int index = 0;
-        int size = map.size();
+        final int size = map.size();
         pdc.set(KEY_SIZE,DataType.INTEGER,size);
-        for(K key : map.keySet()) {
+        for(final K key : map.keySet()) {
             if(key == null) {
                 throw new IllegalArgumentException(E_KEY_MUST_NOT_BE_NULL);
             }
-            V value = map.get(key);
+            final V value = map.get(key);
             if(value == null) {
                 throw new IllegalArgumentException(E_VALUE_MUST_NOT_BE_NULL);
             }
@@ -54,10 +54,10 @@ class DataMap
 
     @NotNull
     @Override
-    public M fromPrimitive(@NotNull PersistentDataContainer pdc, @NotNull PersistentDataAdapterContext context) {
+    public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         try {
             final M map = mapClazz.getConstructor().newInstance();
-            Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+            final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
             if(size == null) {
                 throw new IllegalArgumentException(E_NOT_A_MAP);
             }
@@ -65,7 +65,7 @@ class DataMap
                 map.put(pdc.get(getKeyKey(i),keyDataType),pdc.get(getValueKey(i),valueDataType));
             }
             return map;
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             throw new IllegalArgumentException(String.format(E_MUST_HAVE_NO_ARGS_CONSTRUCTOR, mapClazz.getName()));
         }
     }

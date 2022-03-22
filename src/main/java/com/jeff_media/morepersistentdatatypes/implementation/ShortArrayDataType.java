@@ -24,13 +24,13 @@ public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(short[] shorts, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(final short[] shorts, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try(
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                DataOutputStream dos = new DataOutputStream(bos)
+                final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                final DataOutputStream dos = new DataOutputStream(bos)
         ) {
             dos.writeInt(shorts.length);
-            for(short number : shorts) {
+            for(final short number : shorts) {
                 dos.writeShort(number);
             }
             dos.flush();
@@ -40,12 +40,12 @@ public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
 
     @Override
     @SneakyThrows
-    public short @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public short @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (
-                ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-                DataInputStream dis = new DataInputStream(bis)
+                final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                final DataInputStream dis = new DataInputStream(bis)
         ) {
-            short[] shorts = new short[dis.readInt()];
+            final short[] shorts = new short[dis.readInt()];
             for(int i = 0; i < shorts.length; i++) {
                 shorts[i] = dis.readShort();
             }

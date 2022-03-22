@@ -20,18 +20,18 @@ public class UuidDataType implements PersistentDataType<byte[], UUID> {
     }
 
     @Override
-    public byte @NotNull [] toPrimitive(UUID complex, @NotNull PersistentDataAdapterContext context) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+    public byte @NotNull [] toPrimitive(final UUID complex, @NotNull final PersistentDataAdapterContext context) {
+        final ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(complex.getMostSignificantBits());
         bb.putLong(complex.getLeastSignificantBits());
         return bb.array();
     }
 
     @Override
-    public @NotNull UUID fromPrimitive(byte @NotNull [] primitive, @NotNull PersistentDataAdapterContext context) {
-        ByteBuffer bb = ByteBuffer.wrap(primitive);
-        long firstLong = bb.getLong();
-        long secondLong = bb.getLong();
+    public @NotNull UUID fromPrimitive(final byte @NotNull [] primitive, @NotNull final PersistentDataAdapterContext context) {
+        final ByteBuffer bb = ByteBuffer.wrap(primitive);
+        final long firstLong = bb.getLong();
+        final long secondLong = bb.getLong();
         return new UUID(firstLong, secondLong);
     }
 }

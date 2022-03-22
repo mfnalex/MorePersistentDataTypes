@@ -24,13 +24,13 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(float[] floats, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(final float[] floats, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try(
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                DataOutputStream dos = new DataOutputStream(bos)
+                final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                final DataOutputStream dos = new DataOutputStream(bos)
         ) {
             dos.writeInt(floats.length);
-            for(float number : floats) {
+            for(final float number : floats) {
                 dos.writeFloat(number);
             }
             dos.flush();
@@ -40,12 +40,12 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
 
     @Override
     @SneakyThrows
-    public float @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public float @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (
-                ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-                DataInputStream dis = new DataInputStream(bis)
+                final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                final DataInputStream dis = new DataInputStream(bis)
         ) {
-            float[] floats = new float[dis.readInt()];
+            final float[] floats = new float[dis.readInt()];
             for(int i = 0; i < floats.length; i++) {
                 floats[i] = dis.readFloat();
             }

@@ -18,8 +18,8 @@ public class CharArrayDataType implements PersistentDataType<int[], char[]> {
     }
 
     @Override
-    public int @NotNull [] toPrimitive(char[] chars, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        int[] ints = new int[chars.length];
+    public int @NotNull [] toPrimitive(final char[] chars, @NotNull final PersistentDataAdapterContext context) {
+        final int[] ints = new int[chars.length];
         for(int i = 0; i < chars.length; i++) {
             ints[i] = chars[i];
         }
@@ -27,8 +27,8 @@ public class CharArrayDataType implements PersistentDataType<int[], char[]> {
     }
 
     @Override
-    public char @NotNull [] fromPrimitive(int[] ints, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-        char[] chars = new char[ints.length];
+    public char @NotNull [] fromPrimitive(final int[] ints, final @NotNull PersistentDataAdapterContext context) {
+        final char[] chars = new char[ints.length];
         for(int i = 0; i < ints.length; i++) {
             chars[i] = (char) ints[i];
         }

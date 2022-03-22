@@ -90,42 +90,42 @@ public interface DataType {
     /*
     Collections
      */
-    static <C extends Collection<D>,D> PersistentDataType<PersistentDataContainer, C> asGenericCollection(Class<C> collectionClazz, PersistentDataType<?,D> type) {
+    static <C extends Collection<D>,D> PersistentDataType<PersistentDataContainer, C> asGenericCollection(final Class<C> collectionClazz, final PersistentDataType<?,D> type) {
         return new DataCollection<>(collectionClazz, type);
     }
 
-    static <D> PersistentDataType<PersistentDataContainer,ArrayList<D>> asArrayList(PersistentDataType<?,D> type) {
+    static <D> PersistentDataType<PersistentDataContainer,ArrayList<D>> asArrayList(final PersistentDataType<?,D> type) {
         return new DataCollection(ArrayList.class, type);
     }
 
-    static <D> PersistentDataType<PersistentDataContainer, ? extends List<D>> asList(PersistentDataType<?,D> type) {
+    static <D> PersistentDataType<PersistentDataContainer, ? extends List<D>> asList(final PersistentDataType<?,D> type) {
         return asArrayList(type);
     }
 
-    static <D> PersistentDataType<PersistentDataContainer, HashSet<D>> asHashSet(PersistentDataType<?,D> type) {
+    static <D> PersistentDataType<PersistentDataContainer, HashSet<D>> asHashSet(final PersistentDataType<?,D> type) {
         return new DataCollection(HashSet.class, type);
     }
 
-    static <D> PersistentDataType<PersistentDataContainer, ? extends Set<D>> asSet(PersistentDataType<?,D> type) {
+    static <D> PersistentDataType<PersistentDataContainer, ? extends Set<D>> asSet(final PersistentDataType<?,D> type) {
         return asHashSet(type);
     }
 
     /*
     Maps
      */
-    static <M extends Map<K,V>,K,V> PersistentDataType<PersistentDataContainer, Map<K,V>> asGenericMap(Class<? extends M> mapClazz, PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+    static <M extends Map<K,V>,K,V> PersistentDataType<PersistentDataContainer, Map<K,V>> asGenericMap(final Class<? extends M> mapClazz, final PersistentDataType<?,K> keyType, final PersistentDataType<?,V> valueType) {
         return new DataMap(mapClazz, keyType, valueType);
     }
 
-    static <K,V> PersistentDataType<PersistentDataContainer,? extends Map<K,V>> asMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+    static <K,V> PersistentDataType<PersistentDataContainer,? extends Map<K,V>> asMap(final PersistentDataType<?,K> keyType, final PersistentDataType<?,V> valueType) {
         return asHashMap(keyType, valueType);
     }
 
-    static <K,V> PersistentDataType<PersistentDataContainer,HashMap<K,V>> asHashMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+    static <K,V> PersistentDataType<PersistentDataContainer,HashMap<K,V>> asHashMap(final PersistentDataType<?,K> keyType, final PersistentDataType<?,V> valueType) {
         return new DataMap(HashMap.class, keyType, valueType);
     }
 
-    static <K,V> PersistentDataType<PersistentDataContainer,LinkedHashMap<K,V>> asLinkedHashMap(PersistentDataType<?,K> keyType, PersistentDataType<?,V> valueType) {
+    static <K,V> PersistentDataType<PersistentDataContainer,LinkedHashMap<K,V>> asLinkedHashMap(final PersistentDataType<?,K> keyType, final PersistentDataType<?,V> valueType) {
         return new DataMap(LinkedHashMap.class, keyType, valueType);
     }
 

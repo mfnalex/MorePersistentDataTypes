@@ -17,7 +17,7 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
     private final Class<T> type;
     private final Class<T[]> types;
 
-    public ConfigurationSerializableArrayDataType(Class<T> type, Class<T[]> types) {
+    public ConfigurationSerializableArrayDataType(final Class<T> type, final Class<T[]> types) {
         this.type = type;
         this.types = types;
     }
@@ -36,13 +36,13 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(@NotNull T @NotNull [] serializable, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public byte @NotNull [] toPrimitive(@NotNull final T @NotNull [] serializable, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try (
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                BukkitObjectOutputStream bukkitObjectOutputStream = new BukkitObjectOutputStream(outputStream)
+                final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                final BukkitObjectOutputStream bukkitObjectOutputStream = new BukkitObjectOutputStream(outputStream)
         ) {
             bukkitObjectOutputStream.writeInt(serializable.length);
-            for (T t : serializable) {
+            for (final T t : serializable) {
                 bukkitObjectOutputStream.writeObject(t);
             }
             return outputStream.toByteArray();
@@ -53,17 +53,17 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
     @Override
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    public T @NotNull [] fromPrimitive(byte @NotNull [] bytes, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public T @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try (
-                ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
-                BukkitObjectInputStream bukkitObjectInputStream = new BukkitObjectInputStream(inputStream)
+                final ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+                final BukkitObjectInputStream bukkitObjectInputStream = new BukkitObjectInputStream(inputStream)
         ) {
-                T[] ts = (T[]) Array.newInstance(type, bukkitObjectInputStream.readInt());
+                final T[] ts = (T[]) Array.newInstance(type, bukkitObjectInputStream.readInt());
                 for(int i = 0; i < ts.length; i++) {
                     ts[i] = (T) bukkitObjectInputStream.readObject();
                 }
             return ts;
-        } catch (EOFException e) {
+        } catch (final EOFException e) {
             return (T[]) Array.newInstance(getComplexType().getComponentType(),0);
         }
     }
