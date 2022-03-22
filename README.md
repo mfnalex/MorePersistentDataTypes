@@ -1,5 +1,6 @@
 # MorePersistentDataTypes
 **MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction with Bukkit's *PersistentDataContainer*.
+It also allows you to use any kind of Collection or Map to store your data, for example a `Map<String,ItemStack>`.
 
 It is also possible to easily create your own PersistentDataTypes for your custom objects. When they already implement ConfigurationSerializable, it's only one line of code!
 
