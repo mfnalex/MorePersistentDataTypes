@@ -38,12 +38,12 @@ import java.util.*;
  * convert any given PersistentDataType to hold a collection, map or array instead. For example:
  * <pre>PersistentDataContainer pdc = player.getPersistentDataContainer();
  * NamespacedKey key = new NamespacedKey(myPlugin,"backpack-contents");
- * List&gt;ItemStack&lt; map = pdc.get("backpack-contents",DataType.asList(DataType.ITEM_STACK));</pre>
+ * List&lt;ItemStack&gt; map = pdc.get("backpack-contents",DataType.asList(DataType.ITEM_STACK));</pre>
  *
  * <p>
  * All the collection datatypes can of course be nested infinitely, for example:
  * <pre>
- * Map&gt;String,Map&gt;Material,Integer&lt;&lt; map = pdc.get(namespacedKey,
+ * Map&lt;String,Map&lt;Material,Integer&gt;&gt; map = pdc.get(namespacedKey,
  *                  DataType.asMap(DataType.STRING, DataType.asMap(DataType.asEnum(Material.class),DataType.INTEGER)));
  * </pre>
  *
