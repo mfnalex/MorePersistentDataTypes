@@ -62,10 +62,32 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 </build>
 ```
 
+
+
+## Using Collections, Arrays or Maps
+Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
+
+```java
+Map<String,ItemStack> map = pdc.get(someKey, DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
+```
+
+If you want to use a special collection or map class that's not already included, simply pass the class too:
+
+```java
+TreeSet<Location> set = pdc.get(someKey, DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
+```
+
+For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY.
+If there is no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
+
+```java
+PersistentDataType<?,UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], DataType.UUID);
+```
+
 ## List of all data types
 ### In addition to the default data types
 | Name | Class | Saved as
-|---|---|---
+|---|---|---|---
 | BOOLEAN | java.lang.Boolean | byte
 | BOOLEAN_ARRAY | java.lang.Boolean[] | byte[]
 | CHARACTER | java.lang.Character | int
@@ -113,25 +135,6 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | VECTOR                           | byte[]   |         | org.bukkit.util.Vector                                             |
 | VECTOR_ARRAY                     | byte[]   |         | org.bukkit.util.Vector[]                                           |
 
-## Using Collections, Arrays or Maps
-Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
-
-```java
-Map<String,ItemStack> map = pdc.get(someKey, DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
-```
-
-If you want to use a special collection or map class that's not already included, simply pass the class too:
-
-```java
-TreeSet<Location> set = pdc.get(someKey, DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
-```
-
-For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY.
-If there is no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
-
-```java
-PersistentDataType<?,UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], DataType.UUID);
-```
 ## Creating your own PersistentDataTypes
 ### Using ConfigurationSeriazableDataType
 When your custom Object already implements ConfigurationSerializable, it's even easier. Just look at the SerializablePerson.java in the examples/ folder.
