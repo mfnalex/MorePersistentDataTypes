@@ -76,42 +76,42 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | STRING_ARRAY | java.lang.String[] | byte[]
 
 ### Custom data types
-| Name                             | Class                                                              | Saved as | Note    |
-|----------------------------------|--------------------------------------------------------------------|----------|---------|
-| ATTRIBUTE_MODIFIER               | org.bukkit.attribute.AttributeModifier                             | byte[]   |         |
-| ATTRIBUTE_MODIFIER_ARRAY         | org.bukkit.attribute.AttributeModifier[]                           | byte[]   |         |
-| BLOCK_DATA                       | org.bukkit.block.data.BlockData                                    | String   |         |
-| BLOCK_VECTOR                     | org.bukkit.util.BlockVector                                        | byte[]   |         |
-| BLOCK_VECTOR_ARRAY               | org.bukkit.util.BlockVector[]                                      | byte[]   |         |
-| BOUNDING_BOX                     | org.bukkit.util.BoundingBox                                        | byte[]   |         |
-| BOUNDING_BOX_ARRAY               | org.bukkit.util.BoundingBox[]                                      | byte[]   |         |
-| COLOR                            | org.bukkit.Color                                                   | byte[]   |         |
-| COLOR_ARRAY                      | org.bukkit.Color[]                                                 | byte[]   |         |
-| CONFIGURATION_SERIALIZABLE       | org.bukkit.configuration.serialization.ConfigurationSerializable   | byte[]   |         |
-| CONFIGURATION_SERIALIZABLE_ARRAY | org.bukkit.configuration.serialization.ConfigurationSerializable[] | byte[]   |         |
-| DATE                             | java.util.Date                                                     | long     |         |
-| FILE_CONFIGURATION               | org.bukkit.configuration.file.FileConfiguration                    | String   |         |
-| FIREWORK_EFFECT                  | org.bukkit.FireworkEffect                                          | byte[]   |         |
-| FIREWORK_EFFECT_ARRAY            | org.bukkit.FireworkEffect[]                                        | byte[]   |         |
-| ITEM_META                        | org.bukkit.inventory.meta.ItemMeta                                 | byte[]   |         |
-| ITEM_META_ARRAY                  | org.bukkit.inventory.meta.ItemMeta[]                               | byte[]   |         |
-| ITEM_STACK                       | org.bukkit.inventory.ItemStack                                     | byte[]   |         |
-| ITEM_STACK_ARRAY                 | org.bukkit.inventory.ItemStack[]                                   | byte[]   |         |
-| LOCATION                         | org.bukkit.Location                                                | byte[]   |         |
-| LOCATION_ARRAY                   | org.bukkit.Location[]                                              | byte[]   |         |
-| OFFLINE_PLAYER                   | org.bukkit.OfflinePlayer                                           | byte[]   |         |
-| OFFLINE_PLAYER_ARRAY             | org.bukkit.OfflinePlayer[]                                         | byte[]   |         |
-| PATTERN                          | org.bukkit.block.banner.Pattern                                    | byte[]   |         |
-| PATTERN_ARRAY                    | org.bukkit.block.banner.Pattern[]                                  | byte[]   |         |
-| PLAYER                           | org.bukkit.entity.Player                                           | byte[]   |         |
-| PLAYER_ARRAY                     | org.bukkit.entity.Player[]                                         | byte[]   |         |
-| PLAYER_PROFILE                   | org.bukkit.profile.PlayerProfile                                   | byte[]   | 1.18.1+ |
-| PLAYER_PROFILE_ARRAY             | org.bukkit.profile.PlayerProfile[]                                 | byte[]   | 1.18.1+ |
-| POTION_EFFECT                    | org.bukkit.potion.PotionEffect                                     | byte[]   |         |
-| POTION_EFFECT_ARRAY              | org.bukkit.potion.PotionEffect[]                                   | byte[]   |         |
-| UUID                             | java.util.UUID                                                     | byte[]   |         |
-| VECTOR                           | org.bukkit.util.Vector                                             | byte[]   |         |
-| VECTOR_ARRAY                     | org.bukkit.util.Vector[]                                           | byte[]   |         |
+| Name                             | Saved as | Note    | Class                                                              |
+|----------------------------------|----------|---------|--------------------------------------------------------------------|
+| ATTRIBUTE_MODIFIER               | byte[]   |         | org.bukkit.attribute.AttributeModifier                             |
+| ATTRIBUTE_MODIFIER_ARRAY         | byte[]   |         | org.bukkit.attribute.AttributeModifier[]                           |
+| BLOCK_DATA                       | String   |         | org.bukkit.block.data.BlockData                                    |
+| BLOCK_VECTOR                     | byte[]   |         | org.bukkit.util.BlockVector                                        |
+| BLOCK_VECTOR_ARRAY               | byte[]   |         | org.bukkit.util.BlockVector[]                                      |
+| BOUNDING_BOX                     | byte[]   |         | org.bukkit.util.BoundingBox                                        |
+| BOUNDING_BOX_ARRAY               | byte[]   |         | org.bukkit.util.BoundingBox[]                                      |
+| COLOR                            | byte[]   |         | org.bukkit.Color                                                   |
+| COLOR_ARRAY                      | byte[]   |         | org.bukkit.Color[]                                                 |
+| CONFIGURATION_SERIALIZABLE       | byte[]   |         | org.bukkit.configuration.serialization.ConfigurationSerializable   |
+| CONFIGURATION_SERIALIZABLE_ARRAY | byte[]   |         | org.bukkit.configuration.serialization.ConfigurationSerializable[] |
+| DATE                             | long     |         | java.util.Date                                                     |
+| FILE_CONFIGURATION               | String   |         | org.bukkit.configuration.file.FileConfiguration                    |
+| FIREWORK_EFFECT                  | byte[]   |         | org.bukkit.FireworkEffect                                          |
+| FIREWORK_EFFECT_ARRAY            | byte[]   |         | org.bukkit.FireworkEffect[]                                        |
+| ITEM_META                        | byte[]   |         | org.bukkit.inventory.meta.ItemMeta                                 |
+| ITEM_META_ARRAY                  | byte[]   |         | org.bukkit.inventory.meta.ItemMeta[]                               |
+| ITEM_STACK                       | byte[]   |         | org.bukkit.inventory.ItemStack                                     |
+| ITEM_STACK_ARRAY                 | byte[]   |         | org.bukkit.inventory.ItemStack[]                                   |
+| LOCATION                         | byte[]   |         | org.bukkit.Location                                                |
+| LOCATION_ARRAY                   | byte[]   |         | org.bukkit.Location[]                                              |
+| OFFLINE_PLAYER                   | byte[]   |         | org.bukkit.OfflinePlayer                                           |
+| OFFLINE_PLAYER_ARRAY             | byte[]   |         | org.bukkit.OfflinePlayer[]                                         |
+| PATTERN                          | byte[]   |         | org.bukkit.block.banner.Pattern                                    |
+| PATTERN_ARRAY                    | byte[]   |         | org.bukkit.block.banner.Pattern[]                                  |
+| PLAYER                           | byte[]   |         | org.bukkit.entity.Player                                           |
+| PLAYER_ARRAY                     | byte[]   |         | org.bukkit.entity.Player[]                                         |
+| PLAYER_PROFILE                   | byte[]   | 1.18.1+ | org.bukkit.profile.PlayerProfile                                   |
+| PLAYER_PROFILE_ARRAY             | byte[]   | 1.18.1+ | org.bukkit.profile.PlayerProfile[]                                 |
+| POTION_EFFECT                    | byte[]   |         | org.bukkit.potion.PotionEffect                                     |
+| POTION_EFFECT_ARRAY              | byte[]   |         | org.bukkit.potion.PotionEffect[]                                   |
+| UUID                             | byte[]   |         | java.util.UUID                                                     |
+| VECTOR                           | byte[]   |         | org.bukkit.util.Vector                                             |
+| VECTOR_ARRAY                     | byte[]   |         | org.bukkit.util.Vector[]                                           |
 
 ## Using Collections, Arrays or Maps
 Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
