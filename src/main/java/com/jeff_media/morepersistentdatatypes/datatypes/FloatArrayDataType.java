@@ -1,16 +1,16 @@
-package com.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
-
-    private Charset charset;
 
     @Override
     public @NotNull Class<byte[]> getPrimitiveType() {
@@ -25,12 +25,9 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
     @Override
     @SneakyThrows
     public byte @NotNull [] toPrimitive(final float[] floats, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
-        try(
-                final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                final DataOutputStream dos = new DataOutputStream(bos)
-        ) {
+        try (final ByteArrayOutputStream bos = new ByteArrayOutputStream(); final DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(floats.length);
-            for(final float number : floats) {
+            for (final float number : floats) {
                 dos.writeFloat(number);
             }
             dos.flush();
@@ -41,12 +38,9 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
     @Override
     @SneakyThrows
     public float @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
-        try (
-                final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-                final DataInputStream dis = new DataInputStream(bis)
-        ) {
+        try (final ByteArrayInputStream bis = new ByteArrayInputStream(bytes); final DataInputStream dis = new DataInputStream(bis)) {
             final float[] floats = new float[dis.readInt()];
-            for(int i = 0; i < floats.length; i++) {
+            for (int i = 0; i < floats.length; i++) {
                 floats[i] = dis.readFloat();
             }
             return floats;

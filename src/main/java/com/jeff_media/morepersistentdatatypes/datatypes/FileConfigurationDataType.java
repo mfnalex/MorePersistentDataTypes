@@ -1,4 +1,4 @@
-package com.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;

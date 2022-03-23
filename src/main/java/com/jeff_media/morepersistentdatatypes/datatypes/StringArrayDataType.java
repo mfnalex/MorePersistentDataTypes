@@ -1,4 +1,4 @@
-package com.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
@@ -28,7 +28,7 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
     }
 
     @Override
-    public byte @NotNull [] toPrimitive(final String[] strings, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NotNull [] toPrimitive(final String[] strings, @NotNull final PersistentDataAdapterContext context) {
         final byte[][] allStringBytes = new byte[strings.length][];
         int total = 0;
         for (int i = 0; i < allStringBytes.length; i++) {

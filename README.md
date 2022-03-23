@@ -1,6 +1,14 @@
 # MorePersistentDataTypes
-**MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction with Bukkit's *PersistentDataContainer*.
-It also allows you to use any kind of Collection or Map to store your data, for example a `Map<String,ItemStack>`.
+**MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction
+with Bukkit's *PersistentDataContainer*. **It also allows you to use any kind of Collection or Map to store your data.**
+
+## Features
+
+- Adds new PersistentDataTypes for ItemStacks, YamlConfigurations, UUIDs, Locations, and much more!
+- **Adds all kinds of Collections and Maps** as PersistentDataType!
+  - Of course also supports nested Collections like `LinkedHashMap<String,List<ItemStack>>` 
+  - See below for more information
+- Create your own 
 
 It is also possible to easily create your own PersistentDataTypes for your custom objects. When they already implement ConfigurationSerializable, it's only one line of code!
 
@@ -149,6 +157,9 @@ PersistentDataType<Long, Date> dateType = new GenericDataType<>(Long.class, Date
         }
     });
 ```
+
+## Building
+Building this requires Java 11.0.0 or higher. It can still be used by Java 8 or higher, though.
 
 ## Other libraries by me
 

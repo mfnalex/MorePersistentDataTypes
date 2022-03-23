@@ -1,4 +1,4 @@
-package com.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
@@ -20,7 +20,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
     @Override
     public byte @NotNull [] toPrimitive(final boolean[] booleans, final @NotNull PersistentDataAdapterContext context) {
         final byte[] bytes = new byte[booleans.length];
-        for(int i = 0; i < booleans.length; i++) {
+        for (int i = 0; i < booleans.length; i++) {
             bytes[i] = (byte) (booleans[i] ? 1 : 0);
         }
         return bytes;
@@ -29,7 +29,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
     @Override
     public boolean @NotNull [] fromPrimitive(final byte[] bytes, final @NotNull PersistentDataAdapterContext context) {
         final boolean[] booleans = new boolean[bytes.length];
-        for(int i = 0; i < bytes.length; i++) {
+        for (int i = 0; i < bytes.length; i++) {
             booleans[i] = bytes[i] != 0;
         }
         return booleans;

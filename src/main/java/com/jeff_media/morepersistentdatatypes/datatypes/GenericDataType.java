@@ -1,57 +1,41 @@
-package com.jeff_media.morepersistentdatatypes;
+package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Represents a generic PersistentDataType. You can provide two functions for converting between the primitive and complex type.
+ *
  * @param <T> Primitive Type
  * @param <Z> Complex Type
  */
-public class GenericDataType <T, Z> implements PersistentDataType<T, Z> {
+public class GenericDataType<T, Z> implements PersistentDataType<T, Z> {
 
-    private static final Class<?>[] ALLOWED_TYPES = new Class[] {
-            Byte.class,
-            byte[].class,
-            Double.class,
-            Float.class,
-            Integer.class,
-            int[].class,
-            Long.class,
-            long[].class,
-            Short.class,
-            String.class,
-            PersistentDataContainer.class,
-            PersistentDataContainer[].class
-    };
+    private static final Class<?>[] ALLOWED_TYPES = new Class[]{Byte.class, byte[].class, Double.class, Float.class, Integer.class, int[].class, Long.class, long[].class, Short.class, String.class, PersistentDataContainer.class, PersistentDataContainer[].class};
 
     private final Class<T> primitiveType;
     private final Class<Z> complexType;
-    private final Function<T,Z> toComplex;
-    private final Function<Z,T> toPrimitive;
+    private final Function<T, Z> toComplex;
+    private final Function<Z, T> toPrimitive;
 
 
     /**
      * Creates a new generic PersistentDataType.
+     *
      * @param primitiveType Primitive type. Must be either byte, byte[], double, float, int, int[], long, long[], short, String, PersistentDataContainer or PersistentDataContainer[]
-     * @param complexType Complex type
-     * @param toComplex Function to convert the primitive to the complex type
-     * @param toPrimitive Function to convert the complex to the primitive type
+     * @param complexType   Complex type
+     * @param toComplex     Function to convert the primitive to the complex type
+     * @param toPrimitive   Function to convert the complex to the primitive type
      */
-    public GenericDataType(final Class<T> primitiveType, final Class<Z> complexType, final Function<T, Z> toComplex, final Function<Z,T> toPrimitive) {
-        boolean typeOk = false;
-        for(final Class<?> clazz : ALLOWED_TYPES) {
-            if(clazz.equals(primitiveType)) {
-                typeOk = true;
-                break;
-            }
-        }
-        if(!typeOk) {
-            throw new IllegalArgumentException(primitiveType.getName() + " is not a valid primitive type.");
+    public GenericDataType(final Class<T> primitiveType, final Class<Z> complexType, final Function<T, Z> toComplex, final Function<Z, T> toPrimitive) {
+        if (!Arrays.stream(ALLOWED_TYPES).anyMatch(clazz -> clazz.equals(primitiveType))) {
+            throw new IllegalArgumentException(String.format("Not a valid primitive type: %s. Valid primitive types are: %s", primitiveType.getName(), Arrays.stream(ALLOWED_TYPES).map(Class::getSimpleName).collect(Collectors.joining(", "))));
         }
         this.primitiveType = primitiveType;
         this.complexType = complexType;

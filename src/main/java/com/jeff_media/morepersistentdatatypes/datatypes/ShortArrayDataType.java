@@ -1,16 +1,16 @@
-package com.jeff_media.morepersistentdatatypes.implementation;
+package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
-
-    private Charset charset;
 
     @Override
     public @NotNull Class<byte[]> getPrimitiveType() {
@@ -25,12 +25,9 @@ public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
     @Override
     @SneakyThrows
     public byte @NotNull [] toPrimitive(final short[] shorts, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
-        try(
-                final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                final DataOutputStream dos = new DataOutputStream(bos)
-        ) {
+        try (final ByteArrayOutputStream bos = new ByteArrayOutputStream(); final DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(shorts.length);
-            for(final short number : shorts) {
+            for (final short number : shorts) {
                 dos.writeShort(number);
             }
             dos.flush();
@@ -41,12 +38,9 @@ public class ShortArrayDataType implements PersistentDataType<byte[], short[]> {
     @Override
     @SneakyThrows
     public short @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
-        try (
-                final ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-                final DataInputStream dis = new DataInputStream(bis)
-        ) {
+        try (final ByteArrayInputStream bis = new ByteArrayInputStream(bytes); final DataInputStream dis = new DataInputStream(bis)) {
             final short[] shorts = new short[dis.readInt()];
-            for(int i = 0; i < shorts.length; i++) {
+            for (int i = 0; i < shorts.length; i++) {
                 shorts[i] = dis.readShort();
             }
             return shorts;
