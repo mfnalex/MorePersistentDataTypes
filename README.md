@@ -184,6 +184,9 @@ PersistentDataType<Long, Date> dateType = new GenericDataType<>(Long.class, Date
 ## Building
 Building this requires Java 11.0.0 or higher. It can still be used by Java 8 or higher, though.
 
+## Javadocs
+You can find the Javadocs here: https://hub.jeff-media.com/javadocs/morepersistentdatatypes/
+
 ## Other libraries by me
 
 ### [CustomBlockData](https://github.com/JEFF-Media-GbR/CustomBlockData)
