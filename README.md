@@ -6,9 +6,8 @@ with Bukkit's *PersistentDataContainer*. **It also allows you to use any kind of
 
 - Adds new PersistentDataTypes for ItemStacks, YamlConfigurations, UUIDs, Locations, and much more!
 - **Adds all kinds of Collections and Maps** as PersistentDataType!
-  - Of course also supports nested Collections like `LinkedHashMap<String,List<ItemStack>>` 
+  - Of course also supports unlimited levels of nested Collections like `LinkedHashMap<String,List<ItemStack>>` 
   - See below for more information
-- Create your own 
 
 It is also possible to easily create your own PersistentDataTypes for your custom objects. When they already implement ConfigurationSerializable, it's only one line of code!
 
@@ -77,41 +76,62 @@ Furthermore, you can store EVERYTHING that implements ConfigurationSerializable 
 | STRING_ARRAY | java.lang.String[] | byte[]
 
 ### Custom data types
-| Name | Class | Saved as
-|---|---|---
-| ATTRIBUTE_MODIFIER | org.bukkit.attribute.AttributeModifier | byte[] 
-| ATTRIBUTE_MODIFIER_ARRAY | org.bukkit.attribute.AttributeModifier[] | byte[] 
-| BLOCK_DATA | org.bukkit.block.data.BlockData | String
-| BLOCK_VECTOR | org.bukkit.util.BlockVector | byte[]
-| BLOCK_VECTOR_ARRAY | org.bukkit.util.BlockVector[] | byte[]
-| BOUNDING_BOX | org.bukkit.util.BoundingBox | byte[]
-| BOUNDING_BOX_ARRAY | org.bukkit.util.BoundingBox[] | byte[]
-| COLOR | org.bukkit.Color | byte[]
-| COLOR_ARRAY | org.bukkit.Color[] | byte[]
-| CONFIGURATION_SERIALIZABLE | org.bukkit.configuration.serialization.ConfigurationSerializable | byte[]
-| CONFIGURATION_SERIALIZABLE_ARRAY | org.bukkit.configuration.serialization.ConfigurationSerializable[] | byte[]
-| DATE | java.util.Date | long
-| FILE_CONFIGURATION | org.bukkit.configuration.file.FileConfiguration | String
-| FIREWORK_EFFECT | org.bukkit.FireworkEffect | byte[]
-| FIREWORK_EFFECT_ARRAY | org.bukkit.FireworkEffect[] | byte[]
-| ITEM_META | org.bukkit.inventory.meta.ItemMeta | byte[]
-| ITEM_META_ARRAY | org.bukkit.inventory.meta.ItemMeta[] | byte[]
-| ITEM_STACK | org.bukkit.inventory.ItemStack | byte[]
-| ITEM_STACK_ARRAY | org.bukkit.inventory.ItemStack[] | byte[]
-| LOCATION | org.bukkit.Location | byte[]
-| LOCATION_ARRAY | org.bukkit.Location[] | byte[]
-| OFFLINE_PLAYER | org.bukkit.OfflinePlayer | byte[]
-| OFFLINE_PLAYER_ARRAY | org.bukkit.OfflinePlayer[] | byte[]
-| PATTERN | org.bukkit.block.banner.Pattern | byte[]
-| PATTERN_ARRAY | org.bukkit.block.banner.Pattern[] | byte[]
-| PLAYER | org.bukkit.entity.Player | byte[]
-| PLAYER_ARRAY | org.bukkit.entity.Player[] | byte[]
-| POTION_EFFECT | org.bukkit.potion.PotionEffect | byte[]
-| POTION_EFFECT_ARRAY | org.bukkit.potion.PotionEffect[] | byte[]
-| UUID | java.util.UUID | byte[]
-| VECTOR | org.bukkit.util.Vector | byte[]
-| VECTOR_ARRAY | org.bukkit.util.Vector[] | byte[]
+| Name                             | Class                                                              | Saved as | Note    |
+|----------------------------------|--------------------------------------------------------------------|----------|---------|
+| ATTRIBUTE_MODIFIER               | org.bukkit.attribute.AttributeModifier                             | byte[]   |         |
+| ATTRIBUTE_MODIFIER_ARRAY         | org.bukkit.attribute.AttributeModifier[]                           | byte[]   |         |
+| BLOCK_DATA                       | org.bukkit.block.data.BlockData                                    | String   |         |
+| BLOCK_VECTOR                     | org.bukkit.util.BlockVector                                        | byte[]   |         |
+| BLOCK_VECTOR_ARRAY               | org.bukkit.util.BlockVector[]                                      | byte[]   |         |
+| BOUNDING_BOX                     | org.bukkit.util.BoundingBox                                        | byte[]   |         |
+| BOUNDING_BOX_ARRAY               | org.bukkit.util.BoundingBox[]                                      | byte[]   |         |
+| COLOR                            | org.bukkit.Color                                                   | byte[]   |         |
+| COLOR_ARRAY                      | org.bukkit.Color[]                                                 | byte[]   |         |
+| CONFIGURATION_SERIALIZABLE       | org.bukkit.configuration.serialization.ConfigurationSerializable   | byte[]   |         |
+| CONFIGURATION_SERIALIZABLE_ARRAY | org.bukkit.configuration.serialization.ConfigurationSerializable[] | byte[]   |         |
+| DATE                             | java.util.Date                                                     | long     |         |
+| FILE_CONFIGURATION               | org.bukkit.configuration.file.FileConfiguration                    | String   |         |
+| FIREWORK_EFFECT                  | org.bukkit.FireworkEffect                                          | byte[]   |         |
+| FIREWORK_EFFECT_ARRAY            | org.bukkit.FireworkEffect[]                                        | byte[]   |         |
+| ITEM_META                        | org.bukkit.inventory.meta.ItemMeta                                 | byte[]   |         |
+| ITEM_META_ARRAY                  | org.bukkit.inventory.meta.ItemMeta[]                               | byte[]   |         |
+| ITEM_STACK                       | org.bukkit.inventory.ItemStack                                     | byte[]   |         |
+| ITEM_STACK_ARRAY                 | org.bukkit.inventory.ItemStack[]                                   | byte[]   |         |
+| LOCATION                         | org.bukkit.Location                                                | byte[]   |         |
+| LOCATION_ARRAY                   | org.bukkit.Location[]                                              | byte[]   |         |
+| OFFLINE_PLAYER                   | org.bukkit.OfflinePlayer                                           | byte[]   |         |
+| OFFLINE_PLAYER_ARRAY             | org.bukkit.OfflinePlayer[]                                         | byte[]   |         |
+| PATTERN                          | org.bukkit.block.banner.Pattern                                    | byte[]   |         |
+| PATTERN_ARRAY                    | org.bukkit.block.banner.Pattern[]                                  | byte[]   |         |
+| PLAYER                           | org.bukkit.entity.Player                                           | byte[]   |         |
+| PLAYER_ARRAY                     | org.bukkit.entity.Player[]                                         | byte[]   |         |
+| PLAYER_PROFILE                   | org.bukkit.profile.PlayerProfile                                   | byte[]   | 1.18.1+ |
+| PLAYER_PROFILE_ARRAY             | org.bukkit.profile.PlayerProfile[]                                 | byte[]   | 1.18.1+ |
+| POTION_EFFECT                    | org.bukkit.potion.PotionEffect                                     | byte[]   |         |
+| POTION_EFFECT_ARRAY              | org.bukkit.potion.PotionEffect[]                                   | byte[]   |         |
+| UUID                             | java.util.UUID                                                     | byte[]   |         |
+| VECTOR                           | org.bukkit.util.Vector                                             | byte[]   |         |
+| VECTOR_ARRAY                     | org.bukkit.util.Vector[]                                           | byte[]   |         |
 
+## Using Collections, Arrays or Maps
+Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
+
+```java
+Map<String,ItemStack> map = pdc.get(someKey, DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
+```
+
+If you want to use a special collection or map class that's not already included, simply pass the class too:
+
+```java
+TreeSet<Location> set = pdc.get(someKey, DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
+```
+
+For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY.
+If there is no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
+
+```java
+PersistentDataType<?,UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], DataType.UUID);
+```
 ## Creating your own PersistentDataTypes
 ### Using ConfigurationSeriazableDataType
 When your custom Object already implements ConfigurationSerializable, it's even easier. Just look at the SerializablePerson.java in the examples/ folder.
