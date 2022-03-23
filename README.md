@@ -109,13 +109,16 @@ PersistentDataType<?, UUID[]>uuidArrayDataType=DataType.asArray(new UUID[0],Data
 
 ### In addition to the default data types
 
-| Name | Class | Saved as |---|---|---|--- | BOOLEAN | java.lang.Boolean | byte | BOOLEAN_ARRAY | java.lang.Boolean[] |
-byte[]
-| CHARACTER | java.lang.Character | int | CHARACTER_ARRAY | java.lang.Character[] | int[]
-| DOUBLE_ARRAY | java.lang.Double | byte[]
-| FLOAT_ARRAY | java.lang.Float | byte[]
-| SHORT_ARRAY | java.lang.Short | byte[]
-| STRING_ARRAY | java.lang.String[] | byte[]
+| Name            | Saved as | Class                 |
+|-----------------|----------|-----------------------|
+| BOOLEAN         | byte     | java.lang.Boolean     |
+| BOOLEAN_ARRAY   | byte[]   | java.lang.Boolean[]   |
+| CHARACTER       | int      | java.lang.Character   |
+| CHARACTER_ARRAY | int[]    | java.lang.Character[] |
+| DOUBLE_ARRAY    | byte[]   | java.lang.Double      |
+| FLOAT_ARRAY     | byte[]   | java.lang.Float       |
+| SHORT_ARRAY     | byte[]   | java.lang.Short       |
+| STRING_ARRAY    | byte[]   | java.lang.String[]    |
 
 ### Custom data types
 
