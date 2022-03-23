@@ -16,6 +16,7 @@ import org.bukkit.NamespacedKey;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * For internal use only.
@@ -24,6 +25,14 @@ public final class NamespacedKeyUtils {
 
     private static final Map<String, NamespacedKey> KEY_KEYS = new HashMap<>();
     private static final Map<String, NamespacedKey> VALUE_KEYS = new HashMap<>();
+
+    static {
+        // Caching the first 100 keys. I think that's reasonable for most use cases
+        IntStream.range(0,100).forEach(number -> {
+            getValueKey(number);
+            getKeyKey(number);
+        });
+    }
 
     public static NamespacedKey getKeyKey(final int name) {
         return getKeyKey(String.valueOf(name));
