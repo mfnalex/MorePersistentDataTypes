@@ -30,6 +30,27 @@ pdc.set(someNamespacedKey,DataType.ITEM_STACK,myItemStack);
 Furthermore, you can store EVERYTHING that implements ConfigurationSerializable using
 DataType.CONFIGURATION_SERIALIZABLE.
 
+## Using Collections, Arrays or Maps
+
+Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
+
+```java
+Map<String, ItemStack> map=pdc.get(someKey,DataType.asMap(DataType.STRING,DataType.ITEM_STACK));
+```
+
+If you want to use a special collection or map class that's not already included, simply pass the class too:
+
+```java
+TreeSet<Location> set=pdc.get(someKey,DataType.asGenericCollectino(TreeSet.class,DataType.LOCATION));
+```
+
+For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY. If there is
+no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
+
+```java
+PersistentDataType<?, UUID[]>uuidArrayDataType=DataType.asArray(new UUID[0],DataType.UUID);
+```
+
 ## Maven
 
 ### Repository
@@ -82,27 +103,6 @@ DataType.CONFIGURATION_SERIALIZABLE.
         </plugin>
     </plugins>
 </build>
-```
-
-## Using Collections, Arrays or Maps
-
-Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
-
-```java
-Map<String, ItemStack> map=pdc.get(someKey,DataType.asMap(DataType.STRING,DataType.ITEM_STACK));
-```
-
-If you want to use a special collection or map class that's not already included, simply pass the class too:
-
-```java
-TreeSet<Location> set=pdc.get(someKey,DataType.asGenericCollectino(TreeSet.class,DataType.LOCATION));
-```
-
-For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY. If there is
-no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
-
-```java
-PersistentDataType<?, UUID[]>uuidArrayDataType=DataType.asArray(new UUID[0],DataType.UUID);
 ```
 
 ## List of all data types
