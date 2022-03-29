@@ -34,9 +34,11 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
  * Custom {@link PersistentDataType}s including Collections, Maps, and Arrays.
@@ -322,12 +324,26 @@ public interface DataType {
 
     /**
      * Turns an existing DataType into one that holds a {@link Collection} of the same class
-     * @param collectionClazz The {@link Collection} to use. The given class must have a no-args constructor.
+     * @param collectionClazz The {@link Collection} to use. The given class must have a no-args constructor. See
+     *                        {@link #asGenericCollection(Class, Supplier, PersistentDataType)} if your collection
+     *                        requires a special constructor to be called.
      * @param type The existing DataType
      */
     static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Class<C> collectionClazz,
                                                                                     final @NotNull PersistentDataType<?, D> type) {
         return new CollectionDataType<>(collectionClazz, type);
+    }
+
+    /**
+     * Turns an existing DataType into one that holds a {@link Collection} of the same class
+     * @param collectionClazz The {@link Collection} to use.
+     * @param collectionSupplier A {@link Supplier} that returns an empty instance of the given Collection class.
+     * @param type The existing DataType
+     */
+    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Class<C> collectionClazz,
+                                                                                    final @NotNull Supplier<C> collectionSupplier,
+                                                                                    final @NotNull PersistentDataType<?, D> type) {
+        return new CollectionDataType<>(collectionClazz, collectionSupplier, type);
     }
 
     /**
@@ -363,8 +379,10 @@ public interface DataType {
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link Map} of the same class
-     * @param mapClazz The {@link Map} to use. The given class must have a no-args constructor.
+     * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes
+     * @param mapClazz The {@link Map} implementation to use. The given class must have a public no-args constructor. See
+     *                 {@link #asGenericMap(Class, Supplier, PersistentDataType, PersistentDataType)} if your Map
+     *                 requires a special constructor to be called.
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
@@ -375,7 +393,21 @@ public interface DataType {
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link Map} of the same class
+     * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes
+     * @param mapClazz The {@link Map} implementation to use
+     * @param mapSupplier A {@link Supplier} that returns an empty instance of the given Map class
+     * @param keyType The existing DataType for the map's keys
+     * @param valueType The existing DataType for the map's values
+     */
+    static <M extends Map<K, V>, K, V> MapDataType<M,K, V> asGenericMap(final @NotNull Class<? extends M> mapClazz,
+                                                                        final @NotNull Supplier<M> mapSupplier,
+                                                                        final @NotNull PersistentDataType<?, K> keyType,
+                                                                        final @NotNull PersistentDataType<?, V> valueType) {
+        return new MapDataType(mapClazz, mapSupplier, keyType, valueType);
+    }
+
+    /**
+     * Creates a DataType holding a {@link Map} of the given DataTypes
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
@@ -385,23 +417,33 @@ public interface DataType {
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link HashMap} of the same class
+     * Creates a DataType holding a {@link HashMap} of the given DataTypes
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final PersistentDataType<?, K> keyType,
-                                                          final PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                          final @NotNull PersistentDataType<?, V> valueType) {
         return new MapDataType(HashMap.class, keyType, valueType);
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link LinkedHashMap} of the same class
+     * Creates a DataType holding a {@link LinkedHashMap} of the given DataTypes
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<LinkedHashMap<K,V>,K,V> asLinkedHashMap(final PersistentDataType<?, K> keyType,
-                                                                      final PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<LinkedHashMap<K,V>,K,V> asLinkedHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                                      final @NotNull PersistentDataType<?, V> valueType) {
         return new MapDataType(LinkedHashMap.class, keyType, valueType);
+    }
+
+    /**
+     * Creates a DataType holding an {@link EnumMap} of the given Enum Class and DataType
+     * @param enumClazz Enum class
+     * @param valueType Existing DataType for the map's values
+     */
+    static <K extends Enum<K>,V> MapDataType<EnumMap<K,V>,K,V> asEnumMap(final @NotNull Class<K> enumClazz,
+                                                                         final @NotNull PersistentDataType<?,V> valueType) {
+        return new MapDataType(EnumMap.class, (Supplier<EnumMap>) () -> new EnumMap(enumClazz),DataType.asEnum(enumClazz), valueType);
     }
 
 }
