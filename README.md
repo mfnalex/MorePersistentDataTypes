@@ -24,7 +24,7 @@ You want to save an ItemStack inside a PersistentDataContainer - normally you wo
 byte array first, or worse, to a base64 String. With **MorePersistentDataTypes**, you can simply do this:
 
 ```java
-pdc.set(someNamespacedKey,DataType.ITEM_STACK,myItemStack);
+pdc.set(someNamespacedKey, DataType.ITEM_STACK,myItemStack);
 ```
 
 Furthermore, you can store EVERYTHING that implements ConfigurationSerializable using
@@ -35,14 +35,14 @@ DataType.CONFIGURATION_SERIALIZABLE.
 Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
 
 ```java
-Map<String, ItemStack> map = pdc.get(someKey,DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
+Map<String, ItemStack> map = pdc.get(someKey, DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
 ```
 
 If you want to use a special collection or map class that's not already included, simply pass the class too. See the Javadocs
 if your collection or map class requires a special constructor to be called.
 
 ```java
-TreeSet<Location> set = pdc.get(someKey,DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
+TreeSet<Location> set = pdc.get(someKey, DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
 ```
 
 For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY. If there is
