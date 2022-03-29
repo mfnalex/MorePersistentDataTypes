@@ -18,13 +18,13 @@ import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
 
-public class MockPlugin extends JavaPlugin {
+public class MorePersistentDataTypesMockPlugin extends JavaPlugin {
 
-    public MockPlugin() {
+    public MorePersistentDataTypesMockPlugin() {
         super();
     }
 
-    public MockPlugin(final JavaPluginLoader loader, final PluginDescriptionFile description, final File datafolder, final File file) {
+    public MorePersistentDataTypesMockPlugin(final JavaPluginLoader loader, final PluginDescriptionFile description, final File datafolder, final File file) {
         super(loader,description,datafolder,file);
     }
 

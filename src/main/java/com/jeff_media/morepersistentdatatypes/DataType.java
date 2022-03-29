@@ -312,7 +312,9 @@ public interface DataType {
     }
 
     /**
-     * Turns an existing DataType into one that holds arrays of the same class
+     * Turns an existing DataType into one that holds arrays of the same class. If a native array DataType already
+     * exists, you should use that one instead of creating a generic one. Also note that the native array DataTypes
+     * are not interchangeable with the generic ones created by this method.
      * @param array An (empty) array of the class
      * @param dataType The existing DataType
      */
@@ -349,8 +351,8 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link List} of the same class.
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<? extends List<D>,D> asList(final @NotNull PersistentDataType<?, D> type) {
-        return asArrayList(type);
+    static <D> CollectionDataType<List<D>,D> asList(final @NotNull PersistentDataType<?, D> type) {
+        return new CollectionDataType(ArrayList.class, type);
     }
 
     /**
@@ -362,11 +364,19 @@ public interface DataType {
     }
 
     /**
+     * Turns an existing DataType into one that holds a {@link LinkedList} of the same class
+     * @param type The existing DataType
+     */
+    static <D> CollectionDataType<LinkedList<D>,D> asLinkedList(final @NotNull PersistentDataType<?, D> type) {
+        return new CollectionDataType(LinkedList.class, type);
+    }
+
+    /**
      * Turns an existing DataType into one that holds a {@link Set} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<? extends Set<D>,D> asSet(final @NotNull PersistentDataType<?, D> type) {
-        return asHashSet(type);
+    static <D> CollectionDataType<Set<D>,D> asSet(final @NotNull PersistentDataType<?, D> type) {
+        return new CollectionDataType(HashSet.class, type);
     }
 
     /**

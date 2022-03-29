@@ -1,3 +1,3 @@
-main: com.jeff_media.morepersistentdatatypes.MockPlugin
+main: com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesMockPlugin
 version: Test
-name: MockPlugin
+name: MorePersistentDataTypesMockPlugin
