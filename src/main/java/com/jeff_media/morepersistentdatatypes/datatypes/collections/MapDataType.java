@@ -19,9 +19,11 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getKeyKey;
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
@@ -36,11 +38,17 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
 
 
     private final Class<M> mapClazz;
+    private final Supplier<M> mapSupplier;
     private final PersistentDataType<?, K> keyDataType;
     private final PersistentDataType<?, V> valueDataType;
 
     public MapDataType(@NonNull final Class<M> mapClazz, @NonNull final PersistentDataType<?, K> keyDataType, @NonNull final PersistentDataType<?, V> valueDataType) {
+        this(mapClazz, null, keyDataType, valueDataType);
+    }
+
+    public MapDataType(@NonNull final Class<M> mapClazz, @Nullable final Supplier<M> mapSupplier, @NonNull final PersistentDataType<?, K> keyDataType, @NonNull final PersistentDataType<?, V> valueDataType) {
         this.mapClazz = mapClazz;
+        this.mapSupplier = mapSupplier;
         this.keyDataType = keyDataType;
         this.valueDataType = valueDataType;
     }
@@ -82,7 +90,7 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     @Override
     public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         try {
-            final M map = mapClazz.getConstructor().newInstance();
+            final M map = mapSupplier == null ? mapClazz.getConstructor().newInstance() : mapSupplier.get();
             final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
             if (size == null) {
                 throw new IllegalArgumentException(E_NOT_A_MAP);

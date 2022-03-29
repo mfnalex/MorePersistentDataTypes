@@ -19,9 +19,11 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.function.Supplier;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
 
@@ -32,11 +34,17 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     private static final String E_NOT_A_COLLECTION = "Not a collection.";
     private static final NamespacedKey KEY_SIZE = getValueKey("s");
 
+    private final Supplier<C> collectionSupplier;
     private final Class<C> collectionClazz;
     private final PersistentDataType<?, D> dataType;
 
     public CollectionDataType(@NonNull final Class<C> collectionClazz, @NonNull final PersistentDataType<?, D> dataType) {
+        this(collectionClazz, null, dataType);
+    }
+
+    public CollectionDataType(@NonNull final Class<C> collectionClazz, @Nullable final Supplier<C> collectionSupplier, @NonNull final PersistentDataType<?, D> dataType) {
         this.collectionClazz = collectionClazz;
+        this.collectionSupplier = collectionSupplier;
         this.dataType = dataType;
     }
 
@@ -71,7 +79,7 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     @Override
     public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         try {
-            final C collection = collectionClazz.getConstructor().newInstance();
+            final C collection = collectionSupplier == null ? collectionClazz.getConstructor().newInstance() : collectionSupplier.get();
             final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
             if (size == null) {
                 throw new IllegalArgumentException(E_NOT_A_COLLECTION);
