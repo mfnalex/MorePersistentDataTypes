@@ -24,7 +24,7 @@ public class MockPlugin extends JavaPlugin {
         super();
     }
 
-    public MockPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File datafolder, File file) {
+    public MockPlugin(final JavaPluginLoader loader, final PluginDescriptionFile description, final File datafolder, final File file) {
         super(loader,description,datafolder,file);
     }
 

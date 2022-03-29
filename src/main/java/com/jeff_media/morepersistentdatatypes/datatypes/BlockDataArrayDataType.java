@@ -35,13 +35,13 @@ public class BlockDataArrayDataType implements PersistentDataType<byte[], BlockD
     }
 
     @Override
-    public byte @NotNull [] toPrimitive(final @NotNull BlockData[] blockData, final @NotNull PersistentDataAdapterContext context) {
+    public byte @NotNull [] toPrimitive(final BlockData @NotNull [] blockData, final @NotNull PersistentDataAdapterContext context) {
         return DataType.STRING_ARRAY.toPrimitive(Arrays.stream(blockData).map(BlockData::getAsString).toArray(String[]::new),context);
     }
 
     @NotNull
     @Override
-    public BlockData[] fromPrimitive(final @NotNull byte[] bytes, final @NotNull PersistentDataAdapterContext context) {
+    public BlockData[] fromPrimitive(final byte @NotNull [] bytes, final @NotNull PersistentDataAdapterContext context) {
         return Arrays.stream(DataType.STRING_ARRAY.fromPrimitive(bytes, context)).map(Bukkit::createBlockData).toArray(BlockData[]::new);
     }
 }

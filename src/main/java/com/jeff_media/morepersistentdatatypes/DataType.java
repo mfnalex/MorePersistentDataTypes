@@ -34,7 +34,6 @@ import org.bukkit.util.BlockVector;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -65,8 +64,8 @@ import java.util.function.Supplier;
  * can save a {@link HashMap<String>} in a {@link PersistentDataContainer} and then later retrieve it as Array, or as
  * {@link Set<String>}.
  * <p>
- * {@link Map}s are also interchangeable - you can save a {@link Map<String,ItemStack>} and then later retrieve it as {@link
- * LinkedHashMap<String,ItemStack>}.
+ * {@link Map}s are also interchangeable - you can save a {@link Map} and then later retrieve it as {@link
+ * LinkedHashMap}.
  * <p>
  * {@link Map}s are not interchangeable with {@link Collections} or Arrays, though.
  */

@@ -46,7 +46,7 @@ public class GenericDataType<T, Z> implements PersistentDataType<T, Z> {
      * @param toPrimitive   Function to convert the complex to the primitive type
      */
     public GenericDataType(final Class<T> primitiveType, final Class<Z> complexType, final Function<T, Z> toComplex, final Function<Z, T> toPrimitive) {
-        if (!Arrays.stream(ALLOWED_TYPES).anyMatch(clazz -> clazz.equals(primitiveType))) {
+        if (Arrays.stream(ALLOWED_TYPES).noneMatch(clazz -> clazz.equals(primitiveType))) {
             throw new IllegalArgumentException(String.format("Not a valid primitive type: %s. Valid primitive types are: %s", primitiveType.getName(), Arrays.stream(ALLOWED_TYPES).map(Class::getSimpleName).collect(Collectors.joining(", "))));
         }
         this.primitiveType = primitiveType;

@@ -30,6 +30,7 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
     private final Class<T[]> types;
 
     public ConfigurationSerializableArrayDataType(final Class<T[]> types) {
+        //noinspection unchecked
         this.type = (Class<T>) types.getComponentType();
         this.types = types;
     }
