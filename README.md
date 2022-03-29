@@ -35,20 +35,21 @@ DataType.CONFIGURATION_SERIALIZABLE.
 Using collections, arrays or maps is easy. There are predefined methods for certain collection and map types:
 
 ```java
-Map<String, ItemStack> map=pdc.get(someKey,DataType.asMap(DataType.STRING,DataType.ITEM_STACK));
+Map<String, ItemStack> map = pdc.get(someKey,DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
 ```
 
-If you want to use a special collection or map class that's not already included, simply pass the class too:
+If you want to use a special collection or map class that's not already included, simply pass the class too. See the Javadocs
+if your collection or map class requires a special constructor to be called.
 
 ```java
-TreeSet<Location> set=pdc.get(someKey,DataType.asGenericCollectino(TreeSet.class,DataType.LOCATION));
+TreeSet<Location> set = pdc.get(someKey,DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
 ```
 
 For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY. If there is
 no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
 
 ```java
-PersistentDataType<?, UUID[]>uuidArrayDataType=DataType.asArray(new UUID[0],DataType.UUID);
+PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], DataType.UUID);
 ```
 
 ## Maven
@@ -70,7 +71,7 @@ PersistentDataType<?, UUID[]>uuidArrayDataType=DataType.asArray(new UUID[0],Data
 <dependency>
     <groupId>com.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -212,7 +213,7 @@ PersistentDataType<Long, Date> dateType=new GenericDataType<>(Long.class,Date.cl
 
 ## Building
 
-Building this requires Java 11.0.0 or higher. It can still be used by Java 8 or higher, though.
+Building this requires Java 17.0.0 or higher. It can still be used by Java 8 or higher, though.
 
 ## Javadocs
 
