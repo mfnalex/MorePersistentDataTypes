@@ -21,7 +21,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -32,21 +31,19 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
 
     private static final String E_KEY_MUST_NOT_BE_NULL = "Maps stored in a PersistentDataContainer must not contain any null keys.";
     private static final String E_VALUE_MUST_NOT_BE_NULL = "Maps stored in a PersistentDataContainer must not contain any null values.";
-    private static final String E_MUST_HAVE_NO_ARGS_CONSTRUCTOR = "The given map class (%s) doesn't have a no-args constructor.";
     private static final String E_NOT_A_MAP = "Not a map.";
     private static final NamespacedKey KEY_SIZE = getKeyKey("s");
 
 
     private final Class<M> mapClazz;
-    private final Supplier<M> mapSupplier;
+    private final Supplier<? extends M> mapSupplier;
     private final PersistentDataType<?, K> keyDataType;
     private final PersistentDataType<?, V> valueDataType;
 
-    public MapDataType(@NonNull final Class<M> mapClazz, @NonNull final PersistentDataType<?, K> keyDataType, @NonNull final PersistentDataType<?, V> valueDataType) {
-        this(mapClazz, null, keyDataType, valueDataType);
-    }
-
-    public MapDataType(@NonNull final Class<M> mapClazz, @Nullable final Supplier<M> mapSupplier, @NonNull final PersistentDataType<?, K> keyDataType, @NonNull final PersistentDataType<?, V> valueDataType) {
+    public MapDataType(@NonNull final Class<M> mapClazz,
+                       @NonNull final Supplier<? extends M> mapSupplier,
+                       @NonNull final PersistentDataType<?, K> keyDataType,
+                       @NonNull final PersistentDataType<?, V> valueDataType) {
         this.mapClazz = mapClazz;
         this.mapSupplier = mapSupplier;
         this.keyDataType = keyDataType;
@@ -89,18 +86,14 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     @NotNull
     @Override
     public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
-        try {
-            final M map = mapSupplier == null ? mapClazz.getConstructor().newInstance() : mapSupplier.get();
-            final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
-            if (size == null) {
-                throw new IllegalArgumentException(E_NOT_A_MAP);
-            }
-            for (int i = 0; i < size; i++) {
-                map.put(pdc.get(getKeyKey(i), keyDataType), pdc.get(getValueKey(i), valueDataType));
-            }
-            return map;
-        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new IllegalArgumentException(String.format(E_MUST_HAVE_NO_ARGS_CONSTRUCTOR, mapClazz.getName()));
+        final M map = mapSupplier.get();
+        final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+        if (size == null) {
+            throw new IllegalArgumentException(E_NOT_A_MAP);
         }
+        for (int i = 0; i < size; i++) {
+            map.put(pdc.get(getKeyKey(i), keyDataType), pdc.get(getValueKey(i), valueDataType));
+        }
+        return map;
     }
 }

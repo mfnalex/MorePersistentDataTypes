@@ -19,9 +19,7 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.function.Supplier;
 
@@ -30,19 +28,16 @@ import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValue
 public class CollectionDataType<C extends Collection<D>, D> implements PersistentDataType<PersistentDataContainer, C> {
 
     private static final String E_MUST_NOT_BE_NULL = "Collections stored in a PersistentDataContainer must not contain any null values.";
-    private static final String E_MUST_HAVE_NO_ARGS_CONSTRUCTOR = "The given collection class (%s) doesn't have a no-args constructor.";
     private static final String E_NOT_A_COLLECTION = "Not a collection.";
     private static final NamespacedKey KEY_SIZE = getValueKey("s");
 
-    private final Supplier<C> collectionSupplier;
+    private final Supplier<? extends C> collectionSupplier;
     private final Class<C> collectionClazz;
     private final PersistentDataType<?, D> dataType;
 
-    public CollectionDataType(@NonNull final Class<C> collectionClazz, @NonNull final PersistentDataType<?, D> dataType) {
-        this(collectionClazz, null, dataType);
-    }
-
-    public CollectionDataType(@NonNull final Class<C> collectionClazz, @Nullable final Supplier<C> collectionSupplier, @NonNull final PersistentDataType<?, D> dataType) {
+    public CollectionDataType(@NonNull final Class<C> collectionClazz,
+                              @NotNull final Supplier<? extends C> collectionSupplier,
+                              @NonNull final PersistentDataType<?, D> dataType) {
         this.collectionClazz = collectionClazz;
         this.collectionSupplier = collectionSupplier;
         this.dataType = dataType;
@@ -78,19 +73,15 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     @NotNull
     @Override
     public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
-        try {
-            final C collection = collectionSupplier == null ? collectionClazz.getConstructor().newInstance() : collectionSupplier.get();
-            final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
-            if (size == null) {
-                throw new IllegalArgumentException(E_NOT_A_COLLECTION);
-            }
-            for (int i = 0; i < size; i++) {
-                collection.add(pdc.get(getValueKey(i), dataType));
-            }
-            return collection;
-        } catch (final InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new IllegalArgumentException(String.format(E_MUST_HAVE_NO_ARGS_CONSTRUCTOR, collectionClazz.getName()));
+        final C collection = (C) collectionSupplier.get();
+        final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+        if (size == null) {
+            throw new IllegalArgumentException(E_NOT_A_COLLECTION);
         }
+        for (int i = 0; i < size; i++) {
+            collection.add(pdc.get(getValueKey(i), dataType));
+        }
+        return (C) collection;
     }
 
 }

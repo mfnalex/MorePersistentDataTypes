@@ -44,15 +44,4 @@ public class CollectionTest extends MorePersistentDataTypesUnitTest {
         assertEquals(original, stored);
     }
 
-    @Test
-    void testGenericCollection() {
-        final Vector<String> original = new Vector<>();
-        original.add("a");
-        original.add("b");
-        pdc.set(key, DataType.asGenericCollection(Vector.class, DataType.STRING),original);
-        final Vector<String> stored = pdc.get(key, DataType.asGenericCollection(Vector.class, DataType.STRING));
-        assertNotNull(stored);
-        assertEquals(original, stored);
-        //PersistentDataType<?, Vector<String>> dataType = DataType.asGenericCollection(Vector.class, DataType.STRING);
-    }
 }
