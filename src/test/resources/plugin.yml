@@ -1,0 +1,3 @@
+main: com.jeff_media.morepersistentdatatypes.MockPlugin
+version: Test
+name: MockPlugin
