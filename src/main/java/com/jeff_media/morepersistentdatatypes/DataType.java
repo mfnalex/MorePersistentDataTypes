@@ -38,6 +38,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 /**
@@ -377,6 +378,8 @@ public interface DataType {
         return asGenericCollection(HashSet::new, type);
     }
 
+
+
     /**
      * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes.
      * <p>
@@ -410,6 +413,16 @@ public interface DataType {
     static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final @NotNull PersistentDataType<?, K> keyType,
                                                           final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(HashMap::new, keyType, valueType);
+    }
+
+    /**
+     * Creates a DataType holding a {@link java.util.concurrent.ConcurrentHashMap} of the given DataTypes
+     * @param keyType The existing DataType for the map's keys
+     * @param valueType The existing DataType for the map's values
+     */
+    static <K, V> MapDataType<ConcurrentHashMap<K,V>,K,V> asConcurrentHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                                                  final @NotNull PersistentDataType<?, V> valueType) {
+        return asGenericMap(ConcurrentHashMap::new, keyType, valueType);
     }
 
     /**
