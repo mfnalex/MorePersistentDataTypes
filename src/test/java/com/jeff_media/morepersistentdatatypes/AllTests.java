@@ -64,7 +64,7 @@ public class AllTests {
     void testMap() {
         final NamespacedKey key = getKey("map");
         final Map<String, Integer> map = new HashMap<>();
-        map.put("a",1);
+        map.put("a", 1);
         map.put("b", 2);
         map.put("d", 4);
         map.put("c", 3);
