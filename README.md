@@ -1,4 +1,20 @@
 # MorePersistentDataTypes
+<!--- Buttons start -->
+<p align="center">
+  <a href="https://www.spigotmc.org/threads/more-persistent-data-types-collections-maps-and-arrays-for-pdc.520677/">
+    <img src="https://static.jeff-media.com/img/button_spigotmc_thread.png?3" alt="SpigotMC Thread">
+  </a>
+  <a href="https://hub.jeff-media.com/javadocs/morepersistentdatatypes">
+    <img src="https://static.jeff-media.com/img/button_javadocs.png?3" alt="Javadocs">
+  </a>
+  <a href="https://discord.jeff-media.com/">
+    <img src="https://static.jeff-media.com/img/button_discord.png?3" alt="Discord">
+  </a>
+  <a href="https://paypal.me/mfnalex">
+    <img src="https://static.jeff-media.com/img/button_donate.png?3" alt="Donate">
+  </a>
+</p>
+<!--- Buttons end -->
 
 **MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction
 with Bukkit's *PersistentDataContainer*. **It also allows you to use any kind of Collection or Map to store your data.**
