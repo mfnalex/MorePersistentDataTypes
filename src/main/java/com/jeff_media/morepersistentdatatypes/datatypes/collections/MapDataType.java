@@ -40,12 +40,11 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     private final PersistentDataType<?, K> keyDataType;
     private final PersistentDataType<?, V> valueDataType;
 
-    public MapDataType(@NonNull final Class<M> mapClazz,
-                       @NonNull final Supplier<? extends M> mapSupplier,
+    public MapDataType(@NonNull final Supplier<? extends M> mapSupplier,
                        @NonNull final PersistentDataType<?, K> keyDataType,
                        @NonNull final PersistentDataType<?, V> valueDataType) {
-        this.mapClazz = mapClazz;
         this.mapSupplier = mapSupplier;
+        this.mapClazz = (Class<M>) mapSupplier.get().getClass();
         this.keyDataType = keyDataType;
         this.valueDataType = valueDataType;
     }

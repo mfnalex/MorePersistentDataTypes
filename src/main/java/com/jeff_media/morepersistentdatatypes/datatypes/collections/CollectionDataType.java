@@ -35,10 +35,11 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     private final Class<C> collectionClazz;
     private final PersistentDataType<?, D> dataType;
 
-    public CollectionDataType(@NonNull final Class<C> collectionClazz,
-                              @NotNull final Supplier<? extends C> collectionSupplier,
+    public CollectionDataType(/*@NonNull final Class<C> collectionClazz,*/
+                              @NotNull final Supplier<C> collectionSupplier,
                               @NonNull final PersistentDataType<?, D> dataType) {
-        this.collectionClazz = collectionClazz;
+        //this.collectionClazz = collectionClazz;
+        this.collectionClazz = (Class<C>) collectionSupplier.get().getClass();
         this.collectionSupplier = collectionSupplier;
         this.dataType = dataType;
     }

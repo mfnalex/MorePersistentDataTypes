@@ -17,12 +17,12 @@
 <!--- Buttons end -->
 
 **MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction
-with Bukkit's *PersistentDataContainer*. **It also allows you to use any kind of Collection or Map to store your data.**
+with Bukkit's *PersistentDataContainer*. **It also allows you to use any kind of Collection, Map or Array to store your data.**
 
 ## Features
 
 - Adds new PersistentDataTypes for ItemStacks, YamlConfigurations, UUIDs, Locations, and much more!
-- **Adds all kinds of Collections and Maps** as PersistentDataType!
+- **Allows to use any kind of Collection, Map or Array** as PersistentDataType!
     - Of course also supports unlimited levels of nested Collections like `LinkedHashMap<String,List<ItemStack>>`
     - See below for more information
 
@@ -54,14 +54,15 @@ Using collections, arrays or maps is easy. There are predefined methods for cert
 Map<String, ItemStack> map = pdc.get(someKey, DataType.asMap(DataType.STRING, DataType.ITEM_STACK));
 ```
 
-If you want to use a special collection or map class that's not already included, simply pass the class too. See the Javadocs
-if your collection or map class requires a special constructor to be called.
+If you want to use a special collection or map class that's not already included, simply pass a Supplier that returns
+an empty instance of your desired collection or map type. More information can be found in the Javadocs (see button at
+the top of this page).
 
 ```java
-TreeSet<Location> set = pdc.get(someKey, DataType.asGenericCollectino(TreeSet.class, DataType.LOCATION));
+TreeSet<Location> set = pdc.get(someKey, DataType.asGenericCollection(TreeSet::new, DataType.LOCATION));
 ```
 
-For arrays, you should the builtin default array DataType if one exists, for example DataType.STRING_ARRAY. If there is
+For arrays, you should use the builtin default array DataType if one exists, for example DataType.STRING_ARRAY. If there is
 no already existing array DataType, like for UUIDs, you can use the DataType.asArray method:
 
 ```java
@@ -87,7 +88,7 @@ PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], 
 <dependency>
     <groupId>com.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>2.1.0</version>
+    <version>2.2.0</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -186,13 +187,13 @@ SerializablePerson.java in the examples/ folder.
 To make it storable in a PersistentDataContainer, this is all you need:
 
 ```java
-PersistentDataType<byte[],SerializablePerson>personType=new ConfigurationSerializableDataType<>(SerializablePerson.class);
+PersistentDataType<byte[],SerializablePerson> personType = new ConfigurationSerializableDataType<>(SerializablePerson.class);
 ```
 
 You can also directly store arrays of your own ConfigurationSerializable objects:
 
 ```java
-PersistentDataType<byte[],SerializablePerson[]>personArrayType=new ConfigurationSerializableArrayDataType<>(SerializablePerson.class,SerializablePerson[].class);
+PersistentDataType<byte[],SerializablePerson[]> personArrayType = new ConfigurationSerializableArrayDataType<>(SerializablePerson.class,SerializablePerson[].class);
 ```
 
 ### Using GenericDataType
@@ -209,22 +210,7 @@ For example, this returns a PersistentDataType<Long,Date> that can save `java.ut
 PersistentDataContainer:
 
 ```java
-PersistentDataType<Long, Date> dateType=new GenericDataType<>(Long.class,Date.class,Date::new,Date::getTime);
-```
-
-If you're not familiar with lambdas and/or method references, or if your Functions are more complicated, you can also
-provide a Function in the oldschool way:
-
-```java
-PersistentDataType<Long, Date> dateType=new GenericDataType<>(Long.class,Date.class,new Function<Long, Date>(){
-@Override public Date apply(Long aLong){
-        return new Date(aLong);
-        }
-        },new Function<Date, Long>(){
-@Override public Long apply(Date date){
-        return date.getTime();
-        }
-        });
+PersistentDataType<Long, Date> dateType = new GenericDataType<>(Long.class,Date.class,Date::new,Date::getTime);
 ```
 
 ## Building

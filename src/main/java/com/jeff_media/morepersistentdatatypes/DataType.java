@@ -326,14 +326,15 @@ public interface DataType {
 
     /**
      * Turns an existing DataType into one that holds a {@link Collection} of the same class
-     * @param collectionClazz The {@link Collection} to use.
+     * <p>
+     * Example usage:
+     * <pre>PersistentDataType&lt;?,CopyOnWriteArrayList&lt;String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList&lt;String>::new, DataType.STRING);</pre>
      * @param collectionSupplier A {@link Supplier} that returns an empty instance of the given Collection class.
      * @param type The existing DataType
      */
-    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Class<C> collectionClazz,
-                                                                                    final @NotNull Supplier<? extends C> collectionSupplier,
+    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Supplier<C> collectionSupplier,
                                                                                     final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType(collectionClazz, collectionSupplier, type);
+        return new CollectionDataType<>(collectionSupplier, type);
     }
 
     /**
@@ -341,7 +342,7 @@ public interface DataType {
      * @param type The existing DataType
      */
     static <D> CollectionDataType<List<D>,D> asList(final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType(List.class, ArrayList<D>::new, type);
+        return asGenericCollection(ArrayList::new, type);
     }
 
     /**
@@ -349,7 +350,7 @@ public interface DataType {
      * @param type The existing DataType
      */
     static <D> CollectionDataType<ArrayList<D>,D> asArrayList(final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType(ArrayList.class, ArrayList<D>::new, type);
+        return asGenericCollection(ArrayList::new, type);
     }
 
     /**
@@ -357,7 +358,7 @@ public interface DataType {
      * @param type The existing DataType
      */
     static <D> CollectionDataType<LinkedList<D>,D> asLinkedList(final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType(LinkedList.class, LinkedList<D>::new, type);
+        return asGenericCollection(LinkedList::new, type);
     }
 
     /**
@@ -365,7 +366,7 @@ public interface DataType {
      * @param type The existing DataType
      */
     static <D> CollectionDataType<Set<D>,D> asSet(final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType(Set.class, HashSet<D>::new, type);
+        return asGenericCollection(HashSet::new, type);
     }
 
     /**
@@ -373,21 +374,22 @@ public interface DataType {
      * @param type The existing DataType
      */
     static <D> CollectionDataType<HashSet<D>,D> asHashSet(final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType(HashSet.class, HashSet<D>::new, type);
+        return asGenericCollection(HashSet::new, type);
     }
 
     /**
-     * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes
-     * @param mapClazz The {@link Map} implementation to use
-     * @param mapSupplier A {@link Supplier} that returns an empty instance of the given Map class
+     * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes.
+     * <p>
+     * Example usage:
+     * <pre>PersistentDataType&lt;?,Hashtable&lt;String,Integer>> dataType = DataType.asGenericMap(Hashtable&lt;String,Integer>::new, DataType.STRING, DataType.INTEGER);</pre>
+     * @param mapSupplier A {@link Supplier} that returns an empty instance of the desired Map class
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <M extends Map<K, V>, K, V> MapDataType<M,K, V> asGenericMap(final @NotNull Class<M> mapClazz,
-                                                                        final @NotNull Supplier<M> mapSupplier,
+    static <M extends Map<K, V>, K, V> MapDataType<M, K, V> asGenericMap(final @NotNull Supplier<M> mapSupplier,
                                                                         final @NotNull PersistentDataType<?, K> keyType,
                                                                         final @NotNull PersistentDataType<?, V> valueType) {
-        return new MapDataType<>(mapClazz, mapSupplier, keyType, valueType);
+        return new MapDataType<>(mapSupplier, keyType, valueType);
     }
 
     /**
@@ -397,7 +399,7 @@ public interface DataType {
      */
     static <K, V> MapDataType<Map<K,V>,K, V> asMap(final @NotNull PersistentDataType<?, K> keyType,
                                                              final @NotNull PersistentDataType<?, V> valueType) {
-        return new MapDataType(Map.class, HashMap<K,V>::new, keyType, valueType);
+        return asGenericMap(HashMap::new, keyType, valueType);
     }
 
     /**
@@ -407,7 +409,7 @@ public interface DataType {
      */
     static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final @NotNull PersistentDataType<?, K> keyType,
                                                           final @NotNull PersistentDataType<?, V> valueType) {
-        return new MapDataType(HashMap.class, HashMap<K,V>::new, keyType, valueType);
+        return asGenericMap(HashMap::new, keyType, valueType);
     }
 
     /**
@@ -417,7 +419,7 @@ public interface DataType {
      */
     static <K, V> MapDataType<LinkedHashMap<K,V>,K,V> asLinkedHashMap(final @NotNull PersistentDataType<?, K> keyType,
                                                                       final @NotNull PersistentDataType<?, V> valueType) {
-        return new MapDataType(LinkedHashMap.class, LinkedHashMap<K,V>::new, keyType, valueType);
+        return asGenericMap(LinkedHashMap::new, keyType, valueType);
     }
 
     /**
@@ -427,7 +429,7 @@ public interface DataType {
      */
     static <K extends Enum<K>,V> MapDataType<EnumMap<K,V>,K,V> asEnumMap(final @NotNull Class<K> enumClazz,
                                                                          final @NotNull PersistentDataType<?,V> valueType) {
-        return new MapDataType(EnumMap.class, (Supplier<EnumMap>) () -> new EnumMap<K,V>(enumClazz), DataType.asEnum(enumClazz), valueType);
+        return asGenericMap(() -> new EnumMap<>(enumClazz), asEnum(enumClazz), valueType);
     }
 
 }
