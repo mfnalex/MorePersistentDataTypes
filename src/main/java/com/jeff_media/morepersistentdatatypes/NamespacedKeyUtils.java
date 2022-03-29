@@ -39,7 +39,7 @@ public final class NamespacedKeyUtils {
     }
 
     public static NamespacedKey getKeyKey(final String name) {
-        return KEY_KEYS.computeIfAbsent(name, String -> NamespacedKey.fromString("k:" + name));
+        return KEY_KEYS.computeIfAbsent(name, __ -> NamespacedKey.fromString("k:" + name));
     }
 
     public static NamespacedKey getValueKey(final int name) {
@@ -47,6 +47,6 @@ public final class NamespacedKeyUtils {
     }
 
     public static NamespacedKey getValueKey(final String name) {
-        return VALUE_KEYS.computeIfAbsent(name, String -> NamespacedKey.fromString("v:" + name));
+        return VALUE_KEYS.computeIfAbsent(name, __ -> NamespacedKey.fromString("v:" + name));
     }
 }
