@@ -18,7 +18,6 @@ import com.jeff_media.morepersistentdatatypes.TestData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PrimitiveArrayTest extends MorePersistentDataTypesUnitTest {
 
@@ -26,6 +25,6 @@ public class PrimitiveArrayTest extends MorePersistentDataTypesUnitTest {
     void testFloatArray() {
         pdc.set(key, DataType.FLOAT_ARRAY, TestData.FLOAT_PRIMITIVE_ARRAY);
         final float[] stored = pdc.get(key, DataType.FLOAT_ARRAY);
-        assertArrayEquals(TestData.FLOAT_PRIMITIVE_ARRAY, pdc.get(key, DataType.FLOAT_ARRAY));
+        assertArrayEquals(TestData.FLOAT_PRIMITIVE_ARRAY, stored);
     }
 }

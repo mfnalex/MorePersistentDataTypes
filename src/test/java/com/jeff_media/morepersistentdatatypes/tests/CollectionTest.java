@@ -14,13 +14,11 @@ package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
-import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class CollectionTest extends MorePersistentDataTypesUnitTest {
 

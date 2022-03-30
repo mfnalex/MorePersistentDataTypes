@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-class Utils {
+final class Utils {
 
     static int @NotNull [] listToIntArray(final @NotNull List<Integer> list) {
         return list.stream().mapToInt(Integer::intValue).toArray();
@@ -32,11 +32,11 @@ class Utils {
         return IntStream.of(array).boxed().collect(Collectors.toList());
     }
 
-    public static List<Integer> getNullValueList(PersistentDataContainer pdc) {
+    public static List<Integer> getNullValueList(final PersistentDataContainer pdc) {
         return intArrayToList(pdc.getOrDefault(NamespacedKeyUtils.KEY_NULL, DataType.INTEGER_ARRAY, new int[0]));
     }
 
-    public static void setNullValueList(PersistentDataContainer pdc, List<Integer> nullValues) {
+    public static void setNullValueList(final PersistentDataContainer pdc, final List<Integer> nullValues) {
         if(!nullValues.isEmpty()) {
             pdc.set(NamespacedKeyUtils.KEY_NULL, DataType.INTEGER_ARRAY, Utils.listToIntArray(nullValues));
         }

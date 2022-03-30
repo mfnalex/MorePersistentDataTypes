@@ -19,7 +19,6 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +44,7 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
                        @NonNull final PersistentDataType<?, K> keyDataType,
                        @NonNull final PersistentDataType<?, V> valueDataType) {
         this.mapSupplier = supplier;
+        //noinspection unchecked
         this.mapClazz = (Class<M>) supplier.get().getClass();
         this.keyDataType = keyDataType;
         this.valueDataType = valueDataType;
@@ -68,7 +68,7 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         int index = 0;
         final int size = map.size();
-        final List<Integer> nullValues = new ArrayList<>();
+        //final List<Integer> nullValues = new ArrayList<>();
         pdc.set(KEY_SIZE, DataType.INTEGER, size);
         for (final K key : map.keySet()) {
             if (key == null) {
@@ -76,10 +76,11 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
             }
             final V value = map.get(key);
             if (value == null) {
-                nullValues.add(index);
+                //nullValues.add(index);
             } else {
                 pdc.set(getValueKey(index), valueDataType, value);
             }
+            //Utils.setNullValueList(pdc, nullValues);
             pdc.set(getKeyKey(index++), keyDataType, key);
         }
         return pdc;
@@ -90,17 +91,17 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         final M map = mapSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
-        final List<Integer> nullValues = Utils.getNullValueList(pdc);
+        //final List<Integer> nullValues = Utils.getNullValueList(pdc);
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_A_MAP);
         }
         for (int i = 0; i < size; i++) {
             final K key = pdc.get(getKeyKey(i), keyDataType);
-            if(nullValues.contains(i)) {
+            /*if(nullValues.contains(i)) {
                 map.put(key, null);
-            } else {
+            } else {*/
                 map.put(key, pdc.get(getValueKey(i), valueDataType));
-            }
+            //}
         }
         return map;
     }

@@ -20,7 +20,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class TestData {
+public final class TestData {
 
     public static final UUID[] UUID_ARRAY = new UUID[32];
     public static final short[] SHORT_PRIMITIVE_ARRAY = new short[] {0,1,1,2,3,5,8,13,21,34,55,89};

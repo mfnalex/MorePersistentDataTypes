@@ -17,8 +17,6 @@ import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.StandardCopyOption;
-import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

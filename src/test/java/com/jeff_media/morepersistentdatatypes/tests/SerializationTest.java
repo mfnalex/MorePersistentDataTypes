@@ -16,7 +16,6 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
 import org.bukkit.Material;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.util.BlockVector;

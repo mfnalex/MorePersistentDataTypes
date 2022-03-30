@@ -31,7 +31,7 @@ public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest
         original.put("a","b");
         original.put("1","2");
         pdc.set(key, DataType.asGenericMap(HashMap<String,String>::new, DataType.STRING, DataType.STRING), original);
-        HashMap<String,String> stored = pdc.get(key, DataType.asGenericMap(HashMap<String,String>::new, DataType.STRING, DataType.STRING));
+        final HashMap<String,String> stored = pdc.get(key, DataType.asGenericMap(HashMap<String,String>::new, DataType.STRING, DataType.STRING));
         assertEquals(original, stored);
     }
 
@@ -41,7 +41,7 @@ public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest
         original.add("a");
         original.add("b");
         pdc.set(key, DataType.asGenericCollection(Vector<String>::new, DataType.STRING), original);
-        Vector<String> stored = pdc.get(key, DataType.<Vector<String>,String>asGenericCollection(Vector::new, DataType.STRING));
+        final Vector<String> stored = pdc.get(key, DataType.<Vector<String>,String>asGenericCollection(Vector::new, DataType.STRING));
         assertEquals(original, stored);
     }
 
@@ -49,7 +49,7 @@ public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest
     void testJavaDocGenericMapExample() {
         final Hashtable<String,Integer> original = new Hashtable<>();
         original.put("asd",123);
-        PersistentDataType<?,Hashtable<String,Integer>> dataType = DataType.asGenericMap(Hashtable<String,Integer>::new, DataType.STRING, DataType.INTEGER);
+        final PersistentDataType<?,Hashtable<String,Integer>> dataType = DataType.asGenericMap(Hashtable<String,Integer>::new, DataType.STRING, DataType.INTEGER);
         pdc.set(key, dataType, original);
         assertEquals(original, pdc.get(key, dataType));
     }
@@ -58,7 +58,7 @@ public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest
     void testJavaDocGenericCollectionExample() {
         final CopyOnWriteArrayList<String> original = new CopyOnWriteArrayList<>();
         original.add("asd");
-        PersistentDataType<?,CopyOnWriteArrayList<String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList<String>::new, DataType.STRING);
+        final PersistentDataType<?,CopyOnWriteArrayList<String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList<String>::new, DataType.STRING);
         pdc.set(key, dataType, original);
         assertEquals(original, pdc.get(key, dataType));
     }
