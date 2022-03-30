@@ -39,6 +39,7 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
 /**
@@ -376,6 +377,14 @@ public interface DataType {
      */
     static <D> CollectionDataType<HashSet<D>,D> asHashSet(final @NotNull PersistentDataType<?, D> type) {
         return asGenericCollection(HashSet::new, type);
+    }
+
+    /**
+     * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArrayList} of the same class
+     * @param type The existing DataType
+     */
+    static <D> CollectionDataType<CopyOnWriteArrayList<D>,D> asCopyOnWriteArrayList(final @NotNull PersistentDataType<?, D> type) {
+        return asGenericCollection(CopyOnWriteArrayList::new, type);
     }
 
     /**
