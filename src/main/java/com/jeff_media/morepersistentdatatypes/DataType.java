@@ -444,6 +444,26 @@ public interface DataType {
     }
 
     /**
+     * Creates a DataType holding a {@link TreeMap} of the given DataTypes
+     * @param keyType The existing DataType for the map's keys
+     * @param valueType The existing DataType for the map's values
+     */
+    static <K, V> MapDataType<TreeMap<K,V>,K,V> asTreeMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                          final @NotNull PersistentDataType<?, V> valueType) {
+        return asGenericMap(TreeMap::new, keyType, valueType);
+    }
+
+    /**
+     * Creates a DataType holding a {@link Hashtable} of the given DataTypes
+     * @param keyType The existing DataType for the map's keys
+     * @param valueType The existing DataType for the map's values
+     */
+    static <K, V> MapDataType<Hashtable<K,V>,K,V> asHashtable(final @NotNull PersistentDataType<?, K> keyType,
+                                                              final @NotNull PersistentDataType<?, V> valueType) {
+        return asGenericMap(Hashtable::new, keyType, valueType);
+    }
+
+    /**
      * Creates a DataType holding an {@link EnumMap} of the given Enum Class and DataType
      * @param enumClazz Enum class
      * @param valueType Existing DataType for the map's values
