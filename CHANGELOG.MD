@@ -1,3 +1,10 @@
+## 2.2.1
+- Added asHashtable
+- Added asIdentityHashMap
+- Added asConcurrentHashMap
+- Added asCopyOnWriteArrayList
+- Added asCopyOnWriteArraySet
+
 ## 2.2.0
 - Complete rewrite of all methods related to maps and collections
     - asGenericMap and asGenericCollection are now type-safe and properly infer their generic types

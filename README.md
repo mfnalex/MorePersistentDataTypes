@@ -88,7 +88,7 @@ PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], 
 <dependency>
     <groupId>com.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>2.2.0</version>
+    <version>2.2.1</version>
     <scope>compile</scope>
 </dependency>
 ```
