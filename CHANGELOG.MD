@@ -1,3 +1,8 @@
+## 2.3.0
+- Arrays, Maps and Collections now allow you to save "null" values
+  - Maps only allow "null" for values - keys must still be not-null
+  - Some implementations of Map or Collection might not support "null" as value. It's up to you to take care of this.
+
 ## 2.2.1
 - Added asEnumSet
 - Added asHashtable

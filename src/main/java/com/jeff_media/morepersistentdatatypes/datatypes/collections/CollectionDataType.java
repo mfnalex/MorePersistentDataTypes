@@ -20,14 +20,15 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
 
 public class CollectionDataType<C extends Collection<D>, D> implements PersistentDataType<PersistentDataContainer, C> {
 
-    private static final String E_MUST_NOT_BE_NULL = "Collections stored in a PersistentDataContainer must not contain any null values.";
     private static final String E_NOT_A_COLLECTION = "Not a collection.";
     private static final NamespacedKey KEY_SIZE = getValueKey("s");
 
@@ -35,12 +36,10 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     private final Class<C> collectionClazz;
     private final PersistentDataType<?, D> dataType;
 
-    public CollectionDataType(/*@NonNull final Class<C> collectionClazz,*/
-                              @NotNull final Supplier<C> collectionSupplier,
+    public CollectionDataType(@NotNull final Supplier<C> supplier,
                               @NonNull final PersistentDataType<?, D> dataType) {
-        //this.collectionClazz = collectionClazz;
-        this.collectionClazz = (Class<C>) collectionSupplier.get().getClass();
-        this.collectionSupplier = collectionSupplier;
+        this.collectionClazz = (Class<C>) supplier.get().getClass();
+        this.collectionSupplier = supplier;
         this.dataType = dataType;
     }
 
@@ -60,14 +59,18 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     @Override
     public PersistentDataContainer toPrimitive(@NotNull final C collection, @NotNull final PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
+        final List<Integer> nullValues = new ArrayList<>();
         pdc.set(KEY_SIZE, DataType.INTEGER, collection.size());
         int index = 0;
         for (final D data : collection) {
             if (data == null) {
-                throw new IllegalArgumentException(E_MUST_NOT_BE_NULL);
+                nullValues.add(index);
+            } else {
+                pdc.set(getValueKey(index), dataType, data);
             }
-            pdc.set(getValueKey(index++), dataType, data);
+            index++;
         }
+        Utils.setNullValueList(pdc, nullValues);
         return pdc;
     }
 
@@ -76,13 +79,18 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         final C collection = (C) collectionSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+        final List<Integer> nullValues = Utils.getNullValueList(pdc);
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_A_COLLECTION);
         }
         for (int i = 0; i < size; i++) {
-            collection.add(pdc.get(getValueKey(i), dataType));
+            if(nullValues.contains(i)) {
+                collection.add(null);
+            } else {
+                collection.add(pdc.get(getValueKey(i), dataType));
+            }
         }
-        return (C) collection;
+        return collection;
     }
 
 }

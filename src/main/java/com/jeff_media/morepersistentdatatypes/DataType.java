@@ -72,6 +72,10 @@ import java.util.function.Supplier;
  * LinkedHashMap}.
  * <p>
  * {@link Map}s are not interchangeable with {@link Collections} or Arrays, though.
+ * <p>
+ * Arrays that have been saved using a native array DataType (like {@link #ITEM_STACK_ARRAY} cannot be read using the
+ * generic {@link #asArray(Object[], PersistentDataType)} method, and vice versa. You should always use the native
+ * array DataType if possible, since its performance is slightly better.
  */
 @SuppressWarnings({"unchecked", "rawtypes", "unused"})
 public interface DataType {
@@ -332,12 +336,12 @@ public interface DataType {
      * <p>
      * Example usage:
      * <pre>PersistentDataType&lt;?,CopyOnWriteArrayList&lt;String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList&lt;String>::new, DataType.STRING);</pre>
-     * @param collectionSupplier A {@link Supplier} that returns an empty instance of the given Collection class.
+     * @param supplier A {@link Supplier} that returns an empty instance of the given Collection class.
      * @param type The existing DataType
      */
-    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Supplier<C> collectionSupplier,
+    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Supplier<C> supplier,
                                                                                     final @NotNull PersistentDataType<?, D> type) {
-        return new CollectionDataType<>(collectionSupplier, type);
+        return new CollectionDataType<>(supplier, type);
     }
 
     /**
@@ -409,14 +413,14 @@ public interface DataType {
      * <p>
      * Example usage:
      * <pre>PersistentDataType&lt;?,Hashtable&lt;String,Integer>> dataType = DataType.asGenericMap(Hashtable&lt;String,Integer>::new, DataType.STRING, DataType.INTEGER);</pre>
-     * @param mapSupplier A {@link Supplier} that returns an empty instance of the desired Map class
+     * @param supplier A {@link Supplier} that returns an empty instance of the desired Map class
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <M extends Map<K, V>, K, V> MapDataType<M, K, V> asGenericMap(final @NotNull Supplier<M> mapSupplier,
-                                                                        final @NotNull PersistentDataType<?, K> keyType,
-                                                                        final @NotNull PersistentDataType<?, V> valueType) {
-        return new MapDataType<>(mapSupplier, keyType, valueType);
+    static <M extends Map<K, V>, K, V> MapDataType<M, K, V> asGenericMap(final @NotNull Supplier<M> supplier,
+                                                                         final @NotNull PersistentDataType<?, K> keyType,
+                                                                         final @NotNull PersistentDataType<?, V> valueType) {
+        return new MapDataType<>(supplier, keyType, valueType);
     }
 
     /**

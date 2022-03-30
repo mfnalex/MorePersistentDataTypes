@@ -21,6 +21,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -30,7 +32,6 @@ import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValue
 public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataType<PersistentDataContainer, M> {
 
     private static final String E_KEY_MUST_NOT_BE_NULL = "Maps stored in a PersistentDataContainer must not contain any null keys.";
-    private static final String E_VALUE_MUST_NOT_BE_NULL = "Maps stored in a PersistentDataContainer must not contain any null values.";
     private static final String E_NOT_A_MAP = "Not a map.";
     private static final NamespacedKey KEY_SIZE = getKeyKey("s");
 
@@ -40,11 +41,11 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     private final PersistentDataType<?, K> keyDataType;
     private final PersistentDataType<?, V> valueDataType;
 
-    public MapDataType(@NonNull final Supplier<? extends M> mapSupplier,
+    public MapDataType(@NonNull final Supplier<? extends M> supplier,
                        @NonNull final PersistentDataType<?, K> keyDataType,
                        @NonNull final PersistentDataType<?, V> valueDataType) {
-        this.mapSupplier = mapSupplier;
-        this.mapClazz = (Class<M>) mapSupplier.get().getClass();
+        this.mapSupplier = supplier;
+        this.mapClazz = (Class<M>) supplier.get().getClass();
         this.keyDataType = keyDataType;
         this.valueDataType = valueDataType;
     }
@@ -67,6 +68,7 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         int index = 0;
         final int size = map.size();
+        final List<Integer> nullValues = new ArrayList<>();
         pdc.set(KEY_SIZE, DataType.INTEGER, size);
         for (final K key : map.keySet()) {
             if (key == null) {
@@ -74,10 +76,11 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
             }
             final V value = map.get(key);
             if (value == null) {
-                throw new IllegalArgumentException(E_VALUE_MUST_NOT_BE_NULL);
+                nullValues.add(index);
+            } else {
+                pdc.set(getValueKey(index), valueDataType, value);
             }
-            pdc.set(getKeyKey(index), keyDataType, key);
-            pdc.set(getValueKey(index++), valueDataType, value);
+            pdc.set(getKeyKey(index++), keyDataType, key);
         }
         return pdc;
     }
@@ -87,11 +90,17 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         final M map = mapSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+        final List<Integer> nullValues = Utils.getNullValueList(pdc);
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_A_MAP);
         }
         for (int i = 0; i < size; i++) {
-            map.put(pdc.get(getKeyKey(i), keyDataType), pdc.get(getValueKey(i), valueDataType));
+            final K key = pdc.get(getKeyKey(i), keyDataType);
+            if(nullValues.contains(i)) {
+                map.put(key, null);
+            } else {
+                map.put(key, pdc.get(getValueKey(i), valueDataType));
+            }
         }
         return map;
     }

@@ -13,19 +13,25 @@
 package com.jeff_media.morepersistentdatatypes.datatypes.collections;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
+import com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.A;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
 
 @SuppressWarnings("unchecked")
 public class ArrayDataType<D> implements PersistentDataType<PersistentDataContainer, D[]> {
-    private static final String E_MUST_NOT_BE_NULL = "Arrays stored in a PersistentDataContainer must not contain any null values.";
     private static final String E_NOT_AN_ARRAY = "Not an array.";
     private static final NamespacedKey KEY_SIZE = getValueKey("s");
 
@@ -56,23 +62,35 @@ public class ArrayDataType<D> implements PersistentDataType<PersistentDataContai
     @Override
     public PersistentDataContainer toPrimitive(final D @NotNull [] array, final @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
+        final List<Integer> nullValues = new ArrayList<>();
         pdc.set(KEY_SIZE, DataType.INTEGER, array.length);
         for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) throw new IllegalArgumentException(E_MUST_NOT_BE_NULL);
-            pdc.set(getValueKey(i), dataType, array[i]);
+            final D data = array[i];
+            if(data == null) {
+                nullValues.add(i);
+            } else {
+                pdc.set(getValueKey(i), dataType, data);
+            }
         }
+        Utils.setNullValueList(pdc, nullValues);
         return pdc;
     }
 
     @Override
     public D @NotNull [] fromPrimitive(final @NotNull PersistentDataContainer pdc, final @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
+        final List<Integer> nullValuesList = Utils.getNullValueList(pdc);
+
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_AN_ARRAY);
         }
         final D[] array = (D[]) Array.newInstance(componentClazz, size);
         for (int i = 0; i < size; i++) {
-            array[i] = pdc.get(getValueKey(i), dataType);
+            if(nullValuesList.contains(i)) {
+                array[i] = null;
+            } else {
+                array[i] = pdc.get(getValueKey(i), dataType);
+            }
         }
         return array;
     }

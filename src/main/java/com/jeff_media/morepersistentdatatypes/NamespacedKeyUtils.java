@@ -26,6 +26,8 @@ public final class NamespacedKeyUtils {
     private static final Map<String, NamespacedKey> KEY_KEYS = new HashMap<>();
     private static final Map<String, NamespacedKey> VALUE_KEYS = new HashMap<>();
 
+    public static final NamespacedKey KEY_NULL = getValueKey("n");
+
     static {
         // Caching the first 100 keys. I think that's reasonable for most use cases
         IntStream.range(0,100).forEach(number -> {
