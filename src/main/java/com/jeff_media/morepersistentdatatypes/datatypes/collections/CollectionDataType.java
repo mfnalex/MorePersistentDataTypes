@@ -60,18 +60,14 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     @Override
     public PersistentDataContainer toPrimitive(@NotNull final C collection, @NotNull final PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
-        //final List<Integer> nullValues = new ArrayList<>();
         pdc.set(KEY_SIZE, DataType.INTEGER, collection.size());
         int index = 0;
         for (final D data : collection) {
-            if (data == null) {
-                //nullValues.add(index);
-            } else {
+            if (data != null) {
                 pdc.set(getValueKey(index), dataType, data);
             }
             index++;
         }
-        //Utils.setNullValueList(pdc, nullValues);
         return pdc;
     }
 
@@ -80,16 +76,11 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         final C collection = (C) collectionSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
-        //final List<Integer> nullValues = Utils.getNullValueList(pdc);
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_A_COLLECTION);
         }
         for (int i = 0; i < size; i++) {
-            /*if(nullValues.contains(i)) {
-                collection.add(null);
-            } else {*/
                 collection.add(pdc.get(getValueKey(i), dataType));
-            //}
         }
         return collection;
     }

@@ -57,35 +57,26 @@ public class ArrayDataType<D> implements PersistentDataType<PersistentDataContai
     @Override
     public PersistentDataContainer toPrimitive(final D @NotNull [] array, final @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
-        //final List<Integer> nullValues = new ArrayList<>();
         pdc.set(KEY_SIZE, DataType.INTEGER, array.length);
         for (int i = 0; i < array.length; i++) {
             final D data = array[i];
-            if(data == null) {
-                //nullValues.add(i);
-            } else {
+            if(data != null) {
                 pdc.set(getValueKey(i), dataType, data);
             }
         }
-        //Utils.setNullValueList(pdc, nullValues);
         return pdc;
     }
 
     @Override
     public D @NotNull [] fromPrimitive(final @NotNull PersistentDataContainer pdc, final @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
-        //final List<Integer> nullValuesList = Utils.getNullValueList(pdc);
 
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_AN_ARRAY);
         }
         final D[] array = (D[]) Array.newInstance(componentClazz, size);
         for (int i = 0; i < size; i++) {
-            /*if(nullValuesList.contains(i)) {
-                array[i] = null;
-            } else {*/
                 array[i] = pdc.get(getValueKey(i), dataType);
-            //}
         }
         return array;
     }
