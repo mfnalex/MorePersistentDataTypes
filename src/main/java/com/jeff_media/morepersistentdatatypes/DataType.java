@@ -378,8 +378,6 @@ public interface DataType {
         return asGenericCollection(HashSet::new, type);
     }
 
-
-
     /**
      * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes.
      * <p>
@@ -421,8 +419,18 @@ public interface DataType {
      * @param valueType The existing DataType for the map's values
      */
     static <K, V> MapDataType<ConcurrentHashMap<K,V>,K,V> asConcurrentHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                                  final @NotNull PersistentDataType<?, V> valueType) {
+                                                                              final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(ConcurrentHashMap::new, keyType, valueType);
+    }
+
+    /**
+     * Creates a DataType holding a {@link IdentityHashMap} of the given DataTypes
+     * @param keyType The existing DataType for the map's keys
+     * @param valueType The existing DataType for the map's values
+     */
+    static <K, V> MapDataType<IdentityHashMap<K,V>,K,V> asIdentityHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                                          final @NotNull PersistentDataType<?, V> valueType) {
+        return asGenericMap(IdentityHashMap::new, keyType, valueType);
     }
 
     /**
