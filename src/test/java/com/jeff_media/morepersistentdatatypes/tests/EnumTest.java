@@ -37,4 +37,10 @@ public class EnumTest extends MorePersistentDataTypesUnitTest {
         final EnumMap<StandardCopyOption, String> savedMap = pdc.get(key, DataType.asEnumMap(StandardCopyOption.class, DataType.STRING));
         assertEquals(TestData.ENUM_MAP,savedMap);
     }
+
+    @Test
+    void testEnumSet() {
+        pdc.set(key, DataType.asEnumSet(StandardCopyOption.class), TestData.ENUM_SET);
+        assertEquals(TestData.ENUM_SET, pdc.get(key, DataType.asEnumSet(StandardCopyOption.class)));
+    }
 }

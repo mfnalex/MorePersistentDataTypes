@@ -397,6 +397,14 @@ public interface DataType {
     }
 
     /**
+     * Returns a DataType holding an {@link EnumSet} of the given Enum class
+     * @param enumClazz The Enum class
+     */
+    static <D extends Enum<D>> CollectionDataType<EnumSet<D>,D> asEnumSet(final @NotNull Class<D> enumClazz) {
+        return asGenericCollection(() -> EnumSet.noneOf(enumClazz),asEnum(enumClazz));
+    }
+
+    /**
      * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes.
      * <p>
      * Example usage:

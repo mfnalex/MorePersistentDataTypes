@@ -1,4 +1,5 @@
 ## 2.2.1
+- Added asEnumSet
 - Added asHashtable
 - Added asIdentityHashMap
 - Added asConcurrentHashMap

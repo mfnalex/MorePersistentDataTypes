@@ -16,6 +16,7 @@ import org.bukkit.attribute.AttributeModifier;
 
 import java.nio.file.StandardCopyOption;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ public class TestData {
     public static final short[] SHORT_PRIMITIVE_ARRAY = new short[] {0,1,1,2,3,5,8,13,21,34,55,89};
     public static final float[] FLOAT_PRIMITIVE_ARRAY = new float[] {Float.MIN_VALUE, 0f, Float.MAX_VALUE};
     public static final EnumMap<StandardCopyOption, String> ENUM_MAP = new EnumMap<>(StandardCopyOption.class);
+    public static final EnumSet ENUM_SET = EnumSet.noneOf(StandardCopyOption.class);
     public static final HashMap<String, Integer> HASH_MAP = new HashMap<>();
     public static final AttributeModifier ATTRIBUTE_MODIFIER = new AttributeModifier("name",69.420d, AttributeModifier.Operation.ADD_NUMBER);
 
@@ -45,5 +47,8 @@ public class TestData {
         HASH_MAP.put("b", 2);
         HASH_MAP.put("d", 4);
         HASH_MAP.put("c", 3);
+
+        // ENUM_SET
+        ENUM_SET.add(StandardCopyOption.ATOMIC_MOVE);
     }
 }
