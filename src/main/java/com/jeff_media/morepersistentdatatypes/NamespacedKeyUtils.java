@@ -12,6 +12,7 @@
 
 package com.jeff_media.morepersistentdatatypes;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 
 import java.util.HashMap;
@@ -21,7 +22,8 @@ import java.util.stream.IntStream;
 /**
  * For internal use only.
  */
-public final class NamespacedKeyUtils {
+@UtilityClass
+public class NamespacedKeyUtils {
 
     private static final Map<String, NamespacedKey> KEY_KEYS = new HashMap<>();
     private static final Map<String, NamespacedKey> VALUE_KEYS = new HashMap<>();

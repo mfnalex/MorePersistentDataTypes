@@ -18,6 +18,7 @@ import com.jeff_media.morepersistentdatatypes.datatypes.collections.CollectionDa
 import com.jeff_media.morepersistentdatatypes.datatypes.collections.MapDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableArrayDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableDataType;
+import lombok.NonNull;
 import org.bukkit.*;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.banner.Pattern;
@@ -33,7 +34,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
-import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -64,8 +64,8 @@ import java.util.function.Supplier;
  *
  * <p>
  * Data saved as {@link Collection} can also be read as Array and vice versa. All {@link Collection}s are interchangeable. This means you
- * can save a {@link HashMap<String>} in a {@link PersistentDataContainer} and then later retrieve it as Array, or as
- * {@link Set<String>}.
+ * can save a {@link HashMap} in a {@link PersistentDataContainer} and then later retrieve it as Array, or as
+ * {@link Set}.
  * <p>
  * {@link Map}s are also interchangeable - you can save a {@link Map} and then later retrieve it as {@link
  * LinkedHashMap}.
@@ -222,27 +222,27 @@ public interface DataType {
      */
     //region Missing primitives and primitive arrays
     /**
-     * DataType for @{link byte}s
+     * DataType for {@link byte}s
      */
     PersistentDataType<Byte, Boolean> BOOLEAN = new GenericDataType<>(Byte.class, Boolean.class, aByte -> aByte == 1, aBoolean -> aBoolean ? (byte) 1 : (byte) 0);
     /**
-     * DataType for @{link boolean} arrays
+     * DataType for {@link boolean} arrays
      */
     PersistentDataType<byte[], boolean[]> BOOLEAN_ARRAY = new BooleanArrayDataType();
     /**
-     * DataType for @{link char}s
+     * DataType for {@link char}s
      */
     PersistentDataType<Integer, Character> CHARACTER = new GenericDataType<>(Integer.class, Character.class, integer -> (char) integer.intValue(), character -> (int) character);
     /**
-     * DataType for @{link char} arrays
+     * DataType for {@link char} arrays
      */
     PersistentDataType<int[], char[]> CHARACTER_ARRAY = new CharArrayDataType();
     /**
-     * DataType for @{link double} arrays
+     * DataType for {@link double} arrays
      */
     PersistentDataType<byte[], double[]> DOUBLE_ARRAY = new DoubleArrayDataType();
     /**
-     * DataType for @{link float} arrays
+     * DataType for {@link float} arrays
      */
     PersistentDataType<byte[], float[]> FLOAT_ARRAY = new FloatArrayDataType();
     /**
@@ -314,7 +314,7 @@ public interface DataType {
      * Creates a DataType for a given {@link Enum} class.
      * @param enumClazz enum class to get a DataType for
      */
-    static <E extends Enum<E>> PersistentDataType<String, E> asEnum(final @NotNull Class<E> enumClazz) {
+    static <E extends Enum<E>> PersistentDataType<String, E> asEnum(final @NonNull Class<E> enumClazz) {
         return new GenericDataType<>(String.class, enumClazz, s -> Enum.valueOf(enumClazz, s), Enum::name);
     }
 
@@ -325,8 +325,8 @@ public interface DataType {
      * @param array An (empty) array of the class
      * @param dataType The existing DataType
      */
-    static <D> ArrayDataType<D> asArray(final @NotNull D[] array,
-                                        final @NotNull PersistentDataType<?, D> dataType) {
+    static <D> ArrayDataType<D> asArray(final @NonNull D[] array,
+                                        final @NonNull PersistentDataType<?, D> dataType) {
         return new ArrayDataType(array, dataType);
     }
 
@@ -338,8 +338,8 @@ public interface DataType {
      * @param supplier A {@link Supplier} that returns an empty instance of the given Collection class.
      * @param type The existing DataType
      */
-    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Supplier<C> supplier,
-                                                                                    final @NotNull PersistentDataType<?, D> type) {
+    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NonNull Supplier<C> supplier,
+                                                                                    final @NonNull PersistentDataType<?, D> type) {
         return new CollectionDataType<>(supplier, type);
     }
 
@@ -347,7 +347,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link List} of the same class.
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<List<D>,D> asList(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<List<D>,D> asList(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(ArrayList::new, type);
     }
 
@@ -355,7 +355,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds an {@link ArrayList} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<ArrayList<D>,D> asArrayList(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<ArrayList<D>,D> asArrayList(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(ArrayList::new, type);
     }
 
@@ -363,7 +363,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link LinkedList} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<LinkedList<D>,D> asLinkedList(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<LinkedList<D>,D> asLinkedList(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(LinkedList::new, type);
     }
 
@@ -371,7 +371,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link Set} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<Set<D>,D> asSet(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<Set<D>,D> asSet(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(HashSet::new, type);
     }
 
@@ -379,7 +379,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link HashSet} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<HashSet<D>,D> asHashSet(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<HashSet<D>,D> asHashSet(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(HashSet::new, type);
     }
 
@@ -387,7 +387,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArrayList} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<CopyOnWriteArrayList<D>,D> asCopyOnWriteArrayList(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<CopyOnWriteArrayList<D>,D> asCopyOnWriteArrayList(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(CopyOnWriteArrayList::new, type);
     }
 
@@ -395,7 +395,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArraySet} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<CopyOnWriteArraySet<D>,D> asCopyOnWriteArraySet(final @NotNull PersistentDataType<?, D> type) {
+    static <D> CollectionDataType<CopyOnWriteArraySet<D>,D> asCopyOnWriteArraySet(final @NonNull PersistentDataType<?, D> type) {
         return asGenericCollection(CopyOnWriteArraySet::new, type);
     }
 
@@ -403,7 +403,7 @@ public interface DataType {
      * Returns a DataType holding an {@link EnumSet} of the given Enum class
      * @param enumClazz The Enum class
      */
-    static <D extends Enum<D>> CollectionDataType<EnumSet<D>,D> asEnumSet(final @NotNull Class<D> enumClazz) {
+    static <D extends Enum<D>> CollectionDataType<EnumSet<D>,D> asEnumSet(final @NonNull Class<D> enumClazz) {
         return asGenericCollection(() -> EnumSet.noneOf(enumClazz),asEnum(enumClazz));
     }
 
@@ -416,9 +416,9 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <M extends Map<K, V>, K, V> MapDataType<M, K, V> asGenericMap(final @NotNull Supplier<M> supplier,
-                                                                         final @NotNull PersistentDataType<?, K> keyType,
-                                                                         final @NotNull PersistentDataType<?, V> valueType) {
+    static <M extends Map<K, V>, K, V> MapDataType<M, K, V> asGenericMap(final @NonNull Supplier<M> supplier,
+                                                                         final @NonNull PersistentDataType<?, K> keyType,
+                                                                         final @NonNull PersistentDataType<?, V> valueType) {
         return new MapDataType<>(supplier, keyType, valueType);
     }
 
@@ -427,8 +427,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<Map<K,V>,K, V> asMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                             final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<Map<K,V>,K, V> asMap(final @NonNull PersistentDataType<?, K> keyType,
+                                                             final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(HashMap::new, keyType, valueType);
     }
 
@@ -437,8 +437,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                          final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final @NonNull PersistentDataType<?, K> keyType,
+                                                          final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(HashMap::new, keyType, valueType);
     }
 
@@ -447,8 +447,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<ConcurrentHashMap<K,V>,K,V> asConcurrentHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                              final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<ConcurrentHashMap<K,V>,K,V> asConcurrentHashMap(final @NonNull PersistentDataType<?, K> keyType,
+                                                                              final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(ConcurrentHashMap::new, keyType, valueType);
     }
 
@@ -457,8 +457,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<IdentityHashMap<K,V>,K,V> asIdentityHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                          final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<IdentityHashMap<K,V>,K,V> asIdentityHashMap(final @NonNull PersistentDataType<?, K> keyType,
+                                                                          final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(IdentityHashMap::new, keyType, valueType);
     }
 
@@ -467,8 +467,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<LinkedHashMap<K,V>,K,V> asLinkedHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                      final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<LinkedHashMap<K,V>,K,V> asLinkedHashMap(final @NonNull PersistentDataType<?, K> keyType,
+                                                                      final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(LinkedHashMap::new, keyType, valueType);
     }
 
@@ -477,8 +477,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<TreeMap<K,V>,K,V> asTreeMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                          final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<TreeMap<K,V>,K,V> asTreeMap(final @NonNull PersistentDataType<?, K> keyType,
+                                                          final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(TreeMap::new, keyType, valueType);
     }
 
@@ -487,8 +487,8 @@ public interface DataType {
      * @param keyType The existing DataType for the map's keys
      * @param valueType The existing DataType for the map's values
      */
-    static <K, V> MapDataType<Hashtable<K,V>,K,V> asHashtable(final @NotNull PersistentDataType<?, K> keyType,
-                                                              final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<Hashtable<K,V>,K,V> asHashtable(final @NonNull PersistentDataType<?, K> keyType,
+                                                              final @NonNull PersistentDataType<?, V> valueType) {
         return asGenericMap(Hashtable::new, keyType, valueType);
     }
 
@@ -497,8 +497,8 @@ public interface DataType {
      * @param enumClazz Enum class
      * @param valueType Existing DataType for the map's values
      */
-    static <K extends Enum<K>,V> MapDataType<EnumMap<K,V>,K,V> asEnumMap(final @NotNull Class<K> enumClazz,
-                                                                         final @NotNull PersistentDataType<?,V> valueType) {
+    static <K extends Enum<K>,V> MapDataType<EnumMap<K,V>,K,V> asEnumMap(final @NonNull Class<K> enumClazz,
+                                                                         final @NonNull PersistentDataType<?,V> valueType) {
         return asGenericMap(() -> new EnumMap<>(enumClazz), asEnum(enumClazz), valueType);
     }
 

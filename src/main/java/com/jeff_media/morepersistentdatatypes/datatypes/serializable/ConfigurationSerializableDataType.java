@@ -18,7 +18,7 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,13 +30,13 @@ public class ConfigurationSerializableDataType<T extends ConfigurationSerializab
         this.type = type;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<T> getComplexType() {
         return type;
@@ -44,18 +44,18 @@ public class ConfigurationSerializableDataType<T extends ConfigurationSerializab
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(@NotNull final T serializable, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public byte @NonNull [] toPrimitive(@NonNull final T serializable, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try (final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); final BukkitObjectOutputStream bukkitObjectOutputStream = new BukkitObjectOutputStream(outputStream)) {
             bukkitObjectOutputStream.writeObject(serializable);
             return outputStream.toByteArray();
         }
     }
 
-    @NotNull
+    @NonNull
     @Override
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    public T fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public T fromPrimitive(final byte @NonNull [] bytes, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try (final ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes); final BukkitObjectInputStream bukkitObjectInputStream = new BukkitObjectInputStream(inputStream)) {
             return (T) bukkitObjectInputStream.readObject();
         }

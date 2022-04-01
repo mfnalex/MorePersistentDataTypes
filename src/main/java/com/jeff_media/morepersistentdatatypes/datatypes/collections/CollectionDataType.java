@@ -13,16 +13,13 @@
 package com.jeff_media.morepersistentdatatypes.datatypes.collections;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import lombok.NonNull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Supplier;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
@@ -36,7 +33,7 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
     private final Class<C> collectionClazz;
     private final PersistentDataType<?, D> dataType;
 
-    public CollectionDataType(@NotNull final Supplier<C> supplier,
+    public CollectionDataType(@NonNull final Supplier<C> supplier,
                               @NonNull final PersistentDataType<?, D> dataType) {
         //noinspection unchecked
         this.collectionClazz = (Class<C>) supplier.get().getClass();
@@ -44,21 +41,21 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
         this.dataType = dataType;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<C> getComplexType() {
         return collectionClazz;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public PersistentDataContainer toPrimitive(@NotNull final C collection, @NotNull final PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(@NonNull final C collection, @NonNull final PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         pdc.set(KEY_SIZE, DataType.INTEGER, collection.size());
         int index = 0;
@@ -71,9 +68,9 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
         return pdc;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
+    public C fromPrimitive(@NonNull final PersistentDataContainer pdc, @NonNull final PersistentDataAdapterContext context) {
         final C collection = (C) collectionSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
         if (size == null) {

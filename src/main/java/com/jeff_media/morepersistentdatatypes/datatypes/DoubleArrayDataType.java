@@ -15,7 +15,7 @@ package com.jeff_media.morepersistentdatatypes.datatypes;
 import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -25,18 +25,18 @@ import java.io.DataOutputStream;
 public class DoubleArrayDataType implements PersistentDataType<byte[], double[]> {
 
     @Override
-    public @NotNull Class<byte[]> getPrimitiveType() {
+    public @NonNull Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
     @Override
-    public @NotNull Class<double[]> getComplexType() {
+    public @NonNull Class<double[]> getComplexType() {
         return double[].class;
     }
 
     @Override
     @SneakyThrows
-    public byte @NotNull [] toPrimitive(final double[] doubles, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
+    public byte @NonNull [] toPrimitive(final double[] doubles, final @NonNull PersistentDataAdapterContext itemTagAdapterContext) {
         try (final ByteArrayOutputStream bos = new ByteArrayOutputStream(); final DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(doubles.length);
             for (final double number : doubles) {
@@ -49,7 +49,7 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
 
     @Override
     @SneakyThrows
-    public double @NotNull [] fromPrimitive(final byte @NotNull [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public double @NonNull [] fromPrimitive(final byte @NonNull [] bytes, @NonNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (final ByteArrayInputStream bis = new ByteArrayInputStream(bytes); final DataInputStream dis = new DataInputStream(bis)) {
             final double[] doubles = new double[dis.readInt()];
             for (int i = 0; i < doubles.length; i++) {

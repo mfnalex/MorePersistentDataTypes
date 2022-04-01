@@ -102,11 +102,14 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.1</version>
                 <configuration>
-                    <additionalOptions>
-                        <additionalOption>-Xdoclint:none</additionalOption>
-                    </additionalOptions>
+<!--                    <additionalOptions>-->
+<!--                        <additionalOption>-Xdoclint:none</additionalOption>-->
+<!--                    </additionalOptions>-->
                     <links>
                         <link>https://hub.spigotmc.org/javadocs/bukkit/</link>
+                        <link>https://guava.dev/releases/31.0.1-jre/api/docs/</link>
+                        <link>https://javadoc.io/doc/org.yaml/snakeyaml/1.30/</link>
+                        <!--<link>https://javadoc.io/doc/org.jetbrains/annotations-java5/23.0.0/</link>-->
                     </links>
                 </configuration>
                 <executions>
@@ -129,12 +132,12 @@
     </repositories>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>23.0.0</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

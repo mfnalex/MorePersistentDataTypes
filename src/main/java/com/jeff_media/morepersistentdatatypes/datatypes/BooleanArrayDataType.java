@@ -14,23 +14,23 @@ package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
 public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[]> {
-    @NotNull
+    @NonNull
     @Override
     public Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<boolean[]> getComplexType() {
         return boolean[].class;
     }
 
     @Override
-    public byte @NotNull [] toPrimitive(final boolean[] booleans, final @NotNull PersistentDataAdapterContext context) {
+    public byte @NonNull [] toPrimitive(final boolean[] booleans, final @NonNull PersistentDataAdapterContext context) {
         final byte[] bytes = new byte[booleans.length];
         for (int i = 0; i < booleans.length; i++) {
             bytes[i] = (byte) (booleans[i] ? 1 : 0);
@@ -39,7 +39,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
     }
 
     @Override
-    public boolean @NotNull [] fromPrimitive(final byte[] bytes, final @NotNull PersistentDataAdapterContext context) {
+    public boolean @NonNull [] fromPrimitive(final byte[] bytes, final @NonNull PersistentDataAdapterContext context) {
         final boolean[] booleans = new boolean[bytes.length];
         for (int i = 0; i < bytes.length; i++) {
             booleans[i] = bytes[i] != 0;

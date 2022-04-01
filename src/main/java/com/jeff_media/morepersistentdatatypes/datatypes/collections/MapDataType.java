@@ -13,15 +13,12 @@
 package com.jeff_media.morepersistentdatatypes.datatypes.collections;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import lombok.NonNull;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -50,21 +47,21 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
         this.valueDataType = valueDataType;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<M> getComplexType() {
         return mapClazz;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public PersistentDataContainer toPrimitive(@NotNull final M map, @NotNull final PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(@NonNull final M map, @NonNull final PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         int index = 0;
         final int size = map.size();
@@ -82,9 +79,9 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
         return pdc;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
+    public M fromPrimitive(@NonNull final PersistentDataContainer pdc, @NonNull final PersistentDataAdapterContext context) {
         final M map = mapSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
         if (size == null) {

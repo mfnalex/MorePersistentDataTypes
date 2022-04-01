@@ -17,11 +17,9 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
 
@@ -34,28 +32,28 @@ public class ArrayDataType<D> implements PersistentDataType<PersistentDataContai
     private final Class<D> componentClazz;
     private final PersistentDataType<?, D> dataType;
 
-    public ArrayDataType(final @NotNull D[] array, final @NotNull PersistentDataType<?, D> dataType) {
+    public ArrayDataType(final @NonNull D[] array, final @NonNull PersistentDataType<?, D> dataType) {
         this.arrayClazz = (Class<D[]>) array.getClass();
         this.componentClazz = (Class<D>) array.getClass().getComponentType();
         this.dataType = dataType;
     }
 
 
-    @NotNull
+    @NonNull
     @Override
     public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<D[]> getComplexType() {
         return arrayClazz;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public PersistentDataContainer toPrimitive(final D @NotNull [] array, final @NotNull PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(final D @NonNull [] array, final @NonNull PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         pdc.set(KEY_SIZE, DataType.INTEGER, array.length);
         for (int i = 0; i < array.length; i++) {
@@ -68,7 +66,7 @@ public class ArrayDataType<D> implements PersistentDataType<PersistentDataContai
     }
 
     @Override
-    public D @NotNull [] fromPrimitive(final @NotNull PersistentDataContainer pdc, final @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public D @NonNull [] fromPrimitive(final @NonNull PersistentDataContainer pdc, final @NonNull PersistentDataAdapterContext persistentDataAdapterContext) {
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
 
         if (size == null) {

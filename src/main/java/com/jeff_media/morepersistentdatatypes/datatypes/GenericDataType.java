@@ -15,7 +15,7 @@ package com.jeff_media.morepersistentdatatypes.datatypes;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.function.Function;
@@ -55,27 +55,27 @@ public class GenericDataType<T, Z> implements PersistentDataType<T, Z> {
         this.toPrimitive = toPrimitive;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<T> getPrimitiveType() {
         return primitiveType;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Class<Z> getComplexType() {
         return complexType;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public T toPrimitive(@NotNull final Z z, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public T toPrimitive(@NonNull final Z z, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         return toPrimitive.apply(z);
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public Z fromPrimitive(@NotNull final T t, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public Z fromPrimitive(@NonNull final T t, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         return toComplex.apply(t);
     }
 }
