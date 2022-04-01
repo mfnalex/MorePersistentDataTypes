@@ -18,7 +18,7 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,13 +35,13 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
         this.types = types;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<T[]> getComplexType() {
         return types;
@@ -49,7 +49,7 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
 
     @Override
     @SneakyThrows
-    public byte @NonNull [] toPrimitive(@NonNull final T @NonNull [] serializable, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public byte [] toPrimitive(@NotNull final T [] serializable, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try (final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); final BukkitObjectOutputStream bukkitObjectOutputStream = new BukkitObjectOutputStream(outputStream)) {
             bukkitObjectOutputStream.writeInt(serializable.length);
             for (final T t : serializable) {
@@ -59,11 +59,11 @@ public class ConfigurationSerializableArrayDataType<T extends ConfigurationSeria
         }
     }
 
-    @NonNull
+    @NotNull
     @Override
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    public T @NonNull [] fromPrimitive(final byte @NonNull [] bytes, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public T [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try (final ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes); final BukkitObjectInputStream bukkitObjectInputStream = new BukkitObjectInputStream(inputStream)) {
             final T[] ts = (T[]) Array.newInstance(type, bukkitObjectInputStream.readInt());
             for (int i = 0; i < ts.length; i++) {

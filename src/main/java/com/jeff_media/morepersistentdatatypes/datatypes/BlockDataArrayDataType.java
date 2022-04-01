@@ -17,30 +17,30 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
 public class BlockDataArrayDataType implements PersistentDataType<byte[], BlockData[]> {
-    @NonNull
+    @NotNull
     @Override
     public Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<BlockData[]> getComplexType() {
         return BlockData[].class;
     }
 
     @Override
-    public byte @NonNull [] toPrimitive(final BlockData @NonNull [] blockData, final @NonNull PersistentDataAdapterContext context) {
+    public byte [] toPrimitive(final BlockData [] blockData, final @NotNull PersistentDataAdapterContext context) {
         return DataType.STRING_ARRAY.toPrimitive(Arrays.stream(blockData).map(BlockData::getAsString).toArray(String[]::new),context);
     }
 
     @Override
-    public BlockData @NonNull [] fromPrimitive(final byte @NonNull [] bytes, final @NonNull PersistentDataAdapterContext context) {
+    public BlockData [] fromPrimitive(final byte [] bytes, final @NotNull PersistentDataAdapterContext context) {
         return Arrays.stream(DataType.STRING_ARRAY.fromPrimitive(bytes, context)).map(Bukkit::createBlockData).toArray(BlockData[]::new);
     }
 }

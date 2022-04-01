@@ -17,30 +17,30 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 public class FileConfigurationDataType implements PersistentDataType<String, FileConfiguration> {
-    @NonNull
+    @NotNull
     @Override
     public Class<String> getPrimitiveType() {
         return String.class;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<FileConfiguration> getComplexType() {
         return FileConfiguration.class;
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public String toPrimitive(@NonNull final FileConfiguration fileConfiguration, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public String toPrimitive(@NotNull final FileConfiguration fileConfiguration, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         return fileConfiguration.saveToString();
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public FileConfiguration fromPrimitive(@NonNull final String s, @NonNull final PersistentDataAdapterContext persistentDataAdapterContext) {
+    public FileConfiguration fromPrimitive(@NotNull final String s, @NotNull final PersistentDataAdapterContext persistentDataAdapterContext) {
         try {
             final YamlConfiguration yaml = new YamlConfiguration();
             yaml.loadFromString(s);

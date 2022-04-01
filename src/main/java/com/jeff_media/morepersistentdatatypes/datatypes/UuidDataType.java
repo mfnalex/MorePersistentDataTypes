@@ -14,7 +14,7 @@ package com.jeff_media.morepersistentdatatypes.datatypes;
 
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
@@ -22,17 +22,17 @@ import java.util.UUID;
 public class UuidDataType implements PersistentDataType<byte[], UUID> {
 
     @Override
-    public @NonNull Class<byte[]> getPrimitiveType() {
+    public @NotNull Class<byte[]> getPrimitiveType() {
         return byte[].class;
     }
 
     @Override
-    public @NonNull Class<UUID> getComplexType() {
+    public @NotNull Class<UUID> getComplexType() {
         return UUID.class;
     }
 
     @Override
-    public byte @NonNull [] toPrimitive(final UUID complex, @NonNull final PersistentDataAdapterContext context) {
+    public byte [] toPrimitive(final UUID complex, @NotNull final PersistentDataAdapterContext context) {
         final ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(complex.getMostSignificantBits());
         bb.putLong(complex.getLeastSignificantBits());
@@ -40,7 +40,7 @@ public class UuidDataType implements PersistentDataType<byte[], UUID> {
     }
 
     @Override
-    public @NonNull UUID fromPrimitive(final byte @NonNull [] primitive, @NonNull final PersistentDataAdapterContext context) {
+    public @NotNull UUID fromPrimitive(final byte [] primitive, @NotNull final PersistentDataAdapterContext context) {
         final ByteBuffer bb = ByteBuffer.wrap(primitive);
         final long firstLong = bb.getLong();
         final long secondLong = bb.getLong();

@@ -12,25 +12,25 @@
 
 package com.jeff_media.morepersistentdatatypes.datatypes;
 
-import lombok.NonNull;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 public class CharArrayDataType implements PersistentDataType<int[], char[]> {
-    @NonNull
+    @NotNull
     @Override
     public Class<int[]> getPrimitiveType() {
         return int[].class;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<char[]> getComplexType() {
         return char[].class;
     }
 
     @Override
-    public int @NonNull [] toPrimitive(final char[] chars, @NonNull final PersistentDataAdapterContext context) {
+    public int [] toPrimitive(final char[] chars, @NotNull final PersistentDataAdapterContext context) {
         final int[] ints = new int[chars.length];
         for (int i = 0; i < chars.length; i++) {
             ints[i] = chars[i];
@@ -39,7 +39,7 @@ public class CharArrayDataType implements PersistentDataType<int[], char[]> {
     }
 
     @Override
-    public char @NonNull [] fromPrimitive(final int[] ints, final @NonNull PersistentDataAdapterContext context) {
+    public char [] fromPrimitive(final int[] ints, final @NotNull PersistentDataAdapterContext context) {
         final char[] chars = new char[ints.length];
         for (int i = 0; i < ints.length; i++) {
             chars[i] = (char) ints[i];

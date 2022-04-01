@@ -17,7 +17,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import lombok.NonNull;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -37,9 +37,9 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
     private final PersistentDataType<?, K> keyDataType;
     private final PersistentDataType<?, V> valueDataType;
 
-    public MapDataType(@NonNull final Supplier<? extends M> supplier,
-                       @NonNull final PersistentDataType<?, K> keyDataType,
-                       @NonNull final PersistentDataType<?, V> valueDataType) {
+    public MapDataType(@NotNull final Supplier<? extends M> supplier,
+                       @NotNull final PersistentDataType<?, K> keyDataType,
+                       @NotNull final PersistentDataType<?, V> valueDataType) {
         this.mapSupplier = supplier;
         //noinspection unchecked
         this.mapClazz = (Class<M>) supplier.get().getClass();
@@ -47,21 +47,21 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
         this.valueDataType = valueDataType;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<PersistentDataContainer> getPrimitiveType() {
         return PersistentDataContainer.class;
     }
 
-    @NonNull
+    @NotNull
     @Override
     public Class<M> getComplexType() {
         return mapClazz;
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public PersistentDataContainer toPrimitive(@NonNull final M map, @NonNull final PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(@NotNull final M map, @NotNull final PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         int index = 0;
         final int size = map.size();
@@ -79,9 +79,9 @@ public class MapDataType<M extends Map<K, V>, K, V> implements PersistentDataTyp
         return pdc;
     }
 
-    @NonNull
+    @NotNull
     @Override
-    public M fromPrimitive(@NonNull final PersistentDataContainer pdc, @NonNull final PersistentDataAdapterContext context) {
+    public M fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
         final M map = mapSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
         if (size == null) {

@@ -16,7 +16,10 @@ import com.jeff_media.morepersistentdatatypes.DataType;
 import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
