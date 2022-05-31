@@ -29,7 +29,20 @@ import java.util.stream.Collectors;
  */
 public class GenericDataType<T, Z> implements PersistentDataType<T, Z> {
 
-    private static final Class<?>[] ALLOWED_TYPES = new Class[]{Byte.class, byte[].class, Double.class, Float.class, Integer.class, int[].class, Long.class, long[].class, Short.class, String.class, PersistentDataContainer.class, PersistentDataContainer[].class};
+    private static final Class<?>[] ALLOWED_TYPES = new Class[] {
+            Byte.class,
+            byte[].class,
+            Double.class,
+            Float.class,
+            Integer.class,
+            int[].class,
+            Long.class,
+            long[].class,
+            Short.class,
+            String.class,
+            PersistentDataContainer.class,
+            PersistentDataContainer[].class
+    };
 
     private final Class<T> primitiveType;
     private final Class<Z> complexType;
