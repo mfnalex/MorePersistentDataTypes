@@ -24,17 +24,17 @@ import java.lang.reflect.Array;
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
 
 @SuppressWarnings("unchecked")
-public class ArrayDataType<D> implements PersistentDataType<PersistentDataContainer, D[]> {
+public class ArrayDataType<T> implements PersistentDataType<PersistentDataContainer, T[]> {
     private static final String E_NOT_AN_ARRAY = "Not an array.";
     private static final NamespacedKey KEY_SIZE = getValueKey("s");
 
-    private final Class<D[]> arrayClazz;
-    private final Class<D> componentClazz;
-    private final PersistentDataType<?, D> dataType;
+    private final Class<T[]> arrayClazz;
+    private final Class<T> componentClazz;
+    private final PersistentDataType<?, T> dataType;
 
-    public ArrayDataType(final @NotNull D[] array, final @NotNull PersistentDataType<?, D> dataType) {
-        this.arrayClazz = (Class<D[]>) array.getClass();
-        this.componentClazz = (Class<D>) array.getClass().getComponentType();
+    public ArrayDataType(final @NotNull T[] array, final @NotNull PersistentDataType<?, T> dataType) {
+        this.arrayClazz = (Class<T[]>) array.getClass();
+        this.componentClazz = (Class<T>) array.getClass().getComponentType();
         this.dataType = dataType;
     }
 
@@ -47,17 +47,17 @@ public class ArrayDataType<D> implements PersistentDataType<PersistentDataContai
 
     @NotNull
     @Override
-    public Class<D[]> getComplexType() {
+    public Class<T[]> getComplexType() {
         return arrayClazz;
     }
 
     @NotNull
     @Override
-    public PersistentDataContainer toPrimitive(final D [] array, final @NotNull PersistentDataAdapterContext context) {
+    public PersistentDataContainer toPrimitive(final T[] array, final @NotNull PersistentDataAdapterContext context) {
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         pdc.set(KEY_SIZE, DataType.INTEGER, array.length);
         for (int i = 0; i < array.length; i++) {
-            final D data = array[i];
+            final T data = array[i];
             if(data != null) {
                 pdc.set(getValueKey(i), dataType, data);
             }
@@ -66,13 +66,13 @@ public class ArrayDataType<D> implements PersistentDataType<PersistentDataContai
     }
 
     @Override
-    public D [] fromPrimitive(final @NotNull PersistentDataContainer pdc, final @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+    public T[] fromPrimitive(final @NotNull PersistentDataContainer pdc, final @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
 
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_AN_ARRAY);
         }
-        final D[] array = (D[]) Array.newInstance(componentClazz, size);
+        final T[] array = (T[]) Array.newInstance(componentClazz, size);
         for (int i = 0; i < size; i++) {
                 array[i] = pdc.get(getValueKey(i), dataType);
         }

@@ -15,6 +15,7 @@ package com.jeff_media.morepersistentdatatypes.tests;
 import com.jeff_media.morepersistentdatatypes.DataType;
 import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
+import org.bukkit.Material;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.StandardCopyOption;
@@ -36,6 +37,20 @@ public class EnumTest extends MorePersistentDataTypesUnitTest {
         pdc.set(key, DataType.asEnumMap(StandardCopyOption.class,DataType.STRING), TestData.ENUM_MAP);
         final EnumMap<StandardCopyOption, String> savedMap = pdc.get(key, DataType.asEnumMap(StandardCopyOption.class, DataType.STRING));
         assertEquals(TestData.ENUM_MAP,savedMap);
+    }
+
+    @Test
+    void test() {
+        EnumMap<Material,Integer> map = new EnumMap<>(Material.class);
+        map.put(Material.DIRT, 1);
+        map.put(Material.STONE, 2);
+        map.put(Material.GRASS, 3);
+
+        // Save the map
+        pdc.set(key, DataType.asEnumMap(Material.class, DataType.INTEGER),map);
+
+        // Load the map again
+        EnumMap<Material,Integer> savedMap = pdc.get(key, DataType.asEnumMap(Material.class, DataType.INTEGER));
     }
 
     @Test

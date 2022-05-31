@@ -325,8 +325,8 @@ public interface DataType {
      * @param array An (empty) array of the class
      * @param dataType The existing DataType
      */
-    static <D> ArrayDataType<D> asArray(final @NotNull D[] array,
-                                        final @NotNull PersistentDataType<?, D> dataType) {
+    static <T> ArrayDataType<T> asArray(final @NotNull T[] array,
+                                        final @NotNull PersistentDataType<?, T> dataType) {
         return new ArrayDataType(array, dataType);
     }
 
@@ -338,8 +338,8 @@ public interface DataType {
      * @param supplier A {@link Supplier} that returns an empty instance of the given Collection class.
      * @param type The existing DataType
      */
-    static <C extends Collection<D>, D> CollectionDataType<C,D> asGenericCollection(final @NotNull Supplier<C> supplier,
-                                                                                    final @NotNull PersistentDataType<?, D> type) {
+    static <C extends Collection<T>, T> CollectionDataType<C, T> asGenericCollection(final @NotNull Supplier<C> supplier,
+                                                                                     final @NotNull PersistentDataType<?, T> type) {
         return new CollectionDataType<>(supplier, type);
     }
 
@@ -347,7 +347,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link List} of the same class.
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<List<D>,D> asList(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<List<T>, T> asList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(ArrayList::new, type);
     }
 
@@ -355,7 +355,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds an {@link ArrayList} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<ArrayList<D>,D> asArrayList(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<ArrayList<T>, T> asArrayList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(ArrayList::new, type);
     }
 
@@ -363,7 +363,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link LinkedList} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<LinkedList<D>,D> asLinkedList(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<LinkedList<T>, T> asLinkedList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(LinkedList::new, type);
     }
 
@@ -371,7 +371,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link Set} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<Set<D>,D> asSet(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<Set<T>, T> asSet(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(HashSet::new, type);
     }
 
@@ -379,7 +379,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link HashSet} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<HashSet<D>,D> asHashSet(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<HashSet<T>, T> asHashSet(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(HashSet::new, type);
     }
 
@@ -387,7 +387,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArrayList} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<CopyOnWriteArrayList<D>,D> asCopyOnWriteArrayList(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<CopyOnWriteArrayList<T>, T> asCopyOnWriteArrayList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(CopyOnWriteArrayList::new, type);
     }
 
@@ -395,7 +395,7 @@ public interface DataType {
      * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArraySet} of the same class
      * @param type The existing DataType
      */
-    static <D> CollectionDataType<CopyOnWriteArraySet<D>,D> asCopyOnWriteArraySet(final @NotNull PersistentDataType<?, D> type) {
+    static <T> CollectionDataType<CopyOnWriteArraySet<T>, T> asCopyOnWriteArraySet(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(CopyOnWriteArraySet::new, type);
     }
 
@@ -403,7 +403,7 @@ public interface DataType {
      * Returns a DataType holding an {@link EnumSet} of the given Enum class
      * @param enumClazz The Enum class
      */
-    static <D extends Enum<D>> CollectionDataType<EnumSet<D>,D> asEnumSet(final @NotNull Class<D> enumClazz) {
+    static <E extends Enum<E>> CollectionDataType<EnumSet<E>, E> asEnumSet(final @NotNull Class<E> enumClazz) {
         return asGenericCollection(() -> EnumSet.noneOf(enumClazz),asEnum(enumClazz));
     }
 
@@ -497,8 +497,8 @@ public interface DataType {
      * @param enumClazz Enum class
      * @param valueType Existing DataType for the map's values
      */
-    static <K extends Enum<K>,V> MapDataType<EnumMap<K,V>,K,V> asEnumMap(final @NotNull Class<K> enumClazz,
-                                                                         final @NotNull PersistentDataType<?,V> valueType) {
+    static <E extends Enum<E>,V> MapDataType<EnumMap<E,V>, E,V> asEnumMap(final @NotNull Class<E> enumClazz,
+                                                                          final @NotNull PersistentDataType<?,V> valueType) {
         return asGenericMap(() -> new EnumMap<>(enumClazz), asEnum(enumClazz), valueType);
     }
 

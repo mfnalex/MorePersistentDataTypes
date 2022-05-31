@@ -24,17 +24,17 @@ import java.util.function.Supplier;
 
 import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
 
-public class CollectionDataType<C extends Collection<D>, D> implements PersistentDataType<PersistentDataContainer, C> {
+public class CollectionDataType<C extends Collection<T>, T> implements PersistentDataType<PersistentDataContainer, C> {
 
     private static final String E_NOT_A_COLLECTION = "Not a collection.";
     private static final NamespacedKey KEY_SIZE = getValueKey("s");
 
     private final Supplier<? extends C> collectionSupplier;
     private final Class<C> collectionClazz;
-    private final PersistentDataType<?, D> dataType;
+    private final PersistentDataType<?, T> dataType;
 
     public CollectionDataType(@NotNull final Supplier<C> supplier,
-                              @NotNull final PersistentDataType<?, D> dataType) {
+                              @NotNull final PersistentDataType<?, T> dataType) {
         //noinspection unchecked
         this.collectionClazz = (Class<C>) supplier.get().getClass();
         this.collectionSupplier = supplier;
@@ -59,7 +59,7 @@ public class CollectionDataType<C extends Collection<D>, D> implements Persisten
         final PersistentDataContainer pdc = context.newPersistentDataContainer();
         pdc.set(KEY_SIZE, DataType.INTEGER, collection.size());
         int index = 0;
-        for (final D data : collection) {
+        for (final T data : collection) {
             if (data != null) {
                 pdc.set(getValueKey(index), dataType, data);
             }
