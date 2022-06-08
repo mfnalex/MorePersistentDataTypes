@@ -230,7 +230,7 @@ PersistentDataContainer for every block in your world - without any external sto
 
 ### [Spigot UpdateChecker](https://github.com/JEFF-Media-GbR/Spigot-UpdateChecker)
 
-Powerful **UpdateChecker** for your plugins, with only line of code.
+Powerful **UpdateChecker** for your plugins, with only one line of code.
 
 ## Discord
 
