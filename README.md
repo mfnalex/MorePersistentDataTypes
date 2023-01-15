@@ -123,6 +123,44 @@ PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], 
 </build>
 ```
 
+## Gradle
+
+### Repository
+
+```groovy
+repositories {
+    maven {
+      url = 'https://hub.jeff-media.com/nexus/repository/jeff-media-public/'
+    }
+}
+```
+
+### Dependency
+
+```groovy
+dependencies {
+    implementation 'com.jeff_media:MorePersistentDataTypes:2.3.1'
+}
+```
+
+### Relocating and shading
+
+Plugins:
+```groovy
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.1"
+}
+```
+
+ShadowJar:
+```groovy
+shadowJar {
+    relocate 'com.jeff_media.morepersistentdatatypes', 'YOUR.PACKAGE.morepersistentdatatypes'
+}
+```
+
+
 ## List of all data types
 
 ### In addition to the default data types
