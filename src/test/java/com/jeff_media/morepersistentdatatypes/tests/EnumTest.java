@@ -23,7 +23,7 @@
 package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
+import com.jeff_media.morepersistentdatatypes.UnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
 import org.bukkit.Material;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ import java.util.EnumMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EnumTest extends MorePersistentDataTypesUnitTest {
+public class EnumTest extends UnitTest {
 
     @Test
     void testEnum() {

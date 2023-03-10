@@ -29,6 +29,9 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A {@link PersistentDataType} for {@link FileConfiguration}s
+ */
 public class FileConfigurationDataType implements PersistentDataType<String, FileConfiguration> {
     @NotNull
     @Override

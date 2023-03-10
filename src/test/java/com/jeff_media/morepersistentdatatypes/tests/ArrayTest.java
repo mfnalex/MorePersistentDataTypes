@@ -23,7 +23,7 @@
 package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
+import com.jeff_media.morepersistentdatatypes.UnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
 import org.bukkit.attribute.AttributeModifier;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-public class ArrayTest extends MorePersistentDataTypesUnitTest {
+public class ArrayTest extends UnitTest {
 
     @Test
     void testNativeShortArray() {

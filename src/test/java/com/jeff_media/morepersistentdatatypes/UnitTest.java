@@ -23,6 +23,7 @@
 package com.jeff_media.morepersistentdatatypes;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
+import be.seeseemelk.mockbukkit.MockPlugin;
 import be.seeseemelk.mockbukkit.ServerMock;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
@@ -39,19 +40,19 @@ import java.util.Map;
 import java.util.Set;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MorePersistentDataTypesUnitTest {
+public class UnitTest {
 
     private static final Map<String,NamespacedKey> KEYS = new HashMap<>();
     protected final ServerMock serverMock = MockBukkit.mock();
     protected World world;
     protected NamespacedKey key, key2;
-    protected MorePersistentDataTypesMockPlugin plugin;
+    protected MockPlugin plugin;
     protected Player player;
     protected PersistentDataContainer pdc;
 
     @BeforeAll
     void setup() {
-        plugin = MockBukkit.load(MorePersistentDataTypesMockPlugin.class);
+        plugin = MockBukkit.createMockPlugin("MorePDCTest");
         world = serverMock.addSimpleWorld("test_world");
         key = getKey("test");
         key2 = getKey("test2");

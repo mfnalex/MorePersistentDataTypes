@@ -31,8 +31,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 
-import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
+import static com.jeff_media.morepersistentdatatypes.DataType.Utils.getValueKey;
 
+/**
+ * A {@link PersistentDataType} for arrays
+ *
+ * @param <T> The type of the array
+ */
 @SuppressWarnings("unchecked")
 public class ArrayDataType<T> implements PersistentDataType<PersistentDataContainer, T[]> {
     private static final String E_NOT_AN_ARRAY = "Not an array.";
@@ -42,6 +47,11 @@ public class ArrayDataType<T> implements PersistentDataType<PersistentDataContai
     private final Class<T> componentClazz;
     private final PersistentDataType<?, T> dataType;
 
+    /**
+     * Creates a new ArrayDataType
+     * @param array The array to get the class from
+     * @param dataType The {@link PersistentDataType} of the array's elements
+     */
     public ArrayDataType(final @NotNull T[] array, final @NotNull PersistentDataType<?, T> dataType) {
         this.arrayClazz = (Class<T[]>) array.getClass();
         this.componentClazz = (Class<T>) array.getClass().getComponentType();
@@ -75,6 +85,7 @@ public class ArrayDataType<T> implements PersistentDataType<PersistentDataContai
         return pdc;
     }
 
+    @NotNull
     @Override
     public T[] fromPrimitive(final @NotNull PersistentDataContainer pdc, final @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);

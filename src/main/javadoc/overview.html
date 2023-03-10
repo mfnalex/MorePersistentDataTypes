@@ -24,26 +24,53 @@
 <p>
 <b>MorePersistentDataTypes</b> adds a ton of custom {@link org.bukkit.persistence.PersistentDataType}s that can be used
 in conjunction with Bukkit's {@link org.bukkit.persistence.PersistentDataContainer}.
+<p>
+In the following examples, the variable {@code pdc} is any {@link org.bukkit.persistence.PersistentDataContainer} and {@code key} is a {@link org.bukkit.NamespacedKey}.
 
+<h1>Basics</h1>
+The class {@link com.jeff_media.morepersistentdatatypes.DataType} contains all custom data types. It also includes Bukkit's already existing {@link org.bukkit.persistence.PersistentDataType}s. For example, here's you can store an {@link org.bukkit.inventory.ItemStack} in a {@link org.bukkit.persistence.PersistentDataContainer}:
+<pre>
+pdc.set(key, DataType.ITEM_STACK, someItemStack);
+</pre>
+
+<h1>Collections, Maps and Arrays</h1>
 <p>
 It also allows to use <b>any kind of {@link java.util.Collection}, {@link java.util.Map} or Array.</b> You can easily
-convert any given PersistentDataType to hold a collection, map or array instead. For example:
-<pre>PersistentDataContainer pdc = player.getPersistentDataContainer();
-NamespacedKey key = new NamespacedKey(myPlugin,"backpack-contents");
-List&lt;ItemStack&gt; map = pdc.get(key,DataType.asList(DataType.ITEM_STACK));</pre>
-
+convert any given PersistentDataType to hold a collection, map or array instead. For example, here's how you can store a {@code List<ItemStack>}:
+<pre>List&lt;ItemStack&gt; map = pdc.get(key, DataType.asList(DataType.ITEM_STACK));</pre>
 <p>
-All the collection datatypes can of course be nested infinitely, for example:
+All the collection and map data types can of course be nested infinitely. For example, a {@code Map<String, List<EntityType>>}:
 <pre>
-Map&lt;String,Map&lt;Material,Integer&gt;&gt; map = pdc.get(namespacedKey,
-                 DataType.asMap(DataType.STRING, DataType.asMap(DataType.asEnum(Material.class),DataType.INTEGER)));
+PersistentDataType&lt;?, Map&lt;String, List&lt;EntityType&gt;&gt;&gt; dataType =
+    DataType.asMap(DataType.STRING, DataType.asList(DataType.asEnum(EntityType.class)));
+Map&lt;String, List&lt;EntityType&gt;&gt; map = pdc.get(key, dataType);
 </pre>
+
+Or, a bit more complicated, a {@code LinkedHashMap<String, EnumMap<Material, Set<Integer>>>}:
+<pre>
+PersistentDataType&lt;?, LinkedHashMap&lt;String, EnumMap&lt;Material, Set&lt;Integer&gt;&gt;&gt;&gt; dataType =
+    DataType.asLinkedHashMap(DataType.STRING, DataType.asEnumMap(Material.class,DataType.asSet(DataType.INTEGER)));
+LinkedHashMap&lt;String, EnumMap&lt;Material, Set&lt;Integer&gt;&gt;&gt; map = pdc.get(key, dataType);
+</pre>
+<h2>Collection types and arrays are interchangable</h2>
+Data saved as {@link java.util.Collection} can also be read as Array and vice versa. All {@link java.util.Collection}s are interchangeable, too. This means you
+can save a {@link java.util.ArrayList} in a {@link org.bukkit.persistence.PersistentDataContainer} and then later retrieve it as Array, or as {@link java.util.Set}.
 <p>
-Data saved as {@link java.util.Collection} can also be read as Array and vice versa. All {@link java.util.Collection}s are interchangeable. This means you
-can save a {@link java.util.HashMap} in a {@link org.bukkit.persistence.PersistentDataContainer} and then later retrieve it as Array, or as
-{@link java.util.Set}.
-<p>
-{@link java.util.Map}s are also interchangeable - you can save a {@link java.util.Map} and then later retrieve it as {@link java.util.LinkedHashMap}.
-<p>
-{@link java.util.Map}s are not interchangeable with {@link java.util.Collections} or Arrays, though.
+{@link java.util.Map}s are also interchangeable - you can save a {@link java.util.Map} and then later retrieve it as {@link java.util.LinkedHashMap}. {@link java.util.Map}s are not interchangeable with {@link java.util.Collections} or Arrays, though.
+<h2>Native array data types</h2>
+MorePersistentDataTypes also has a few builtin native array data types, such as {@link com.jeff_media.morepersistentdatatypes.DataType#STRING_ARRAY}. When possible, you should use the native array data types as they are a bit more performant and take up less space to store. They are however <b>not</b> interchangeable with generic array data types. That means that a {@link com.jeff_media.morepersistentdatatypes.DataType#STRING_ARRAY} can not be read using {@code DataType.asArray(DataType.STRING)} and vice versa.
+<h1>Enums</h1>
+To store enums, you can use {@link com.jeff_media.morepersistentdatatypes.DataType#asEnum(Class)}. For example, here's how you can read an {@link org.bukkit.entity.EntityType}:
+<pre>EntityType entityType = pdc.get(key, DataType.asEnum(EntityType.class));</pre>
+As shown above, this can of course also be used in conjunction with {@link com.jeff_media.morepersistentdatatypes.DataType#asList(PersistentDataType)}, etc.
+<h1>Maven repository</h1>
+Check the <a href="https://github.com/JEFF-Media-GbR/MorePersistentDataTypes">README on GitHub</a> for the maven dependency information.
+<h1>Links</h1>
+<ul>
+    <li><a href="https://www.spigotmc.org/threads/more-persistent-data-types-collections-maps-and-arrays-for-pdc.520677/">SpigotMC Thread</a></li>
+    <li><a href="https://discord.jeff-media.com/">My Discord Server</a></li>
+    <li><a href="https://github.com/JEFF-Media-GbR/MorePersistentDataTypes">GitHub Repository</a></li>
+    <li><a href="https://paypal.me/mfnalex">Donate</a></li>
+</ul>
+
 </body>

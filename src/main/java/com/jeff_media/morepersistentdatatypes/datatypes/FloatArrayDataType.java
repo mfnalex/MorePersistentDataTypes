@@ -22,7 +22,6 @@
 
 package com.jeff_media.morepersistentdatatypes.datatypes;
 
-import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +30,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
+/**
+ * A {@link PersistentDataType} for {@code float} arrays.
+ */
 public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
 
     @Override
@@ -44,8 +48,8 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
         return float[].class;
     }
 
+    @NotNull
     @Override
-    @SneakyThrows
     public byte [] toPrimitive(final float[] floats, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (final ByteArrayOutputStream bos = new ByteArrayOutputStream(); final DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(floats.length);
@@ -54,18 +58,22 @@ public class FloatArrayDataType implements PersistentDataType<byte[], float[]> {
             }
             dos.flush();
             return bos.toByteArray();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
+    @NotNull
     @Override
-    @SneakyThrows
-    public float [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public float [] fromPrimitive(@NotNull final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (final ByteArrayInputStream bis = new ByteArrayInputStream(bytes); final DataInputStream dis = new DataInputStream(bis)) {
             final float[] floats = new float[dis.readInt()];
             for (int i = 0; i < floats.length; i++) {
                 floats[i] = dis.readFloat();
             }
             return floats;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 }

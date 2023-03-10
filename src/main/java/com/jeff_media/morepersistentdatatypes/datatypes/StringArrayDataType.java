@@ -31,10 +31,18 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A {@link PersistentDataType} for {@link String} arrays
+ */
 public class StringArrayDataType implements PersistentDataType<byte[], String[]> {
 
     private final Charset charset;
 
+    /**
+     * Creates a new {@link StringArrayDataType} with the given charset
+     *
+     * @param charset The charset to use
+     */
     public StringArrayDataType(final Charset charset) {
         this.charset = charset;
     }
@@ -49,6 +57,7 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
         return String[].class;
     }
 
+    @NotNull
     @Override
     public byte [] toPrimitive(final String[] strings, @NotNull final PersistentDataAdapterContext context) {
         final byte[][] allStringBytes = new byte[strings.length][];
@@ -68,8 +77,9 @@ public class StringArrayDataType implements PersistentDataType<byte[], String[]>
         return buffer.array();
     }
 
+    @NotNull
     @Override
-    public String [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public String [] fromPrimitive(@NotNull final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         final ByteBuffer buffer = ByteBuffer.wrap(bytes);
         final List<String> list = new ArrayList<>();
 

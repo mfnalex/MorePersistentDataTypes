@@ -22,13 +22,27 @@
 
 package com.jeff_media.morepersistentdatatypes;
 
-import com.jeff_media.morepersistentdatatypes.datatypes.*;
+import com.jeff_media.morepersistentdatatypes.datatypes.BlockDataArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.BooleanArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.CharArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.DoubleArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.FileConfigurationDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.FloatArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.GenericDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.ShortArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.StringArrayDataType;
+import com.jeff_media.morepersistentdatatypes.datatypes.UuidDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.collections.ArrayDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.collections.CollectionDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.collections.MapDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableArrayDataType;
 import com.jeff_media.morepersistentdatatypes.datatypes.serializable.ConfigurationSerializableDataType;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.data.BlockData;
@@ -40,51 +54,40 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.profile.PlayerProfile;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 /**
  * Custom {@link PersistentDataType}s including Collections, Maps, and Arrays.
- * <p>
- * <b>MorePersistentDataTypes</b> adds a ton of custom {@link org.bukkit.persistence.PersistentDataType}s that can be used
- * in conjunction with Bukkit's {@link org.bukkit.persistence.PersistentDataContainer}.
  *
- * <p>
- * It also allows to use <b>any kind of {@link java.util.Collection}, {@link java.util.Map} or Array.</b> You can easily
- * convert any given PersistentDataType to hold a collection, map or array instead. For example:
- * <pre>PersistentDataContainer pdc = player.getPersistentDataContainer();
- * NamespacedKey key = new NamespacedKey(myPlugin,"backpack-contents");
- * List&lt;ItemStack&gt; map = pdc.get(key,DataType.asList(DataType.ITEM_STACK));</pre>
+ * All data types in this class will work in all Spigot versions since PDC was added (1.14.1+).
  *
- * <p>
- * All the collection datatypes can of course be nested infinitely, for example:
- * <pre>
- * Map&lt;String,Map&lt;Material,Integer&gt;&gt; map = pdc.get(namespacedKey,
- *                  DataType.asMap(DataType.STRING, DataType.asMap(DataType.asEnum(Material.class),DataType.INTEGER)));
- * </pre>
- *
- * <p>
- * Data saved as {@link Collection} can also be read as Array and vice versa. All {@link Collection}s are interchangeable. This means you
- * can save a {@link HashMap} in a {@link PersistentDataContainer} and then later retrieve it as Array, or as
- * {@link Set}.
- * <p>
- * {@link Map}s are also interchangeable - you can save a {@link Map} and then later retrieve it as {@link
- * LinkedHashMap}.
- * <p>
- * {@link Map}s are not interchangeable with {@link Collections} or Arrays, though.
- * <p>
- * Arrays that have been saved using a native array DataType (like {@link #ITEM_STACK_ARRAY} cannot be read using the
- * generic {@link #asArray(Object[], PersistentDataType)} method, and vice versa. You should always use the native
- * array DataType if possible, since its performance is slightly better.
+ * @see DataType_1_18_1 for 1.18.1+ specific PersistentDataTypes
  */
 @SuppressWarnings({"unchecked", "rawtypes", "unused"})
 public interface DataType {
@@ -94,135 +97,135 @@ public interface DataType {
      */
     //region Custom PersistentDataTypes
     /**
-     * DataType for {@link AttributeModifier}s
+     * {@link PersistentDataType} for {@link AttributeModifier}s
      */
     PersistentDataType<byte[], AttributeModifier> ATTRIBUTE_MODIFIER = new ConfigurationSerializableDataType<>(AttributeModifier.class);
     /**
-     * DataType for {@link AttributeModifier} arrays
+     * {@link PersistentDataType} for {@link AttributeModifier} arrays
      */
     PersistentDataType<byte[], AttributeModifier[]> ATTRIBUTE_MODIFIER_ARRAY = new ConfigurationSerializableArrayDataType<>(AttributeModifier[].class);
     /**
-     * DataType for {@link BlockData}
+     * {@link PersistentDataType} for {@link BlockData}
      */
     PersistentDataType<String, BlockData> BLOCK_DATA = new GenericDataType<>(String.class, BlockData.class, Bukkit::createBlockData, BlockData::getAsString);
     /**
-     * DataType for {@link BlockData} arrays
+     * {@link PersistentDataType} for {@link BlockData} arrays
      */
     PersistentDataType<byte[], BlockData[]> BLOCK_DATA_ARRAY = new BlockDataArrayDataType();
     /**
-     * DataType for {@link BlockVector}s
+     * {@link PersistentDataType} for {@link BlockVector}s
      */
     PersistentDataType<byte[], BlockVector> BLOCK_VECTOR = new ConfigurationSerializableDataType<>(BlockVector.class);
     /**
-     * DataType for {@link BlockVector} arrays
+     * {@link PersistentDataType} for {@link BlockVector} arrays
      */
     PersistentDataType<byte[], BlockVector[]> BLOCK_VECTOR_ARRAY = new ConfigurationSerializableArrayDataType<>(BlockVector[].class);
     /**
-     * DataType for {@link BoundingBox}es
+     * {@link PersistentDataType} for {@link BoundingBox}es
      */
     PersistentDataType<byte[], BoundingBox> BOUNDING_BOX = new ConfigurationSerializableDataType<>(BoundingBox.class);
     /**
-     * DataType for {@link BoundingBox} arrays
+     * {@link PersistentDataType} for {@link BoundingBox} arrays
      */
     PersistentDataType<byte[], BoundingBox[]> BOUNDING_BOX_ARRAY = new ConfigurationSerializableArrayDataType<>(BoundingBox[].class);
     /**
-     * DataType for {@link Color}s
+     * {@link PersistentDataType} for {@link Color}s
      */
     PersistentDataType<byte[], Color> COLOR = new ConfigurationSerializableDataType<>(Color.class);
     /**
-     * DataType for {@link Color} arrays
+     * {@link PersistentDataType} for {@link Color} arrays
      */
     PersistentDataType<byte[], Color[]> COLOR_ARRAY = new ConfigurationSerializableArrayDataType<>(Color[].class);
     /**
-     * DataType for {@link ConfigurationSerializable}s
+     * {@link PersistentDataType} for {@link ConfigurationSerializable}s
      */
     PersistentDataType<byte[], ConfigurationSerializable> CONFIGURATION_SERIALIZABLE = new ConfigurationSerializableDataType<>(ConfigurationSerializable.class);
     /**
-     * DataType for {@link ConfigurationSerializable} arrays
+     * {@link PersistentDataType} for {@link ConfigurationSerializable} arrays
      */
     PersistentDataType<byte[], ConfigurationSerializable[]> CONFIGURATION_SERIALIZABLE_ARRAY = new ConfigurationSerializableArrayDataType<>(ConfigurationSerializable[].class);
     /**
-     * DataType for {@link Date}s
+     * {@link PersistentDataType} for {@link Date}s
      */
     PersistentDataType<Long, Date> DATE = new GenericDataType<>(Long.class, Date.class, Date::new, Date::getTime);
     /**
-     * DataType for {@link FileConfiguration}s
+     * {@link PersistentDataType} for {@link FileConfiguration}s
      */
     PersistentDataType<String, FileConfiguration> FILE_CONFIGURATION = new FileConfigurationDataType();
     /**
-     * DataType for {@link FireworkEffect}s
+     * {@link PersistentDataType} for {@link FireworkEffect}s
      */
     PersistentDataType<byte[], FireworkEffect> FIREWORK_EFFECT = new ConfigurationSerializableDataType<>(FireworkEffect.class);
     /**
-     * DataType for {@link FireworkEffect} arrays
+     * {@link PersistentDataType} for {@link FireworkEffect} arrays
      */
     PersistentDataType<byte[], FireworkEffect[]> FIREWORK_EFFECT_ARRAY = new ConfigurationSerializableArrayDataType<>(FireworkEffect[].class);
     /**
-     * DataType for {@link ItemMeta}s
+     * {@link PersistentDataType} for {@link ItemMeta}s
      */
     PersistentDataType<byte[], ItemMeta> ITEM_META = new ConfigurationSerializableDataType<>(ItemMeta.class);
     /**
-     * DataType for {@link ItemMeta} arrays
+     * {@link PersistentDataType} for {@link ItemMeta} arrays
      */
     PersistentDataType<byte[], ItemMeta[]> ITEM_META_ARRAY = new ConfigurationSerializableArrayDataType<>(ItemMeta[].class);
     /**
-     * DataType for {@link ItemStack}s
+     * {@link PersistentDataType} for {@link ItemStack}s
      */
     PersistentDataType<byte[], ItemStack> ITEM_STACK = new ConfigurationSerializableDataType<>(ItemStack.class);
     /**
-     * DataType for {@link ItemStack} arrays
+     * {@link PersistentDataType} for {@link ItemStack} arrays
      */
     PersistentDataType<byte[], ItemStack[]> ITEM_STACK_ARRAY = new ConfigurationSerializableArrayDataType<>(ItemStack[].class);
     /**
-     * DataType for {@link Location}s
+     * {@link PersistentDataType} for {@link Location}s
      */
     PersistentDataType<byte[], Location> LOCATION = new ConfigurationSerializableDataType<>(Location.class);
     /**
-     * DataType for {@link Location} arrays
+     * {@link PersistentDataType} for {@link Location} arrays
      */
     PersistentDataType<byte[], Location[]> LOCATION_ARRAY = new ConfigurationSerializableArrayDataType<>(Location[].class);
     /**
-     * DataType for {@link OfflinePlayer}s
+     * {@link PersistentDataType} for {@link OfflinePlayer}s
      */
     PersistentDataType<byte[], OfflinePlayer> OFFLINE_PLAYER = new ConfigurationSerializableDataType<>(OfflinePlayer.class);
     /**
-     * DataType for {@link OfflinePlayer} arrays
+     * {@link PersistentDataType} for {@link OfflinePlayer} arrays
      */
     PersistentDataType<byte[], OfflinePlayer[]> OFFLINE_PLAYER_ARRAY = new ConfigurationSerializableArrayDataType<>(OfflinePlayer[].class);
     /**
-     * DataType for Banner {@link Pattern}s
+     * {@link PersistentDataType} for Banner {@link Pattern}s
      */
     PersistentDataType<byte[], Pattern> PATTERN = new ConfigurationSerializableDataType<>(Pattern.class);
     /**
-     * DataType for Banner {@link Pattern} arrays
+     * {@link PersistentDataType} for Banner {@link Pattern} arrays
      */
     PersistentDataType<byte[], Pattern[]> PATTERN_ARRAY = new ConfigurationSerializableArrayDataType<>(Pattern[].class);
     /**
-     * DataType for {@link Player}s
+     * {@link PersistentDataType} for {@link Player}s
      */
     PersistentDataType<byte[], Player> PLAYER = new ConfigurationSerializableDataType<>(Player.class);
     /**
-     * DataType for {@link Player} arrays
+     * {@link PersistentDataType} for {@link Player} arrays
      */
     PersistentDataType<byte[], Player[]> PLAYER_ARRAY = new ConfigurationSerializableArrayDataType<>(Player[].class);
     /**
-     * DataType for {@link PotionEffect}s
+     * {@link PersistentDataType} for {@link PotionEffect}s
      */
     PersistentDataType<byte[], PotionEffect> POTION_EFFECT = new ConfigurationSerializableDataType<>(PotionEffect.class);
     /**
-     * DataType for {@link PotionEffect} arrays
+     * {@link PersistentDataType} for {@link PotionEffect} arrays
      */
     PersistentDataType<byte[], PotionEffect[]> POTION_EFFECT_ARRAY = new ConfigurationSerializableArrayDataType<>(PotionEffect[].class);
     /**
-     * DataType for {@link UUID}s
+     * {@link PersistentDataType} for {@link UUID}s
      */
     PersistentDataType<byte[], java.util.UUID> UUID = new UuidDataType();
     /**
-     * DataType for {@link Vector}s
+     * {@link PersistentDataType} for {@link Vector}s
      */
     PersistentDataType<byte[], Vector> VECTOR = new ConfigurationSerializableDataType<>(Vector.class);
     /**
-     * DataType for {@link Vector} arrays
+     * {@link PersistentDataType} for {@link Vector} arrays
      */
     PersistentDataType<byte[], Vector[]> VECTOR_ARRAY = new ConfigurationSerializableArrayDataType<>(Vector[].class);
     //endregion
@@ -232,35 +235,35 @@ public interface DataType {
      */
     //region Missing primitives and primitive arrays
     /**
-     * DataType for {@link byte}s
+     * {@link PersistentDataType} for {@link byte}s
      */
     PersistentDataType<Byte, Boolean> BOOLEAN = new GenericDataType<>(Byte.class, Boolean.class, aByte -> aByte == 1, aBoolean -> aBoolean ? (byte) 1 : (byte) 0);
     /**
-     * DataType for {@link boolean} arrays
+     * {@link PersistentDataType} for {@link boolean} arrays
      */
     PersistentDataType<byte[], boolean[]> BOOLEAN_ARRAY = new BooleanArrayDataType();
     /**
-     * DataType for {@link char}s
+     * {@link PersistentDataType} for {@link char}s
      */
     PersistentDataType<Integer, Character> CHARACTER = new GenericDataType<>(Integer.class, Character.class, integer -> (char) integer.intValue(), character -> (int) character);
     /**
-     * DataType for {@link char} arrays
+     * {@link PersistentDataType} for {@link char} arrays
      */
     PersistentDataType<int[], char[]> CHARACTER_ARRAY = new CharArrayDataType();
     /**
-     * DataType for {@link double} arrays
+     * {@link PersistentDataType} for {@link double} arrays
      */
     PersistentDataType<byte[], double[]> DOUBLE_ARRAY = new DoubleArrayDataType();
     /**
-     * DataType for {@link float} arrays
+     * {@link PersistentDataType} for {@link float} arrays
      */
     PersistentDataType<byte[], float[]> FLOAT_ARRAY = new FloatArrayDataType();
     /**
-     * DataType for {@link short} arrays
+     * {@link PersistentDataType} for {@link short} arrays
      */
     PersistentDataType<byte[], short[]> SHORT_ARRAY = new ShortArrayDataType();
     /**
-     * DataType for {@link String} arrays
+     * {@link PersistentDataType} for {@link String} arrays
      */
     PersistentDataType<byte[], String[]> STRING_ARRAY = new StringArrayDataType(StandardCharsets.UTF_8);
     //endregion
@@ -271,69 +274,75 @@ public interface DataType {
      */
     //region Already existing PersistentDataTypes
     /**
-     * DataType for {@link byte}s
+     * {@link PersistentDataType} for {@link byte}s
      */
     PersistentDataType<Byte, Byte> BYTE = PersistentDataType.BYTE;
     /**
-     * DataType for {@link byte} arrays
+     * {@link PersistentDataType} for {@link byte} arrays
      */
     PersistentDataType<byte[], byte[]> BYTE_ARRAY = PersistentDataType.BYTE_ARRAY;
     /**
-     * DataType for {@link double}s
+     * {@link PersistentDataType} for {@link double}s
      */
     PersistentDataType<Double, Double> DOUBLE = PersistentDataType.DOUBLE;
     /**
-     * DataType for {@link float}s
+     * {@link PersistentDataType} for {@link float}s
      */
     PersistentDataType<Float, Float> FLOAT = PersistentDataType.FLOAT;
     /**
-     * DataType for {@link int}s
+     * {@link PersistentDataType} for {@link int}s
      */
     PersistentDataType<Integer, Integer> INTEGER = PersistentDataType.INTEGER;
     /**
-     * DataType for {@link int} arrays
+     * {@link PersistentDataType} for {@link int} arrays
      */
     PersistentDataType<int[], int[]> INTEGER_ARRAY = PersistentDataType.INTEGER_ARRAY;
     /**
-     * DataType for {@link long}s
+     * {@link PersistentDataType} for {@link long}s
      */
     PersistentDataType<Long, Long> LONG = PersistentDataType.LONG;
     /**
-     * DataType for {@link long} arrays
+     * {@link PersistentDataType} for {@link long} arrays
      */
     PersistentDataType<long[], long[]> LONG_ARRAY = PersistentDataType.LONG_ARRAY;
     /**
-     * DataType for {@link short}s
+     * {@link PersistentDataType} for {@link short}s
      */
     PersistentDataType<Short, Short> SHORT = PersistentDataType.SHORT;
     /**
-     * DataType for {@link String}s
+     * {@link PersistentDataType} for {@link String}s
      */
     PersistentDataType<String, String> STRING = PersistentDataType.STRING;
     /**
-     * DataType for {@link PersistentDataContainer}s
+     * {@link PersistentDataType} for {@link PersistentDataContainer}s
      */
     PersistentDataType<PersistentDataContainer, PersistentDataContainer> TAG_CONTAINER = PersistentDataType.TAG_CONTAINER;
     /**
-     * DataType for {@link PersistentDataContainer} arrays
+     * {@link PersistentDataType} for {@link PersistentDataContainer} arrays
      */
     PersistentDataType<PersistentDataContainer[], PersistentDataContainer[]> TAG_CONTAINER_ARRAY = PersistentDataType.TAG_CONTAINER_ARRAY;
     //endregion
 
     /**
-     * Creates a DataType for a given {@link Enum} class.
-     * @param enumClazz enum class to get a DataType for
+     * Creates a {@link PersistentDataType} for a given {@link Enum} class.
+     *
+     * @param enumClazz enum class to get a {@link PersistentDataType} for
+     * @param <E>       enum type
+     * @return a {@link PersistentDataType} for the given enum class
      */
     static <E extends Enum<E>> PersistentDataType<String, E> asEnum(final @NotNull Class<E> enumClazz) {
         return new GenericDataType<>(String.class, enumClazz, s -> Enum.valueOf(enumClazz, s), Enum::name);
     }
 
     /**
-     * Turns an existing DataType into one that holds arrays of the same class. If a native array DataType already
+     * Turns an existing {@link PersistentDataType} into one that holds arrays of the same class. If a native array {@link PersistentDataType} already
      * exists, you should use that one instead of creating a generic one. Also note that the native array DataTypes
      * are not interchangeable with the generic ones created by this method.
-     * @param array An (empty) array of the class
+     *
+     * @param array    An (empty) array of the class
      * @param dataType The existing DataType
+     * @param <T>      The type of the array
+     * @return A {@link PersistentDataType} that holds arrays of the given class
      */
     static <T> ArrayDataType<T> asArray(final @NotNull T[] array,
                                         final @NotNull PersistentDataType<?, T> dataType) {
@@ -341,12 +350,16 @@ public interface DataType {
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link Collection} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link Collection} of the same class
      * <p>
      * Example usage:
      * <pre>PersistentDataType&lt;?,CopyOnWriteArrayList&lt;String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList&lt;String>::new, DataType.STRING);</pre>
+     *
      * @param supplier A {@link Supplier} that returns an empty instance of the given Collection class.
-     * @param type The existing DataType
+     * @param type     The existing DataType
+     * @param <C>      The type of the collection
+     * @param <T>      The type of the elements in the collection
+     * @return A {@link PersistentDataType} holding a {@link Collection}
      */
     static <C extends Collection<T>, T> CollectionDataType<C, T> asGenericCollection(final @NotNull Supplier<C> supplier,
                                                                                      final @NotNull PersistentDataType<?, T> type) {
@@ -354,77 +367,106 @@ public interface DataType {
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link List} of the same class.
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link List} of the same class.
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the list
+     * @return A {@link PersistentDataType} holding a {@link List}
      */
     static <T> CollectionDataType<List<T>, T> asList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(ArrayList::new, type);
     }
 
     /**
-     * Turns an existing DataType into one that holds an {@link ArrayList} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds an {@link ArrayList} of the same class
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the list
+     * @return A {@link PersistentDataType} holding an {@link ArrayList}
      */
     static <T> CollectionDataType<ArrayList<T>, T> asArrayList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(ArrayList::new, type);
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link LinkedList} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link LinkedList} of the same class
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the list
+     * @return A {@link PersistentDataType} holding a {@link LinkedList}
      */
     static <T> CollectionDataType<LinkedList<T>, T> asLinkedList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(LinkedList::new, type);
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link Set} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link Set} of the same class
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the set
+     * @return A {@link PersistentDataType} holding a {@link Set}
      */
     static <T> CollectionDataType<Set<T>, T> asSet(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(HashSet::new, type);
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link HashSet} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link HashSet} of the same class
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the set
+     * @return A {@link PersistentDataType} holding a {@link HashSet}
      */
     static <T> CollectionDataType<HashSet<T>, T> asHashSet(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(HashSet::new, type);
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArrayList} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link java.util.concurrent.CopyOnWriteArrayList} of the same class
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the list
+     * @return A {@link PersistentDataType} holding a {@link java.util.concurrent.CopyOnWriteArrayList}
      */
     static <T> CollectionDataType<CopyOnWriteArrayList<T>, T> asCopyOnWriteArrayList(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(CopyOnWriteArrayList::new, type);
     }
 
     /**
-     * Turns an existing DataType into one that holds a {@link java.util.concurrent.CopyOnWriteArraySet} of the same class
+     * Turns an existing {@link PersistentDataType} into one that holds a {@link java.util.concurrent.CopyOnWriteArraySet} of the same class
+     *
      * @param type The existing DataType
+     * @param <T>  The type of the elements in the set
+     * @return A {@link PersistentDataType} holding a {@link java.util.concurrent.CopyOnWriteArraySet}
      */
     static <T> CollectionDataType<CopyOnWriteArraySet<T>, T> asCopyOnWriteArraySet(final @NotNull PersistentDataType<?, T> type) {
         return asGenericCollection(CopyOnWriteArraySet::new, type);
     }
 
     /**
-     * Returns a DataType holding an {@link EnumSet} of the given Enum class
+     * Returns a {@link PersistentDataType} holding an {@link EnumSet} of the given Enum class
+     *
      * @param enumClazz The Enum class
+     * @param <E>       The Enum type
+     * @return A {@link PersistentDataType} holding an {@link EnumSet} of the given Enum class
      */
     static <E extends Enum<E>> CollectionDataType<EnumSet<E>, E> asEnumSet(final @NotNull Class<E> enumClazz) {
-        return asGenericCollection(() -> EnumSet.noneOf(enumClazz),asEnum(enumClazz));
+        return asGenericCollection(() -> EnumSet.noneOf(enumClazz), asEnum(enumClazz));
     }
 
     /**
-     * Creates a DataType holding a specific {@link Map} implementation of the given DataTypes.
+     * Creates a {@link PersistentDataType} holding a specific {@link Map} implementation of the given DataTypes.
      * <p>
      * Example usage:
      * <pre>PersistentDataType&lt;?,Hashtable&lt;String,Integer>> dataType = DataType.asGenericMap(Hashtable&lt;String,Integer>::new, DataType.STRING, DataType.INTEGER);</pre>
-     * @param supplier A {@link Supplier} that returns an empty instance of the desired Map class
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     *
+     * @param supplier  A {@link Supplier} that returns an empty instance of the desired Map class
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <M>       Map type
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a Map
      */
     static <M extends Map<K, V>, K, V> MapDataType<M, K, V> asGenericMap(final @NotNull Supplier<M> supplier,
                                                                          final @NotNull PersistentDataType<?, K> keyType,
@@ -433,83 +475,176 @@ public interface DataType {
     }
 
     /**
-     * Creates a DataType holding a {@link Map} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     * Creates a {@link PersistentDataType} holding a {@link Map} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a Map
      */
-    static <K, V> MapDataType<Map<K,V>,K, V> asMap(final @NotNull PersistentDataType<?, K> keyType,
+    static <K, V> MapDataType<Map<K, V>, K, V> asMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                     final @NotNull PersistentDataType<?, V> valueType) {
+        return asGenericMap(HashMap::new, keyType, valueType);
+    }
+
+    /**
+     * Creates a {@link PersistentDataType} holding a {@link HashMap} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a HashMap
+     */
+    static <K, V> MapDataType<HashMap<K, V>, K, V> asHashMap(final @NotNull PersistentDataType<?, K> keyType,
                                                              final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(HashMap::new, keyType, valueType);
     }
 
     /**
-     * Creates a DataType holding a {@link HashMap} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     * Creates a {@link PersistentDataType} holding a {@link java.util.concurrent.ConcurrentHashMap} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a ConcurrentHashMap
      */
-    static <K, V> MapDataType<HashMap<K,V>,K,V> asHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                          final @NotNull PersistentDataType<?, V> valueType) {
-        return asGenericMap(HashMap::new, keyType, valueType);
-    }
-
-    /**
-     * Creates a DataType holding a {@link java.util.concurrent.ConcurrentHashMap} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
-     */
-    static <K, V> MapDataType<ConcurrentHashMap<K,V>,K,V> asConcurrentHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                              final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<ConcurrentHashMap<K, V>, K, V> asConcurrentHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                                                 final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(ConcurrentHashMap::new, keyType, valueType);
     }
 
     /**
-     * Creates a DataType holding a {@link IdentityHashMap} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     * Creates a {@link PersistentDataType} holding a {@link IdentityHashMap} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a IdentityHashMap
      */
-    static <K, V> MapDataType<IdentityHashMap<K,V>,K,V> asIdentityHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                          final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<IdentityHashMap<K, V>, K, V> asIdentityHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                                             final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(IdentityHashMap::new, keyType, valueType);
     }
 
     /**
-     * Creates a DataType holding a {@link LinkedHashMap} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     * Creates a {@link PersistentDataType} holding a {@link LinkedHashMap} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>      Value type
+     * @return PersistentDataType holding a LinkedHashMap
      */
-    static <K, V> MapDataType<LinkedHashMap<K,V>,K,V> asLinkedHashMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                                      final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<LinkedHashMap<K, V>, K, V> asLinkedHashMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                                         final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(LinkedHashMap::new, keyType, valueType);
     }
 
     /**
-     * Creates a DataType holding a {@link TreeMap} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     * Creates a {@link PersistentDataType} holding a {@link TreeMap} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a TreeMap
      */
-    static <K, V> MapDataType<TreeMap<K,V>,K,V> asTreeMap(final @NotNull PersistentDataType<?, K> keyType,
-                                                          final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<TreeMap<K, V>, K, V> asTreeMap(final @NotNull PersistentDataType<?, K> keyType,
+                                                             final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(TreeMap::new, keyType, valueType);
     }
 
     /**
-     * Creates a DataType holding a {@link Hashtable} of the given DataTypes
-     * @param keyType The existing DataType for the map's keys
-     * @param valueType The existing DataType for the map's values
+     * Creates a {@link PersistentDataType} holding a {@link Hashtable} of the given DataTypes
+     *
+     * @param keyType   The existing {@link PersistentDataType} for the map's keys
+     * @param valueType The existing {@link PersistentDataType} for the map's values
+     * @param <K>       Key type
+     * @param <V>       Value type
+     * @return PersistentDataType holding a Hashtable
      */
-    static <K, V> MapDataType<Hashtable<K,V>,K,V> asHashtable(final @NotNull PersistentDataType<?, K> keyType,
-                                                              final @NotNull PersistentDataType<?, V> valueType) {
+    static <K, V> MapDataType<Hashtable<K, V>, K, V> asHashtable(final @NotNull PersistentDataType<?, K> keyType,
+                                                                 final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(Hashtable::new, keyType, valueType);
     }
 
     /**
-     * Creates a DataType holding an {@link EnumMap} of the given Enum Class and DataType
+     * Creates a {@link PersistentDataType} holding an {@link EnumMap} of the given Enum Class and DataType
+     *
      * @param enumClazz Enum class
-     * @param valueType Existing DataType for the map's values
+     * @param valueType Existing {@link PersistentDataType} for the map's values
+     * @param <E>       Enum type
+     * @param <V>       Value type
+     * @return PersistentDataType holding an EnumMap
      */
-    static <E extends Enum<E>,V> MapDataType<EnumMap<E,V>, E,V> asEnumMap(final @NotNull Class<E> enumClazz,
-                                                                          final @NotNull PersistentDataType<?,V> valueType) {
+    static <E extends Enum<E>, V> MapDataType<EnumMap<E, V>, E, V> asEnumMap(final @NotNull Class<E> enumClazz,
+                                                                             final @NotNull PersistentDataType<?, V> valueType) {
         return asGenericMap(() -> new EnumMap<>(enumClazz), asEnum(enumClazz), valueType);
+    }
+
+    /**
+     * For internal use only.
+     */
+    class Utils {
+
+        private Utils() {
+
+        }
+
+        private static final Map<String, NamespacedKey> KEY_KEYS = new HashMap<>();
+        private static final Map<String, NamespacedKey> VALUE_KEYS = new HashMap<>();
+
+        static {
+            // Caching the first 100 keys. I think that's reasonable for most use cases
+            IntStream.range(0, 100).forEach(number -> {
+                getValueKey(number);
+                getKeyKey(number);
+            });
+        }
+
+        /**
+         * Returns a NamespacedKey for the given key index.
+         *
+         * @param index The index of the key
+         * @return The NamespacedKey
+         */
+        public static NamespacedKey getKeyKey(final int index) {
+            return getKeyKey(String.valueOf(index));
+        }
+
+        /**
+         * Returns a NamespacedKey for the given key name.
+         *
+         * @param name The name of the key
+         * @return The NamespacedKey
+         */
+        public static NamespacedKey getKeyKey(final String name) {
+            return KEY_KEYS.computeIfAbsent(name, __ -> NamespacedKey.fromString("k:" + name));
+        }
+
+        /**
+         * Returns a NamespacedKey for the given value index.
+         *
+         * @param index The index of the value
+         * @return The NamespacedKey
+         */
+        public static NamespacedKey getValueKey(final int index) {
+            return getValueKey(String.valueOf(index));
+        }
+
+        /**
+         * Returns a NamespacedKey for the given value name.
+         *
+         * @param name The name of the value
+         * @return The NamespacedKey
+         */
+        public static NamespacedKey getValueKey(final String name) {
+            return VALUE_KEYS.computeIfAbsent(name, __ -> NamespacedKey.fromString("v:" + name));
+        }
     }
 
 }

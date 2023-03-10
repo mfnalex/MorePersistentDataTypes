@@ -23,7 +23,7 @@
 package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
+import com.jeff_media.morepersistentdatatypes.UnitTest;
 import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +34,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest {
+public class GenericCollectionAndMapTest extends UnitTest {
     @Test
     void testGenericMap() {
         final HashMap<String,String> original = new HashMap<>();
@@ -59,7 +59,7 @@ public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest
     void testJavaDocGenericMapExample() {
         final Hashtable<String,Integer> original = new Hashtable<>();
         original.put("asd",123);
-        final PersistentDataType<?,Hashtable<String,Integer>> dataType = DataType.asGenericMap(Hashtable<String,Integer>::new, DataType.STRING, DataType.INTEGER);
+        final PersistentDataType<?,Hashtable<String,Integer>> dataType = DataType.asGenericMap(Hashtable::new, DataType.STRING, DataType.INTEGER);
         pdc.set(key, dataType, original);
         assertEquals(original, pdc.get(key, dataType));
     }
@@ -68,7 +68,7 @@ public class GenericCollectionAndMapTest extends MorePersistentDataTypesUnitTest
     void testJavaDocGenericCollectionExample() {
         final CopyOnWriteArrayList<String> original = new CopyOnWriteArrayList<>();
         original.add("asd");
-        final PersistentDataType<?,CopyOnWriteArrayList<String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList<String>::new, DataType.STRING);
+        final PersistentDataType<?,CopyOnWriteArrayList<String>> dataType = DataType.asGenericCollection(CopyOnWriteArrayList::new, DataType.STRING);
         pdc.set(key, dataType, original);
         assertEquals(original, pdc.get(key, dataType));
     }

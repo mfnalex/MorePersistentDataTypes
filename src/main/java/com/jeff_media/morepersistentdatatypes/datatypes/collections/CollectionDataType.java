@@ -32,8 +32,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.function.Supplier;
 
-import static com.jeff_media.morepersistentdatatypes.NamespacedKeyUtils.getValueKey;
+import static com.jeff_media.morepersistentdatatypes.DataType.Utils.getValueKey;
 
+/**
+ * A {@link PersistentDataType} for {@link Collection}s
+ * @param <C> The type of the collection
+ * @param <T> The type of the collection's elements
+ */
 public class CollectionDataType<C extends Collection<T>, T> implements PersistentDataType<PersistentDataContainer, C> {
 
     private static final String E_NOT_A_COLLECTION = "Not a collection.";
@@ -43,9 +48,14 @@ public class CollectionDataType<C extends Collection<T>, T> implements Persisten
     private final Class<C> collectionClazz;
     private final PersistentDataType<?, T> dataType;
 
+    /**
+     * Creates a new {@link CollectionDataType} with the given collection supplier and element data type
+     * @param supplier The collection supplier
+     * @param dataType The element data type
+     */
+    @SuppressWarnings("unchecked")
     public CollectionDataType(@NotNull final Supplier<C> supplier,
                               @NotNull final PersistentDataType<?, T> dataType) {
-        //noinspection unchecked
         this.collectionClazz = (Class<C>) supplier.get().getClass();
         this.collectionSupplier = supplier;
         this.dataType = dataType;
@@ -81,7 +91,7 @@ public class CollectionDataType<C extends Collection<T>, T> implements Persisten
     @NotNull
     @Override
     public C fromPrimitive(@NotNull final PersistentDataContainer pdc, @NotNull final PersistentDataAdapterContext context) {
-        final C collection = (C) collectionSupplier.get();
+        final C collection = collectionSupplier.get();
         final Integer size = pdc.get(KEY_SIZE, DataType.INTEGER);
         if (size == null) {
             throw new IllegalArgumentException(E_NOT_A_COLLECTION);

@@ -30,13 +30,14 @@ import org.bukkit.profile.PlayerProfile;
 /**
  * Custom {@link PersistentDataType}s for versions 1.18.1 and later
  */
+@SuppressWarnings("unused")
 public interface DataType_1_18_1 {
     /**
-     * DataType for {@link PlayerProfile}s
+     * {@link PersistentDataType} for {@link PlayerProfile}s
      */
     PersistentDataType<byte[], PlayerProfile> PLAYER_PROFILE = new ConfigurationSerializableDataType<>(PlayerProfile.class);
     /**
-     * DataType for {@link PlayerProfile} arrays
+     * {@link PersistentDataType} for {@link PlayerProfile} arrays
      */
     PersistentDataType<byte[], PlayerProfile[]> PLAYER_PROFILE_ARRAY = new ConfigurationSerializableArrayDataType<>(PlayerProfile[].class);
 }

@@ -26,6 +26,9 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A {@link PersistentDataType} for {@code boolean} arrays
+ */
 public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[]> {
     @NotNull
     @Override
@@ -39,6 +42,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
         return boolean[].class;
     }
 
+    @NotNull
     @Override
     public byte [] toPrimitive(final boolean[] booleans, final @NotNull PersistentDataAdapterContext context) {
         final byte[] bytes = new byte[booleans.length];
@@ -48,6 +52,7 @@ public class BooleanArrayDataType implements PersistentDataType<byte[], boolean[
         return bytes;
     }
 
+    @NotNull
     @Override
     public boolean [] fromPrimitive(final byte[] bytes, final @NotNull PersistentDataAdapterContext context) {
         final boolean[] booleans = new boolean[bytes.length];

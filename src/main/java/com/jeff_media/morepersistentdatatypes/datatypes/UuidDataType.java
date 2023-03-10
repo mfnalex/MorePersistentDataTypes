@@ -29,6 +29,9 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+/**
+ * A {@link PersistentDataType} for {@link UUID}s
+ */
 public class UuidDataType implements PersistentDataType<byte[], UUID> {
 
     @Override
@@ -41,6 +44,7 @@ public class UuidDataType implements PersistentDataType<byte[], UUID> {
         return UUID.class;
     }
 
+    @NotNull
     @Override
     public byte [] toPrimitive(final UUID complex, @NotNull final PersistentDataAdapterContext context) {
         final ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
@@ -50,7 +54,7 @@ public class UuidDataType implements PersistentDataType<byte[], UUID> {
     }
 
     @Override
-    public @NotNull UUID fromPrimitive(final byte [] primitive, @NotNull final PersistentDataAdapterContext context) {
+    public @NotNull UUID fromPrimitive(@NotNull final byte [] primitive, @NotNull final PersistentDataAdapterContext context) {
         final ByteBuffer bb = ByteBuffer.wrap(primitive);
         final long firstLong = bb.getLong();
         final long secondLong = bb.getLong();

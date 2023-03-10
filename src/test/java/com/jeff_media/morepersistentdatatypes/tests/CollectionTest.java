@@ -23,7 +23,7 @@
 package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
+import com.jeff_media.morepersistentdatatypes.UnitTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CollectionTest extends MorePersistentDataTypesUnitTest {
+public class CollectionTest extends UnitTest {
 
     @Test
     void testNestedCollections() {

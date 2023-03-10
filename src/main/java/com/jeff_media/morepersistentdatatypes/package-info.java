@@ -21,6 +21,6 @@
  */
 
 /**
- * <b>Main library methods.</b>
+ * <b>Main package</b>.&nbsp;Everything you'll need is in this package.
  */
 package com.jeff_media.morepersistentdatatypes;

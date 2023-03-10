@@ -22,7 +22,6 @@
 
 package com.jeff_media.morepersistentdatatypes.datatypes;
 
-import lombok.SneakyThrows;
 import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +30,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
+/**
+ * A {@link PersistentDataType} for {@code double} arrays.
+ */
 public class DoubleArrayDataType implements PersistentDataType<byte[], double[]> {
 
     @Override
@@ -44,8 +48,8 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
         return double[].class;
     }
 
+    @NotNull
     @Override
-    @SneakyThrows
     public byte [] toPrimitive(final double[] doubles, final @NotNull PersistentDataAdapterContext itemTagAdapterContext) {
         try (final ByteArrayOutputStream bos = new ByteArrayOutputStream(); final DataOutputStream dos = new DataOutputStream(bos)) {
             dos.writeInt(doubles.length);
@@ -54,18 +58,22 @@ public class DoubleArrayDataType implements PersistentDataType<byte[], double[]>
             }
             dos.flush();
             return bos.toByteArray();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
+    @NotNull
     @Override
-    @SneakyThrows
-    public double [] fromPrimitive(final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
+    public double [] fromPrimitive(@NotNull final byte [] bytes, @NotNull final PersistentDataAdapterContext itemTagAdapterContext) {
         try (final ByteArrayInputStream bis = new ByteArrayInputStream(bytes); final DataInputStream dis = new DataInputStream(bis)) {
             final double[] doubles = new double[dis.readInt()];
             for (int i = 0; i < doubles.length; i++) {
                 doubles[i] = dis.readDouble();
             }
             return doubles;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 }

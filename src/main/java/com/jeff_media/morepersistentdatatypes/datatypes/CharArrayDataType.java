@@ -26,6 +26,9 @@ import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A {@link PersistentDataType} for {@code char} arrays
+ */
 public class CharArrayDataType implements PersistentDataType<int[], char[]> {
     @NotNull
     @Override
@@ -39,6 +42,7 @@ public class CharArrayDataType implements PersistentDataType<int[], char[]> {
         return char[].class;
     }
 
+    @NotNull
     @Override
     public int [] toPrimitive(final char[] chars, @NotNull final PersistentDataAdapterContext context) {
         final int[] ints = new int[chars.length];
@@ -48,6 +52,7 @@ public class CharArrayDataType implements PersistentDataType<int[], char[]> {
         return ints;
     }
 
+    @NotNull
     @Override
     public char [] fromPrimitive(final int[] ints, final @NotNull PersistentDataAdapterContext context) {
         final char[] chars = new char[ints.length];

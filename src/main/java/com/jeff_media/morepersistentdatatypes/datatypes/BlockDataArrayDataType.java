@@ -31,6 +31,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+/**
+ * A {@link PersistentDataType} for {@link BlockData} arrays.
+ */
 public class BlockDataArrayDataType implements PersistentDataType<byte[], BlockData[]> {
     @NotNull
     @Override
@@ -44,13 +47,15 @@ public class BlockDataArrayDataType implements PersistentDataType<byte[], BlockD
         return BlockData[].class;
     }
 
+    @NotNull
     @Override
-    public byte [] toPrimitive(final BlockData [] blockData, final @NotNull PersistentDataAdapterContext context) {
+    public byte [] toPrimitive(@NotNull final BlockData [] blockData, final @NotNull PersistentDataAdapterContext context) {
         return DataType.STRING_ARRAY.toPrimitive(Arrays.stream(blockData).map(BlockData::getAsString).toArray(String[]::new),context);
     }
 
+    @NotNull
     @Override
-    public BlockData [] fromPrimitive(final byte [] bytes, final @NotNull PersistentDataAdapterContext context) {
+    public BlockData [] fromPrimitive(@NotNull final byte [] bytes, final @NotNull PersistentDataAdapterContext context) {
         return Arrays.stream(DataType.STRING_ARRAY.fromPrimitive(bytes, context)).map(Bukkit::createBlockData).toArray(BlockData[]::new);
     }
 }

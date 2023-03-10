@@ -23,7 +23,7 @@
 package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
+import com.jeff_media.morepersistentdatatypes.UnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,7 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class NullTest extends MorePersistentDataTypesUnitTest {
+public class NullTest extends UnitTest {
 
     @Test
     void testNullArrays() {

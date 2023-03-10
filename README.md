@@ -88,7 +88,7 @@ PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], 
 <dependency>
     <groupId>com.jeff_media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
-    <version>2.3.1</version>
+    <version>2.4.0</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -139,7 +139,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.jeff_media:MorePersistentDataTypes:2.3.1'
+    implementation 'com.jeff_media:MorePersistentDataTypes:2.4.0'
 }
 ```
 

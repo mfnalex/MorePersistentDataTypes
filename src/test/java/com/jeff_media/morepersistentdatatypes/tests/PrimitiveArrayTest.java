@@ -23,13 +23,13 @@
 package com.jeff_media.morepersistentdatatypes.tests;
 
 import com.jeff_media.morepersistentdatatypes.DataType;
-import com.jeff_media.morepersistentdatatypes.MorePersistentDataTypesUnitTest;
+import com.jeff_media.morepersistentdatatypes.UnitTest;
 import com.jeff_media.morepersistentdatatypes.TestData;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class PrimitiveArrayTest extends MorePersistentDataTypesUnitTest {
+public class PrimitiveArrayTest extends UnitTest {
 
     @Test
     void testFloatArray() {

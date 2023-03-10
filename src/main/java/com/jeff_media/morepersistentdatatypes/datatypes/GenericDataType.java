@@ -32,7 +32,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Represents a generic PersistentDataType. You can provide two functions for converting between the primitive and complex type.
+ * A generic {@link PersistentDataType}. You can provide two functions for converting between the primitive and complex type.
  *
  * @param <T> Primitive Type
  * @param <Z> Complex Type
