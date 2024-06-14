@@ -15,6 +15,11 @@
   </a>
 </p>
 <!--- Buttons end -->
+<p align="center">
+<a href="https://maven-badges.herokuapp.com/maven-central/com.jeff-media/MorePersistentDataTypes">
+  <img src="https://maven-badges.herokuapp.com/maven-central/com.jeff-media/MorePersistentDataTypes/badge.png" alt="Maven" /></a>
+<img src="https://img.shields.io/github/last-commit/mfnalex/MorePersistentDataTypes" />
+</p>
 
 **MorePersistentDataTypes** is a tiny library that provides a ton of new *PersistentDataTypes* to use in conjunction
 with Bukkit's *PersistentDataContainer*. **It also allows you to use any kind of Collection, Map or Array to store your data.**
