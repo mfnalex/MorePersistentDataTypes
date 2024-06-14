@@ -31,16 +31,37 @@
     <description>Provides additional PersistentDataTypes for Bukkit / Spigot</description>
     <url>https://github.com/JEFF-Media-GbR/MorePersistentDataTypes</url>
     <inceptionYear>2021</inceptionYear>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
-        <config.version>${maven.build.timestamp}</config.version>
-    </properties>
     <organization>
         <name>JEFF Media GbR</name>
         <url>https://www.jeff-media.com</url>
     </organization>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+        <config.version>${maven.build.timestamp}</config.version>
+        <license.licenseName>apache_v2</license.licenseName>
+    </properties>
+    <scm>
+        <url>https://github.com/mfnalex/MorePersistentDataTypes/</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>mfnalex</id>
+            <name>Alexander Majka</name>
+            <email>mfnalex@jeff-media.com</email>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <profiles>
         <profile>
             <id>upload-to-central</id>
