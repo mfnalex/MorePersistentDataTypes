@@ -73,20 +73,14 @@ PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], 
 
 ### Repository
 
-```xml
-
-<repository>
-    <id>jeff-media-public</id>
-    <url>https://hub.jeff-media.com/nexus/repository/jeff-media-public/</url>
-</repository>
-```
+The artifact is available on Maven Central. You don't need to add a repository to your pom.xml.
 
 ### Dependency
 
 ```xml
 
 <dependency>
-    <groupId>com.jeff_media</groupId>
+    <groupId>com.jeff-media</groupId>
     <artifactId>MorePersistentDataTypes</artifactId>
     <version>2.4.0</version>
     <scope>compile</scope>
@@ -129,9 +123,7 @@ PersistentDataType<?, UUID[]> uuidArrayDataType = DataType.asArray(new UUID[0], 
 
 ```groovy
 repositories {
-    maven {
-      url = 'https://hub.jeff-media.com/nexus/repository/jeff-media-public/'
-    }
+    mavenCentral()
 }
 ```
 
@@ -139,7 +131,7 @@ repositories {
 
 ```groovy
 dependencies {
-    implementation 'com.jeff_media:MorePersistentDataTypes:2.4.0'
+    implementation 'com.jeff-media:MorePersistentDataTypes:2.4.0'
 }
 ```
 
